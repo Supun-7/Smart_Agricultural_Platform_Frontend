@@ -1,0 +1,53 @@
+.nav{
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  backdrop-filter: blur(10px);
+  background: rgba(0,0,0,.35);
+  border-bottom: 1px solid rgba(255,255,255,.1);
+}
+
+.navInner{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: .9rem 0;
+  gap: 1rem;
+}
+
+.brand{
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+.brandLogo{
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.brandText{
+  font-weight: 800;
+  letter-spacing: .2px;
+}
+
+/* ✅ mobile: icon only */
+@media (max-width: 520px){
+  .brandText{ display: none; }
+}
+
+.navActions{
+  display: flex;
+  gap: .6rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.navGreet {
+  font-size: .9rem;
+  opacity: .75;
+  align-self: center;
+}
