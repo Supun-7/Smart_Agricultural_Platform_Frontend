@@ -1,0 +1,115 @@
+.contractCard{
+  background: rgba(255,255,255,.92);
+  border: 1px solid #d8d4cc;
+  border-radius: 16px;
+  padding: 16px 16px;
+  box-shadow: 0 12px 32px rgba(0,0,0,.08);
+  color: #18231b;
+}
+
+.contractTop{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.contractTitle{
+  font-weight: 900;
+  font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
+}
+
+.contractMeta{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  font-size:.9rem;
+  color: rgba(24,35,27,.7);
+  margin-top:6px;
+}
+
+.contractGrid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:10px;
+  margin-top:14px;
+}
+@media (min-width:760px){
+  .contractGrid{grid-template-columns:repeat(3,1fr);}
+}
+
+.kv{
+  border:1px solid #d8d4cc;
+  border-radius:14px;
+  padding:10px;
+  background: rgba(244,241,234,.65);
+}
+
+.kv span{
+  display:block;
+  font-size:.82rem;
+  color: rgba(24,35,27,.72);
+}
+.kv strong{
+  display:block;
+  margin-top:3px;
+}
+
+.statusPill{
+  padding:6px 10px;
+  border-radius:999px;
+  border:1px solid transparent;
+  font-size:.85rem;
+  text-transform:capitalize;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.status-active{
+  background: rgba(46, 148, 88, .14);
+  border-color: rgba(46, 148, 88, .18);
+  color: #0b6b36;
+}
+.status-pending{
+  background: rgba(210, 156, 96, .18);
+  border-color: rgba(210, 156, 96, .20);
+  color: #7a4b18;
+}
+.status-reviewed,
+.status-closed{
+  background: rgba(48, 162, 255, .16);
+  border-color: rgba(48, 162, 255, .18);
+  color: #0b4f78;
+}
+
+.ledger{
+  margin-top:12px;
+  border-top: 1px solid #d8d4cc;
+  padding-top: 10px;
+}
+
+.ledger summary{
+  cursor: pointer;
+  font-weight: 750;
+  color: rgba(24,35,27,.82);
+}
+
+.ledgerPre{
+  white-space:pre-wrap;
+  word-break:break-word;
+  background: rgba(244,241,234,.75);
+  border:1px solid #d8d4cc;
+  padding:10px;
+  border-radius:14px;
+  margin-top:10px;
+  font-size: .9rem;
+}
+
+
+.contractActions{
+  margin-top: 14px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+}

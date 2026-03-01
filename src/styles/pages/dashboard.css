@@ -1,0 +1,54 @@
+.dash{ padding: 1rem 0 2rem; }
+.dashTitle{ margin: 0 0 .35rem; font-size: 1.75rem; }
+.dashSubtitle{ margin: 0 0 1.2rem; color: var(--muted); }
+
+.dashGrid{
+  display:grid;
+  gap: 1rem;
+}
+@media (min-width: 900px){
+  .dashGrid{ grid-template-columns: 1fr 1fr; }
+}
+
+.panel{
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: var(--radius);
+  padding: 1rem;
+}
+.panelTitle{ margin: 0 0 .85rem; font-size: 1.1rem; }
+
+.cardList{ display:grid; gap: .8rem; }
+.emptyState{ color: var(--muted); padding: .75rem 0; }
+
+.filterRow{
+  display:grid;
+  gap: .75rem;
+}
+@media (min-width: 740px){
+  .filterRow{ grid-template-columns: 1fr 1fr 1fr auto; align-items: end; }
+}
+.filterBtn{ height: 44px; }
+
+.tableWrap{ width:100%; overflow:auto; }
+.table{ width:100%; border-collapse: collapse; }
+.table th, .table td{
+  padding: .75rem .65rem;
+  border-bottom: 1px solid rgba(255,255,255,.12);
+  text-align: left;
+  vertical-align: top;
+}
+.table th{ color: var(--muted); font-weight: 700; font-size: .9rem; }
+.tableActions{ display:flex; gap: .5rem; flex-wrap: wrap; }
+.list{ list-style:none; padding:0; margin:0; display:grid; gap: .6rem; }
+.listItem{
+  border: 1px solid rgba(255,255,255,.1);
+  background: rgba(0,0,0,.18);
+  border-radius: 12px;
+  padding: .7rem .75rem;
+}
+.listTitle{ font-weight: 750; }
+.listMeta{ color: var(--muted); font-size: .9rem; margin-top: .15rem; }
+
+.cap{text-transform:capitalize}
+.tip{margin-top:10px}

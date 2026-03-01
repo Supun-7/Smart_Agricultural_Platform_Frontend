@@ -1,0 +1,51 @@
+.home {
+  padding: 24px 16px;
+}
+
+.hero {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 16px;
+  text-align: center;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 24px;
+  padding: 18px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.10);
+}
+
+.hero-logo {
+  width: 130px;
+  height: 130px;
+  object-fit: contain;
+}
+
+/* ✅ bigger on desktop */
+@media (min-width: 768px) {
+  .hero-logo {
+    width: 180px;
+    height: 180px;
+  }
+}
+
+.hero-title {
+  margin-top: 18px;
+  font-size: 34px;
+  font-weight: 900;
+}
+
+.hero-sub {
+  margin-top: 10px;
+  opacity: 0.85;
+  font-size: 16px;
+}
+
+@media (min-width: 768px) {
+  .hero-title { font-size: 44px; }
+  .hero-sub { font-size: 18px; }
+}

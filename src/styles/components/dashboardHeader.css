@@ -1,0 +1,131 @@
+.dashHeader{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 0 8px;
+}
+
+.dashHamburger{ display: inline-grid; }
+
+@media (min-width: 980px){
+  .dashHamburger{ display: none; }
+}
+
+.dashBrand{
+  text-decoration: none;
+  color: inherit;
+  display: grid;
+  line-height: 1.1;
+}
+
+.dashBrandName{
+  font-weight: 850;
+  letter-spacing: .2px;
+}
+
+.dashBrandRole{
+  font-size: .9rem;
+  color: rgba(24,35,27,.68);
+}
+
+.profileMenu{
+  position: relative;
+}
+
+.profileBtn{
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 16px;
+  border: 1px solid #d8d4cc;
+  background: rgba(255,255,255,.86);
+  cursor: pointer;
+  user-select: none;
+}
+
+.profileBtn::-webkit-details-marker{ display:none; }
+
+.profileIco{
+  width: 18px;
+  height: 18px;
+  color: rgba(24,35,27,.8);
+}
+
+.profileEmail{
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 650;
+  color: rgba(24,35,27,.86);
+}
+
+.profileCaret{
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid rgba(24,35,27,.75);
+  border-bottom: 2px solid rgba(24,35,27,.75);
+  transform: rotate(45deg);
+  margin-left: 2px;
+}
+
+.profileDropdown{
+  position: absolute;
+  right: 0;
+  top: calc(100% + 10px);
+  width: min(340px, calc(100vw - 48px));
+  border-radius: 18px;
+  background: rgba(255,255,255,.96);
+  border: 1px solid #d8d4cc;
+  box-shadow: 0 18px 50px rgba(0,0,0,.25);
+  padding: 12px;
+  z-index: 50;
+}
+
+.profileMenu:not([open]) .profileDropdown{ display: none; }
+
+.profileMeta{
+  padding: 10px 10px 12px;
+  border-bottom: 1px solid rgba(24,35,27,.12);
+}
+
+.profileMetaLabel{
+  font-size: .78rem;
+  color: rgba(24,35,27,.6);
+}
+
+.profileMetaValue{
+  font-weight: 750;
+  margin-top: 4px;
+}
+
+.profileMetaSub{
+  margin-top: 4px;
+  color: rgba(24,35,27,.65);
+  font-size: .9rem;
+}
+
+.profileAction{
+  width: 100%;
+  margin-top: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(24,35,27,.12);
+  background: rgba(24,35,27,.06);
+  color: rgba(24,35,27,.9);
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform .12s ease, filter .12s ease;
+}
+
+.profileAction:hover{
+  transform: translateY(-1px);
+  filter: brightness(1.02);
+}

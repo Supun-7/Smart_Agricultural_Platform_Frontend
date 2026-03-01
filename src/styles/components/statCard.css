@@ -1,0 +1,90 @@
+.statCard{
+  border-radius: 16px;
+  padding: 18px 18px;
+  border: 1px solid #d8d4cc;
+  background: rgba(255,255,255,.92);
+  box-shadow: 0 10px 28px rgba(0,0,0,.08);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  min-height: 118px;
+}
+
+.statCard--green{
+  background: linear-gradient(180deg, #1f5b3c, #123b28);
+  border-color: rgba(18, 59, 40, .5);
+  color: #eef7f0;
+}
+
+.statCard--brown{
+  background: linear-gradient(180deg, #845329, #6b3f1f);
+  border-color: rgba(107, 63, 31, .55);
+  color: #fff6ef;
+}
+
+.statCard--plain{
+  background: rgba(255,255,255,.92);
+  color: #18231b;
+}
+
+.statLeft{
+  display: grid;
+  gap: 4px;
+}
+
+.statKicker{
+  font-size: .92rem;
+  color: rgba(24,35,27,.72);
+  font-weight: 650;
+}
+
+.statCard--green .statKicker,
+.statCard--brown .statKicker{
+  color: rgba(255,255,255,.75);
+}
+
+.statValueTop{
+  font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
+  font-size: 1.05rem;
+  letter-spacing: .2px;
+  opacity: .9;
+}
+
+.statValue{
+  font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: .3px;
+  margin-top: 1px;
+}
+
+.statSub{
+  font-size: .92rem;
+  opacity: .85;
+}
+
+.statIconBox{
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: rgba(24,35,27,.08);
+  color: rgba(24,35,27,.85);
+}
+
+.statCard--green .statIconBox{
+  background: rgba(255,255,255,.12);
+  color: rgba(255,255,255,.92);
+}
+
+.statCard--brown .statIconBox{
+  background: rgba(255,255,255,.12);
+  color: rgba(255,255,255,.92);
+}
+
+.statIconBox svg{
+  width: 18px;
+  height: 18px;
+}

@@ -1,0 +1,26 @@
+.loaderWrap{
+  display: inline-flex;
+  align-items: center;
+  gap: .65rem;
+  padding: .65rem .8rem;
+  border-radius: 999px;
+  border: 1px solid #d8d4cc;
+  background: rgba(255,255,255,.85);
+  color: #18231b;
+}
+
+.spinner{
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid rgba(24,35,27,.18);
+  border-top-color: rgba(30, 108, 59, .9);
+  animation: spin .9s linear infinite;
+}
+
+.loaderLabel{
+  color: rgba(24,35,27,.72);
+  font-size: .95rem;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }

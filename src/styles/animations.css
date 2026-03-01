@@ -1,0 +1,21 @@
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeUp 700ms ease forwards;
+}
+
+.fade-in-delay-1 {
+  opacity: 0;
+  animation: fadeUp 700ms ease forwards;
+  animation-delay: 120ms;
+}
+
+.fade-in-delay-2 {
+  opacity: 0;
+  animation: fadeUp 700ms ease forwards;
+  animation-delay: 240ms;
+}

@@ -1,0 +1,19 @@
+.authWrap{ padding: 1.5rem 0 2rem; display:flex; justify-content:center; }
+.authCard{
+  width: min(520px, 100%);
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  box-shadow: var(--shadow);
+}
+.authTitle{ margin: 0 0 .9rem; font-size: 1.5rem; }
+.authHint{ color: var(--muted); margin: .9rem 0 0; }
+.authHint a{ text-decoration: underline; }
+.successBanner{
+  border: 1px solid rgba(89,193,115,.35);
+  background: rgba(89,193,115,.12);
+  padding: .8rem .9rem;
+  border-radius: var(--radius);
+  margin-bottom: .9rem;
+}
