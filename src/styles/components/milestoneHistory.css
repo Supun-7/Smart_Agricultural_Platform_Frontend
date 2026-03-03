@@ -1,0 +1,90 @@
+.msHistWrap{
+  display: grid;
+  gap: 10px;
+}
+
+.msHistTitle{
+  font-weight: 900;
+  letter-spacing: .2px;
+}
+
+.msHistPanel{
+  max-height: 280px;
+  overflow: auto;
+  border-radius: 16px;
+  border: 1px solid rgba(0,0,0,.08);
+  background: rgba(255,255,255,.65);
+  padding: 12px;
+}
+
+.msHistEmpty{
+  opacity: .7;
+  padding: 12px;
+}
+
+.msHistList{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.msHistItem{
+  display: grid;
+  grid-template-columns: 14px 1fr;
+  gap: 10px;
+  align-items: start;
+
+  animation: msSlideIn .28s ease both;
+}
+
+.msHistDot{
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(22,163,74,.65);
+  margin-top: 6px;
+  box-shadow: 0 10px 20px rgba(0,0,0,.12);
+}
+
+.msHistBody{
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(255,255,255,.9);
+  border: 1px solid rgba(0,0,0,.06);
+}
+
+.msHistRow{
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.msHistHead{
+  font-weight: 900;
+}
+
+.msHistTs{
+  font-size: 12px;
+  opacity: .72;
+  white-space: nowrap;
+}
+
+.msHistLabel{
+  font-size: 12.5px;
+  opacity: .82;
+  margin-top: 2px;
+}
+
+.msHistMeta{
+  font-size: 12px;
+  opacity: .70;
+  margin-top: 2px;
+}
+
+@keyframes msSlideIn{
+  from{ opacity: 0; transform: translateY(6px); }
+  to{ opacity: 1; transform: translateY(0); }
+}

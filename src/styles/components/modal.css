@@ -1,0 +1,65 @@
+.modal{
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .2s ease, visibility .2s ease;
+}
+
+.modal.open{
+  opacity: 1;
+  visibility: visible;
+}
+
+.modalOverlay{
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: rgba(0,0,0,.55);
+  padding: 0;
+}
+
+.modalCard{
+  position: relative;
+  width: min(560px, calc(100vw - 32px));
+  background: rgba(255,255,255,.96);
+  border: 1px solid #d8d4cc;
+  border-radius: 18px;
+  box-shadow: 0 22px 60px rgba(0,0,0,.25);
+  color: #18231b;
+  overflow: hidden;
+}
+
+.modalHeader{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 16px;
+  border-bottom: 1px solid #d8d4cc;
+}
+
+.modalTitle{
+  margin: 0;
+  font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
+  font-size: 1.15rem;
+}
+
+.modalClose{
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid #d8d4cc;
+  background: rgba(255,255,255,.85);
+  cursor: pointer;
+  font-size: 22px;
+  line-height: 1;
+  color: rgba(24,35,27,.85);
+}
+
+.modalBody{
+  padding: 16px 16px 18px;
+}

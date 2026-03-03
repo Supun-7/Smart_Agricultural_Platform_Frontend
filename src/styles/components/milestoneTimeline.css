@@ -1,0 +1,117 @@
+.msCard{
+  background: rgba(255,255,255,.92);
+  border: 1px solid #d8d4cc;
+  border-radius: 16px;
+  padding: 18px 18px;
+  box-shadow: 0 12px 32px rgba(0,0,0,.08);
+}
+
+.msTop{
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.msTitle{
+  margin: 0;
+  font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
+  font-size: 1.2rem;
+}
+
+.msSub{
+  margin-top: 6px;
+  font-size: .92rem;
+  color: rgba(24,35,27,.72);
+}
+
+.msPct{
+  font-weight: 900;
+  font-size: 1.05rem;
+  color: rgba(24,35,27,.92);
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(216,212,204,.9);
+  background: rgba(244,241,234,.8);
+}
+
+.msList{
+  list-style: none;
+  margin: 14px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.msItem{
+  display: grid;
+  grid-template-columns: 14px 1fr;
+  gap: 10px;
+  align-items: start;
+  position: relative;
+}
+
+.msItem:before{
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 14px;
+  bottom: -14px;
+  width: 2px;
+  background: rgba(24,35,27,.10);
+}
+
+.msItem:last-child:before{ display: none; }
+
+.msDot{
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid rgba(24,35,27,.18);
+  background: rgba(255,255,255,.95);
+  margin-top: 4px;
+}
+
+.ms-complete .msDot{
+  border-color: rgba(46,148,88,.55);
+  background: rgba(46,148,88,.20);
+}
+
+.ms-active .msDot{
+  border-color: rgba(210,156,96,.55);
+  background: rgba(210,156,96,.20);
+}
+
+.ms-pending .msDot{
+  border-color: rgba(24,35,27,.18);
+  background: rgba(255,255,255,.95);
+}
+
+.msContent{
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(216,212,204,.9);
+  background: rgba(255,255,255,.9);
+}
+
+.msLabel{
+  font-weight: 850;
+  color: rgba(24,35,27,.92);
+}
+
+.msMeta{
+  margin-top: 6px;
+  font-size: .9rem;
+  color: rgba(24,35,27,.72);
+  display: inline-flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.msActions{
+  margin-top: 14px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+}
