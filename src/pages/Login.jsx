@@ -30,7 +30,11 @@ export default function Login() {
 
     // data is the User object returned by backend
     signIn(data);
+<<<<<<< HEAD
     navigate(ROUTES.home);
+=======
+    navigate(ROUTES.farmerDashboard);
+>>>>>>> 308dde4 (CHC-29: Farmer Dashboard Layout UI)
   }
 
   return (
