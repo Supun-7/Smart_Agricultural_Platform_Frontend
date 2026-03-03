@@ -30,6 +30,10 @@ export function Navbar() {
           ) : (
             <>
               <span className="navGreet">👋 {user.fullName || user.email}</span>
+<<<<<<< HEAD
+=======
+              <Link className="btn btnGhost" to={ROUTES.farmerDashboard}>Dashboard</Link>
+>>>>>>> 308dde4 (CHC-29: Farmer Dashboard Layout UI)
               <button className="btn" onClick={handleSignOut} type="button">Sign out</button>
             </>
           )}
