@@ -1,0 +1,53 @@
+.previewTitle{
+  font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
+  letter-spacing: .2px;
+  margin: 0 0 .75rem;
+}
+
+.previewSub{
+  color: var(--muted);
+  margin: 0 0 1.25rem;
+  max-width: 70ch;
+}
+
+.previewGrid{
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 900px){
+  .previewGrid{ grid-template-columns: 1fr 1fr; }
+}
+
+.previewCard{
+  display: grid;
+  gap: .65rem;
+}
+
+.previewCardTitle{
+  margin: 0;
+  font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
+}
+
+.previewCardSub{
+  margin: 0;
+  color: var(--muted);
+}
+
+.previewRow{
+  display: flex;
+  flex-wrap: wrap;
+  gap: .6rem;
+  margin-top: .35rem;
+}
+
+.btnAlt{
+  background: transparent;
+  border: 1px solid rgba(255,255,255,.18);
+  color: var(--text);
+}
+
+.btnAlt:hover{
+  background: rgba(255,255,255,.06);
+}
