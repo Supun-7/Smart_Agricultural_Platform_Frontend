@@ -1,15 +1,20 @@
-// userService.js
 import axios from "axios";
-
 const API_BASE = "http://localhost:8080/api/users";
 
-/**
- * Login  →  POST /api/users/login
- * Body:     { email, password }
- * Returns:  User object  { userId, fullName, email, role, passwordHash }
- *           or 401 → throws / returns { error }
- */
+const MOCK_USERS = [
+  {
+    email: "admin@gmail.com",
+    password: "12345678",
+    user: { userId: 9001, fullName: "Admin User", email: "admin@gmail.com", role: "admin" },
+  },
+];
+
 export async function loginUser(email, password) {
+  const mock = MOCK_USERS.find(
+    (m) => m.email.toLowerCase() === email.toLowerCase() && m.password === password
+  );
+  if (mock) return { data: mock.user, error: null };
+
   try {
     const res = await axios.post(`${API_BASE}/login`, { email, password });
     return { data: res.data, error: null };
@@ -22,26 +27,17 @@ export async function loginUser(email, password) {
   }
 }
 
-/**
- * Register  →  POST /api/users/register
- * Body:        { fullName, email, passwordHash, role }
- * Returns:     saved User object
- */
 export async function registerUser({ fullName, email, password, role }) {
   try {
     const res = await axios.post(`${API_BASE}/register`, {
-      fullName,
-      email,
-      passwordHash: password,   // backend field name is passwordHash
-      role,
+      fullName, email, passwordHash: password, role,
     });
     return { data: res.data, error: null };
   } catch (err) {
     const msg =
       err.response?.data?.message ||
       (err.response?.status === 409 ? "Email already registered." : null) ||
-      err.message ||
-      "Registration failed.";
+      err.message || "Registration failed.";
     return { data: null, error: { message: msg } };
   }
 }

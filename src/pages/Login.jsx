@@ -28,9 +28,12 @@ export default function Login() {
       return;
     }
 
-    // data is the User object returned by backend
     signIn(data);
-    navigate(ROUTES.home);
+
+    // Role-based redirect
+    if (data.role === "admin") navigate(ROUTES.admin);
+    else if (data.role === "auditor") navigate(ROUTES.auditor);
+    else navigate(ROUTES.home);
   }
 
   return (
