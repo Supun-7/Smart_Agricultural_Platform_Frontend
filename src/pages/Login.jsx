@@ -28,13 +28,14 @@ export default function Login() {
       return;
     }
 
-    // data is the User object returned by backend
     signIn(data);
-<<<<<<< HEAD
-    navigate(ROUTES.home);
-=======
     navigate(ROUTES.farmerDashboard);
->>>>>>> 308dde4 (CHC-29: Farmer Dashboard Layout UI)
+
+
+    // Role-based redirect
+    if (data.role === "admin") navigate(ROUTES.admin);
+    else if (data.role === "auditor") navigate(ROUTES.auditor);
+    else navigate(ROUTES.home);
   }
 
   return (
