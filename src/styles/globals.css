@@ -1,0 +1,80 @@
+body{
+  background: radial-gradient(1200px 600px at 15% 10%, rgba(89,193,115,.22), transparent 60%),
+              radial-gradient(900px 500px at 90% 20%, rgba(48,162,255,.18), transparent 55%),
+              var(--bg);
+  color: var(--text);
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  line-height: 1.45;
+}
+
+.container{
+  width: min(var(--container), calc(100% - 2rem));
+  margin: 0 auto;
+}
+
+.btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  border: 1px solid rgba(255,255,255,.14);
+  background: linear-gradient(180deg, rgba(89,193,115,.9), rgba(89,193,115,.7));
+  color: #06110a;
+  padding: .75rem 1rem;
+  border-radius: 999px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: transform .12s ease, filter .12s ease;
+}
+.btn:hover{ transform: translateY(-1px); filter: brightness(1.05); }
+.btn:disabled{ opacity: .6; cursor: not-allowed; transform: none; }
+
+.btnGhost{
+  background: transparent;
+  color: var(--text);
+}
+
+.btnSmall{
+  padding: .45rem .75rem;
+  font-size: .9rem;
+}
+
+.btnBlock{
+  width: 100%;
+}
+
+.input{
+  width: 100%;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.12);
+  color: var(--text);
+  padding: .75rem .9rem;
+  border-radius: 12px;
+  outline: none;
+}
+.input:focus{
+  border-color: rgba(89,193,115,.7);
+  box-shadow: 0 0 0 3px rgba(89,193,115,.18);
+}
+
+.textarea{ resize: vertical; }
+
+.field{
+  display: grid;
+  gap: .35rem;
+  font-size: .95rem;
+}
+.field > span{ color: var(--muted); }
+
+.form{
+  display: grid;
+  gap: .9rem;
+}
+
+.card{
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: var(--radius);
+  padding: 1rem;
+  box-shadow: var(--shadow);
+}

@@ -1,0 +1,38 @@
+.authWrap{ padding: 1.5rem 0 2rem; display:flex; justify-content:center; }
+.authCard{
+  width: min(520px, 100%);
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  box-shadow: var(--shadow);
+}
+.authTitle{ margin: 0 0 .9rem; font-size: 1.5rem; }
+.authHint{ color: var(--muted); margin: .9rem 0 0; }
+.authHint a{ text-decoration: underline; }
+.successBanner{
+  border: 1px solid rgba(89,193,115,.35);
+  background: rgba(89,193,115,.12);
+  padding: .8rem .9rem;
+  border-radius: var(--radius);
+  margin-bottom: .9rem;
+}
+
+
+/* Mock mode demo login helpers */
+.demoBox{margin:12px 0 18px;padding:12px;border:1px solid rgba(0,0,0,.08);border-radius:14px;background:rgba(255,255,255,.7)}
+.demoTitle{font-weight:700;margin-bottom:6px}
+.demoHint{font-size:13px;opacity:.8;margin-bottom:10px}
+.demoBtns{display:flex;gap:8px;flex-wrap:wrap}
+.btnGhost{background:transparent;border:1px solid rgba(0,0,0,.15);color:inherit}
+.btnGhost:hover{border-color:rgba(0,0,0,.35)}
+
+.successBanner {
+  background: rgba(89,193,115,.15);
+  border: 1px solid rgba(89,193,115,.35);
+  color: #59c173;
+  padding: .8rem .9rem;
+  border-radius: 16px;
+  text-align: center;
+  font-weight: 600;
+}

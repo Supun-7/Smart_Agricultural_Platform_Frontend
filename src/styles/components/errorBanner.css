@@ -1,0 +1,17 @@
+.errorBanner{
+  border: 1px solid rgba(255,92,122,.35);
+  background: rgba(255,92,122,.12);
+  padding: .8rem .9rem;
+  border-radius: 16px;
+  color: inherit;
+}
+
+.errorTitle{
+  display:block;
+  margin-bottom: .25rem;
+}
+
+.errorMsg{
+  color: inherit;
+  opacity: .9;
+}
