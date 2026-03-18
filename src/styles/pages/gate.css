@@ -1,0 +1,370 @@
+
+.gateWrap {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.gateCard {
+  width: min(580px, 100%);
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: var(--radius);
+  padding: 2rem 1.75rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.gateIcon {
+  font-size: 2.5rem;
+  text-align: center;
+}
+
+.gateTitle {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+  text-align: center;
+}
+
+.gateSub {
+  color: var(--muted);
+  text-align: center;
+  margin: 0;
+  font-size: .92rem;
+  line-height: 1.7;
+}
+
+/* ── Status badges ───────────────────────────────────────── */
+.gateBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: .35rem 1rem;
+  border-radius: 999px;
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .8px;
+  text-transform: uppercase;
+  margin: 0 auto;
+}
+
+.gateBadgePending {
+  background: rgba(255,193,7,.12);
+  border: 1px solid rgba(255,193,7,.35);
+  color: #ffc107;
+}
+
+.gateBadgeFailed {
+  background: rgba(255,92,122,.12);
+  border: 1px solid rgba(255,92,122,.35);
+  color: var(--danger);
+}
+
+.gateBadgeSuccess {
+  background: rgba(89,193,115,.12);
+  border: 1px solid rgba(89,193,115,.35);
+  color: var(--brand);
+}
+
+/* ── Rejection reason box ────────────────────────────────── */
+.gateReason {
+  background: rgba(255,92,122,.08);
+  border: 1px solid rgba(255,92,122,.2);
+  border-radius: 10px;
+  padding: 1rem;
+  color: var(--danger);
+  font-size: .9rem;
+  line-height: 1.6;
+  width: 100%;
+}
+
+.gateReasonLabel {
+  font-weight: 700;
+  margin-bottom: .4rem;
+  font-size: .75rem;
+  letter-spacing: .6px;
+  text-transform: uppercase;
+  opacity: .7;
+}
+
+/* ── Steps list ──────────────────────────────────────────── */
+.gateSteps {
+  display: flex;
+  flex-direction: column;
+  gap: .7rem;
+}
+
+.gateStep {
+  display: flex;
+  align-items: flex-start;
+  gap: .75rem;
+  font-size: .88rem;
+  color: var(--muted);
+}
+
+.gateStepNum {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(89,193,115,.15);
+  border: 1px solid rgba(89,193,115,.35);
+  color: var(--brand);
+  font-size: .72rem;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ── Divider ─────────────────────────────────────────────── */
+.gateDivider {
+  height: 1px;
+  background: rgba(255,255,255,.08);
+  margin: .1rem 0;
+}
+
+/* ── Section title inside form ───────────────────────────── */
+.gateSectionTitle {
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .6px;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding-bottom: .5rem;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+/* ── Section note ────────────────────────────────────────── */
+.gateSectionNote {
+  font-size: .83rem;
+  color: var(--muted);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ── Error box ───────────────────────────────────────────── */
+.gateError {
+  background: rgba(255,92,122,.08);
+  border: 1px solid rgba(255,92,122,.2);
+  border-radius: 10px;
+  padding: .8rem 1rem;
+  color: var(--danger);
+  font-size: .9rem;
+}
+
+/* ── Actions stack ───────────────────────────────────────── */
+.gateActions {
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+  width: 100%;
+}
+
+/* ── Loading spinner ─────────────────────────────────────── */
+.gateSpin {
+  width: 36px;
+  height: 36px;
+  border: 3px solid rgba(255,255,255,.1);
+  border-top-color: var(--brand);
+  border-radius: 50%;
+  animation: gateSpin .8s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes gateSpin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Progress bar for KYC multi-step ────────────────────── */
+.gateProgress {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  padding: 0 1rem;
+}
+
+.gateProgressItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .3rem;
+  z-index: 1;
+}
+
+.gateProgressDot {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: .78rem;
+  font-weight: 700;
+  transition: all .2s ease;
+}
+
+.gateProgressDot.done {
+  background: var(--brand);
+  color: #06110a;
+}
+
+.gateProgressDot.active {
+  background: var(--brand);
+  color: #06110a;
+  box-shadow: 0 0 0 3px rgba(89,193,115,.25);
+}
+
+.gateProgressDot.inactive {
+  background: rgba(255,255,255,.08);
+  color: var(--muted);
+}
+
+.gateProgressLabel {
+  font-size: .7rem;
+}
+
+.gateProgressLabel.active {
+  color: var(--brand);
+  font-weight: 700;
+}
+
+.gateProgressLabel.inactive {
+  color: var(--muted);
+}
+
+.gateProgressLine {
+  position: absolute;
+  top: 15px;
+  height: 2px;
+  z-index: 0;
+  transition: background .2s ease;
+}
+
+.gateProgressLine.line1 {
+  left: calc(33% - 10px);
+  width: calc(33% - 10px);
+}
+
+.gateProgressLine.line2 {
+  left: calc(66% - 10px);
+  width: calc(33% - 10px);
+}
+
+.gateProgressLine.done {
+  background: var(--brand);
+}
+
+.gateProgressLine.inactive {
+  background: rgba(255,255,255,.1);
+}
+
+/* ── File upload field ───────────────────────────────────── */
+.uploadBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed rgba(255,255,255,.15);
+  border-radius: 10px;
+  padding: 1.25rem 1rem;
+  cursor: pointer;
+  background: rgba(255,255,255,.02);
+  transition: border-color .15s ease, background .15s ease;
+  min-height: 88px;
+}
+
+.uploadBox:hover {
+  border-color: rgba(89,193,115,.4);
+  background: rgba(89,193,115,.04);
+}
+
+.uploadBox.done {
+  border-color: rgba(89,193,115,.4);
+  background: rgba(89,193,115,.06);
+}
+
+.uploadBox.error {
+  border-color: rgba(255,92,122,.4);
+  background: rgba(255,92,122,.04);
+}
+
+.uploadBox.uploading {
+  border-color: rgba(89,193,115,.3);
+  cursor: not-allowed;
+}
+
+.uploadInner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .35rem;
+  pointer-events: none;
+}
+
+.uploadIcon {
+  font-size: 1.5rem;
+}
+
+.uploadText {
+  font-size: .87rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.uploadHint {
+  font-size: .76rem;
+  color: var(--muted);
+}
+
+.uploadSpin {
+  width: 22px;
+  height: 22px;
+  border: 2px solid rgba(255,255,255,.1);
+  border-top-color: var(--brand);
+  border-radius: 50%;
+  animation: gateSpin .8s linear infinite;
+}
+
+/* ── Grid helpers ────────────────────────────────────────── */
+.gateGrid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.gateGrid13 {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 1rem;
+}
+
+@media (max-width: 480px) {
+  .gateGrid2  { grid-template-columns: 1fr; }
+  .gateGrid13 { grid-template-columns: 1fr; }
+}
+
+/* ── Required star ───────────────────────────────────────── */
+.gateRequired {
+  color: var(--danger);
+  margin-left: .2rem;
+}
+
+/* ── Nav buttons row ─────────────────────────────────────── */
+.gateNavRow {
+  display: flex;
+  gap: .75rem;
+}
+
+/* ── Step note ───────────────────────────────────────────── */
+.gateStepNote {
+  text-align: center;
+  font-size: .78rem;
+  color: var(--muted);
+  margin: 0;
+}
