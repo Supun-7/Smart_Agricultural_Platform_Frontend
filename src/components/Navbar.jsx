@@ -10,7 +10,8 @@ export function Navbar() {
 
   async function handleSignOut() {
     signOut();
-    navigate(ROUTES.home);
+    navigate(ROUTES.login, { replace: true }); 
+
   }
 
   return (
