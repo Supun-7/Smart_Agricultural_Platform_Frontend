@@ -1,47 +1,51 @@
-// userService.js
-import axios from "axios";
+import { supabase } from "./supabaseClient";
 
-const API_BASE = "http://localhost:8080/api/users";
+const BUCKETS = {
+  kyc:    "kyc-documents",
+  farmer: "farmer-documents",
+};
 
-/**
- * Login  →  POST /api/users/login
- * Body:     { email, password }
- * Returns:  User object  { userId, fullName, email, role, passwordHash }
- *           or 401 → throws / returns { error }
- */
-export async function loginUser(email, password) {
-  try {
-    const res = await axios.post(`${API_BASE}/login`, { email, password });
-    return { data: res.data, error: null };
-  } catch (err) {
-    const msg =
-      err.response?.status === 401
-        ? "Invalid email or password."
-        : err.response?.data?.message || err.message || "Login failed.";
-    return { data: null, error: { message: msg } };
-  }
-}
+export async function uploadFile(file, bucket, userId, fileLabel) {
+  const ext      = file.name.split(".").pop();
+  const filename = `${Date.now()}-${fileLabel}.${ext}`;
+  const path     = `${userId}/${filename}`;
 
-/**
- * Register  →  POST /api/users/register
- * Body:        { fullName, email, passwordHash, role }
- * Returns:     saved User object
- */
-export async function registerUser({ fullName, email, password, role }) {
-  try {
-    const res = await axios.post(`${API_BASE}/register`, {
-      fullName,
-      email,
-      passwordHash: password,   // backend field name is passwordHash
-      role,
+  const { data: uploadData, error: uploadError } = await supabase.storage
+    .from(bucket)
+    .upload(path, file, {
+      cacheControl: "3600",
+      upsert:       false,
     });
-    return { data: res.data, error: null };
-  } catch (err) {
-    const msg =
-      err.response?.data?.message ||
-      (err.response?.status === 409 ? "Email already registered." : null) ||
-      err.message ||
-      "Registration failed.";
-    return { data: null, error: { message: msg } };
+
+  if (uploadError) {
+    throw new Error(`Upload failed: ${uploadError.message}`);
   }
+
+  const { data: urlData } = supabase.storage
+    .from(bucket)
+    .getPublicUrl(uploadData.path ?? path);
+
+  if (!urlData?.publicUrl) {
+    throw new Error("Could not get file URL after upload");
+  }
+
+  return urlData.publicUrl;
 }
+
+export async function uploadMultipleFiles(files, bucket, userId, label) {
+  const urls = await Promise.all(
+    files.map((file, i) =>
+      uploadFile(file, bucket, userId, `${label}-${i + 1}`)
+    )
+  );
+  return urls.join(",");
+}
+
+export const uploadKycFile = (file, userId, label) =>
+  uploadFile(file, BUCKETS.kyc, userId, label);
+
+export const uploadFarmerFile = (file, userId, label) =>
+  uploadFile(file, BUCKETS.farmer, userId, label);
+
+export const uploadFarmerPhotos = (files, userId) =>
+  uploadMultipleFiles(files, BUCKETS.farmer, userId, "land-photo");
