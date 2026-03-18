@@ -1,25 +1,23 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { registerUser } from "../services/userService.js";
+import { authApi } from "../services/api.js";
 import { ROUTES } from "../routes/routePaths.js";
 import { ErrorBanner } from "../components/ErrorBanner.jsx";
 import "../styles/pages/auth.css";
 
 const ROLES = [
-  { value: "farmer", label: "Farmer" },
-  { value: "investor", label: "Investor" },
-  { value: "admin", label: "Admin" },
-  { value: "auditor", label: "Auditor" },
+  { value: "FARMER",   label: "Farmer" },
+  { value: "INVESTOR", label: "Investor" },
 ];
 
 export default function Register() {
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [role, setRole] = useState("farmer");
+  const [fullName,   setFullName]   = useState("");
+  const [email,      setEmail]      = useState("");
+  const [password,   setPassword]   = useState("");
+  const [role,       setRole]       = useState("FARMER");
   const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState("");
-  const [done, setDone] = useState(false);
+  const [error,      setError]      = useState("");
+  const [done,       setDone]       = useState(false);
 
   const navigate = useNavigate();
 
@@ -29,23 +27,30 @@ export default function Register() {
     setError("");
     setDone(false);
 
-    const { error: err } = await registerUser({ fullName, email, password, role });
+    try {
+      // authApi.register instead of registerUser
+      await authApi.register(fullName, email, password, role);
 
-    if (err) {
+      setDone(true);
+
+      // Redirect to login after short delay
+      // User can see the success message
+      setTimeout(() => navigate(ROUTES.login), 1200);
+
+    } catch (err) {
       setError(err.message);
+    } finally {
       setSubmitting(false);
-      return;
     }
-
-    setDone(true);
-    setTimeout(() => navigate(ROUTES.login), 1200);
   }
 
   return (
     <section className="authWrap">
       <div className="authCard">
         <h2 className="authTitle">Register</h2>
+
         <ErrorBanner message={error} />
+
         {done && (
           <div className="successBanner">
             Account created! Redirecting to login…
@@ -53,6 +58,7 @@ export default function Register() {
         )}
 
         <form className="form" onSubmit={onSubmit}>
+
           <label className="field">
             <span>Full name</span>
             <input
@@ -90,26 +96,34 @@ export default function Register() {
           </label>
 
           <label className="field">
-            <span>Role</span>
+            <span>I am a</span>
             <select
               className="input"
               value={role}
               onChange={(e) => setRole(e.target.value)}
             >
               {ROLES.map((r) => (
-                <option key={r.value} value={r.value}>{r.label}</option>
+                <option key={r.value} value={r.value}>
+                  {r.label}
+                </option>
               ))}
             </select>
           </label>
 
-          <button className="btn btnBlock" disabled={submitting || done} type="submit">
+          <button
+            className="btn btnBlock"
+            disabled={submitting || done}
+            type="submit"
+          >
             {submitting ? "Creating account…" : "Create account"}
           </button>
+
         </form>
 
         <p className="authHint">
           Already have an account? <Link to={ROUTES.login}>Login</Link>
         </p>
+
       </div>
     </section>
   );
