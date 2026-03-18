@@ -1,19 +1,147 @@
-import { Routes, Route, Navigate } from "react-router-dom";
-import { ROUTES } from "./routePaths.js";
-import { PublicLayout } from "../layouts/PublicLayout.jsx";
-import Home from "../pages/Home.jsx";
-import Login from "../pages/Login.jsx";
-import Register from "../pages/Register.jsx";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
+import { ROUTES } from "./routePaths";
+import { PublicLayout } from "../layouts/PublicLayout";
 
+import Home from "../pages/Home";
+import Login from "../pages/Login";
+import Register from "../pages/Register";
+import GatePage from "../pages/GatePage";
+
+// ── Guard 1 — must be logged in ─────────────────────────────
+function RequireAuth({ children }) {
+  const { isAuthenticated, booting } = useAuth();  // ✏️ use isAuthenticated
+  const location = useLocation();
+
+  if (booting) return null;
+
+  if (!isAuthenticated) {  // ✏️ was !user
+    return <Navigate to={ROUTES.login} state={{ from: location }} replace />;
+  }
+
+  return children;
+}
+
+function RequireRole({ role, children }) {
+  const { user, isAuthenticated, booting } = useAuth();  // ✏️ added isAuthenticated
+
+  if (booting) return null;
+
+  if (!isAuthenticated) {  // ✏️ was !user
+    return <Navigate to={ROUTES.login} replace />;
+  }
+
+  if (user.role !== role) {
+    return <Navigate to={ROUTES.gate} replace />;
+  }
+
+  return children;
+}
+
+// ── Guard 3 — already logged in ─────────────────────────────
+function RedirectIfLoggedIn({ children }) {
+  const { user, booting } = useAuth();
+
+  if (booting) return null;
+
+  if (user) {
+    return <Navigate to={ROUTES.gate} replace />;
+  }
+
+  return children;
+}
+
+// ── Main routes ──────────────────────────────────────────────
 export default function AppRoutes() {
   return (
     <Routes>
+
+      {/* Public routes — navbar + footer */}
       <Route element={<PublicLayout />}>
-        <Route path={ROUTES.home} element={<Home />} />
-        <Route path={ROUTES.login} element={<Login />} />
-        <Route path={ROUTES.register} element={<Register />} />
+
+        <Route
+          path={ROUTES.home}
+          element={<Home />}
+        />
+
+        <Route
+          path={ROUTES.login}
+          element={
+            <RedirectIfLoggedIn>
+              <Login />
+            </RedirectIfLoggedIn>
+          }
+        />
+
+        <Route
+          path={ROUTES.register}
+          element={
+            <RedirectIfLoggedIn>
+              <Register />
+            </RedirectIfLoggedIn>
+          }
+        />
+
       </Route>
+
+      {/* Gate — 2nd door, checked right after login */}
+      <Route
+        path={ROUTES.gate}
+        element={
+          <RequireAuth>
+            <GatePage />
+          </RequireAuth>
+        }
+      />
+
+      {/* Role dashboards — protected */}
+      <Route
+        path={ROUTES.farmer}
+        element={
+          <RequireRole role="FARMER">
+            <div style={{ padding: "2rem", color: "white" }}>
+              Farmer dashboard — coming soon
+            </div>
+          </RequireRole>
+        }
+      />
+
+      <Route
+        path={ROUTES.investor}
+        element={
+          <RequireRole role="INVESTOR">
+            <div style={{ padding: "2rem", color: "white" }}>
+              Investor dashboard — coming soon
+            </div>
+          </RequireRole>
+        }
+      />
+
+      <Route
+        path={ROUTES.auditor}
+        element={
+          <RequireRole role="AUDITOR">
+            <div style={{ padding: "2rem", color: "white" }}>
+              Auditor dashboard — coming soon
+            </div>
+          </RequireRole>
+        }
+      />
+
+      <Route
+        path={ROUTES.admin}
+        element={
+          <RequireRole role="ADMIN">
+            <div style={{ padding: "2rem", color: "white" }}>
+              Admin dashboard — coming soon
+            </div>
+          </RequireRole>
+        }
+      />
+
+      {/* Catch all */}
       <Route path="*" element={<Navigate to={ROUTES.home} replace />} />
+
     </Routes>
   );
 }
