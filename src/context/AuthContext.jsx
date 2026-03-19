@@ -10,13 +10,6 @@ export const AuthContext = createContext(null);
 
 const SESSION_KEY = "chc_user";
 
-// Everything EXCEPT the token
-// Token lives only in memory (React state)
-function buildStorableUser(userData) {
-  const { token, ...rest } = userData;
-  return rest;
-}
-
 function loadSession() {
   try {
     const raw = localStorage.getItem(SESSION_KEY);
@@ -28,21 +21,14 @@ function loadSession() {
 
 function saveSession(userData) {
   if (userData) {
-    // strip token before saving to localStorage
-    localStorage.setItem(
-      SESSION_KEY,
-      JSON.stringify(buildStorableUser(userData))
-    );
+    localStorage.setItem(SESSION_KEY, JSON.stringify(userData));
   } else {
     localStorage.removeItem(SESSION_KEY);
   }
 }
 
 export function AuthProvider({ children }) {
-
-  // state holds full user object INCLUDING token
-  // On first load from localStorage, token will be null
-  const [user,    setUser]    = useState(() => loadSession());
+  const [user, setUser] = useState(() => loadSession());
   const [booting, setBooting] = useState(true);
 
   useEffect(() => {
@@ -51,34 +37,30 @@ export function AuthProvider({ children }) {
   }, []);
 
   const signIn = useCallback((userData) => {
-    // userData = { token, userId, fullName, email, role, verificationStatus }
-    saveSession(userData);   // saves to localStorage WITHOUT token
-    setUser(userData);       // saves to state WITH token ← AC-3
+    saveSession(userData);
+    setUser(userData);
   }, []);
 
   const signOut = useCallback(() => {
-    saveSession(null);       // clears localStorage
-    setUser(null);           // clears state including token ← AC-4
+    saveSession(null);
+    setUser(null);
   }, []);
 
-  // ── Helper: check if user has a valid token in memory ─────
-  // After page refresh, user info exists but token is null
-  // isAuthenticated = true only when token is present in memory
   const isAuthenticated = Boolean(user?.token);
 
   const value = useMemo(() => ({
     user,
-    role:            user?.role            ?? null,
-    token:           user?.token           ?? null,  // direct token access
-    isAuthenticated,                                  // true only with token
+    role: user?.role ?? null,
+    token: user?.token ?? null,
+    isAuthenticated,
     booting,
     signIn,
     signOut,
   }), [user, booting, isAuthenticated, signIn, signOut]);
 
   return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
+      <AuthContext.Provider value={value}>
+        {children}
+      </AuthContext.Provider>
   );
 }

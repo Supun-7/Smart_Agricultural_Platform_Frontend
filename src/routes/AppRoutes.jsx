@@ -7,141 +7,136 @@ import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import GatePage from "../pages/GatePage";
+import FarmerDashboard from "../pages/FarmerDashboard";
 
 // ── Guard 1 — must be logged in ─────────────────────────────
 function RequireAuth({ children }) {
-  const { isAuthenticated, booting } = useAuth();  // ✏️ use isAuthenticated
-  const location = useLocation();
+    const { isAuthenticated, booting } = useAuth();
+    const location = useLocation();
 
-  if (booting) return null;
+    if (booting) return null;
 
-  if (!isAuthenticated) {  // ✏️ was !user
-    return <Navigate to={ROUTES.login} state={{ from: location }} replace />;
-  }
+    if (!isAuthenticated) {
+        return <Navigate to={ROUTES.login} state={{ from: location }} replace />;
+    }
 
-  return children;
+    return children;
 }
 
 function RequireRole({ role, children }) {
-  const { user, isAuthenticated, booting } = useAuth();  // ✏️ added isAuthenticated
+    const { user, isAuthenticated, booting } = useAuth();
 
-  if (booting) return null;
+    if (booting) return null;
 
-  if (!isAuthenticated) {  // ✏️ was !user
-    return <Navigate to={ROUTES.login} replace />;
-  }
+    if (!isAuthenticated) {
+        return <Navigate to={ROUTES.login} replace />;
+    }
 
-  if (user.role !== role) {
-    return <Navigate to={ROUTES.gate} replace />;
-  }
+    if (user.role !== role) {
+        return <Navigate to={ROUTES.gate} replace />;
+    }
 
-  return children;
+    return children;
 }
 
 // ── Guard 3 — already logged in ─────────────────────────────
 function RedirectIfLoggedIn({ children }) {
-  const { user, booting } = useAuth();
+    const { user, booting } = useAuth();
 
-  if (booting) return null;
+    if (booting) return null;
 
-  if (user) {
-    return <Navigate to={ROUTES.gate} replace />;
-  }
+    if (user) {
+        return <Navigate to={ROUTES.gate} replace />;
+    }
 
-  return children;
+    return children;
 }
 
 // ── Main routes ──────────────────────────────────────────────
 export default function AppRoutes() {
-  return (
-    <Routes>
+    return (
+        <Routes>
+            {/* Public routes — navbar + footer */}
+            <Route element={<PublicLayout />}>
+                <Route
+                    path={ROUTES.home}
+                    element={<Home />}
+                />
 
-      {/* Public routes — navbar + footer */}
-      <Route element={<PublicLayout />}>
+                <Route
+                    path={ROUTES.login}
+                    element={
+                        <RedirectIfLoggedIn>
+                            <Login />
+                        </RedirectIfLoggedIn>
+                    }
+                />
 
-        <Route
-          path={ROUTES.home}
-          element={<Home />}
-        />
+                <Route
+                    path={ROUTES.register}
+                    element={
+                        <RedirectIfLoggedIn>
+                            <Register />
+                        </RedirectIfLoggedIn>
+                    }
+                />
+            </Route>
 
-        <Route
-          path={ROUTES.login}
-          element={
-            <RedirectIfLoggedIn>
-              <Login />
-            </RedirectIfLoggedIn>
-          }
-        />
+            {/* Gate — 2nd door, checked right after login */}
+            <Route
+                path={ROUTES.gate}
+                element={
+                    <RequireAuth>
+                        <GatePage />
+                    </RequireAuth>
+                }
+            />
 
-        <Route
-          path={ROUTES.register}
-          element={
-            <RedirectIfLoggedIn>
-              <Register />
-            </RedirectIfLoggedIn>
-          }
-        />
+            {/* Role dashboards — protected */}
+            <Route
+                path={ROUTES.farmer}
+                element={
+                    <RequireRole role="FARMER">
+                        <FarmerDashboard />
+                    </RequireRole>
+                }
+            />
 
-      </Route>
+            <Route
+                path={ROUTES.investor}
+                element={
+                    <RequireRole role="INVESTOR">
+                        <div style={{ padding: "2rem", color: "white" }}>
+                            Investor dashboard — coming soon
+                        </div>
+                    </RequireRole>
+                }
+            />
 
-      {/* Gate — 2nd door, checked right after login */}
-      <Route
-        path={ROUTES.gate}
-        element={
-          <RequireAuth>
-            <GatePage />
-          </RequireAuth>
-        }
-      />
+            <Route
+                path={ROUTES.auditor}
+                element={
+                    <RequireRole role="AUDITOR">
+                        <div style={{ padding: "2rem", color: "white" }}>
+                            Auditor dashboard — coming soon
+                        </div>
+                    </RequireRole>
+                }
+            />
 
-      {/* Role dashboards — protected */}
-      <Route
-        path={ROUTES.farmer}
-        element={
-          <RequireRole role="FARMER">
-            <div style={{ padding: "2rem", color: "white" }}>
-              Farmer dashboard — coming soon
-            </div>
-          </RequireRole>
-        }
-      />
+            <Route
+                path={ROUTES.admin}
+                element={
+                    <RequireRole role="ADMIN">
+                        <div style={{ padding: "2rem", color: "white" }}>
+                            Admin dashboard — coming soon
+                        </div>
+                    </RequireRole>
+                }
+            />
 
-      <Route
-        path={ROUTES.investor}
-        element={
-          <RequireRole role="INVESTOR">
-            <div style={{ padding: "2rem", color: "white" }}>
-              Investor dashboard — coming soon
-            </div>
-          </RequireRole>
-        }
-      />
-
-      <Route
-        path={ROUTES.auditor}
-        element={
-          <RequireRole role="AUDITOR">
-            <div style={{ padding: "2rem", color: "white" }}>
-              Auditor dashboard — coming soon
-            </div>
-          </RequireRole>
-        }
-      />
-
-      <Route
-        path={ROUTES.admin}
-        element={
-          <RequireRole role="ADMIN">
-            <div style={{ padding: "2rem", color: "white" }}>
-              Admin dashboard — coming soon
-            </div>
-          </RequireRole>
-        }
-      />
-
-      {/* Catch all */}
-      <Route path="*" element={<Navigate to={ROUTES.home} replace />} />
-
-    </Routes>
-  );
+            {/* Catch all */}
+            <Route path="*" element={<Navigate to={ROUTES.home} replace />} />
+        </Routes>
+    );
 }

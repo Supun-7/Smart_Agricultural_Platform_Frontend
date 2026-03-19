@@ -1,0 +1,267 @@
+.farmerDashboard {
+  min-height: calc(100vh - 72px);
+  padding: 2rem 0 3rem;
+}
+
+.farmerDashboardInner {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.farmerDashboardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.farmerDashboardEyebrow {
+  display: inline-block;
+  font-size: .78rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--brand);
+  font-weight: 700;
+  margin-bottom: .35rem;
+}
+
+.farmerDashboardTitle {
+  margin: 0;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  line-height: 1.15;
+}
+
+.farmerDashboardSub {
+  margin: .55rem 0 0;
+  color: var(--muted);
+  max-width: 60ch;
+}
+
+.farmerDashboardHeaderActions {
+  display: flex;
+  gap: .75rem;
+  flex-wrap: wrap;
+}
+
+.farmerProfileGrid,
+.farmerSummaryGrid {
+  display: grid;
+  gap: 1rem;
+}
+
+.farmerProfileGrid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.farmerSummaryGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.farmerProfileCard,
+.farmerSummaryCard {
+  display: grid;
+  gap: .4rem;
+}
+
+.farmerCardLabel,
+.farmerMetaLabel {
+  font-size: .8rem;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.farmerCardValue {
+  font-size: 1rem;
+  color: var(--text);
+}
+
+.farmerSummaryValue {
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  color: var(--brand);
+  font-weight: 800;
+}
+
+.farmerLandsSection {
+  display: grid;
+  gap: 1rem;
+}
+
+.farmerSectionHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.farmerSectionTitle {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.farmerSectionSub {
+  margin: .35rem 0 0;
+  color: var(--muted);
+}
+
+.farmerLandGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.farmerLandCard {
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: var(--radius);
+  padding: 1rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.farmerLandTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.farmerLandBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: .35rem .7rem;
+  border-radius: 999px;
+  font-size: .78rem;
+  font-weight: 700;
+  color: var(--brand);
+  border: 1px solid rgba(89,193,115,.25);
+  background: rgba(89,193,115,.09);
+}
+
+.farmerLandAmount {
+  font-size: .95rem;
+  color: #dff7e6;
+}
+
+.farmerLandTitle {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--text);
+}
+
+.farmerLandMeta {
+  display: grid;
+  gap: .75rem;
+}
+
+.farmerMetaValue {
+  display: block;
+  margin-top: .18rem;
+  color: var(--text);
+}
+
+.farmerProgressBlock {
+  display: grid;
+  gap: .45rem;
+}
+
+.farmerProgressHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+}
+
+.farmerProgressValue {
+  font-weight: 700;
+  color: var(--brand);
+}
+
+.farmerProgressBar {
+  width: 100%;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.08);
+  overflow: hidden;
+}
+
+.farmerProgressFill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(89,193,115,.75), rgba(48,162,255,.85));
+}
+
+.farmerDashboardState {
+  min-height: 220px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  gap: .75rem;
+}
+
+.farmerDashboardStateTitle {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.farmerDashboardStateText {
+  margin: 0;
+  color: var(--muted);
+  max-width: 52ch;
+}
+
+.farmerDashboardStateActions {
+  display: flex;
+  justify-content: center;
+}
+
+.farmerDashboardSpinner {
+  width: 38px;
+  height: 38px;
+  border: 3px solid rgba(255,255,255,.1);
+  border-top-color: var(--brand);
+  border-radius: 50%;
+  animation: farmerSpin .8s linear infinite;
+}
+
+.farmerEmptyState {
+  padding: 1.25rem;
+  border-radius: 12px;
+  border: 1px dashed rgba(255,255,255,.12);
+  background: rgba(255,255,255,.02);
+}
+
+.farmerEmptyState h3 {
+  margin: 0 0 .4rem;
+}
+
+.farmerEmptyState p {
+  margin: 0;
+  color: var(--muted);
+}
+
+@keyframes farmerSpin {
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 980px) {
+  .farmerProfileGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .farmerLandGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .farmerDashboardHeader {
+    flex-direction: column;
+  }
+
+  .farmerSummaryGrid,
+  .farmerProfileGrid {
+    grid-template-columns: 1fr;
+  }
+}
