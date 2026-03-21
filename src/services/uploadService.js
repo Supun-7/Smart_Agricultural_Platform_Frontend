@@ -41,7 +41,7 @@ export async function uploadMultipleFiles(files, bucket, userId, label) {
   return urls.join(",");
 }
 
-export const uploadKycFile = (file, userId, label) =>
+export const uploadKycFile    = (file, userId, label) =>
   uploadFile(file, BUCKETS.kyc, userId, label);
 
 export const uploadFarmerFile = (file, userId, label) =>

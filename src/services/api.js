@@ -12,7 +12,6 @@ function headers(token = null) {
 async function handle(res) {
   const data = await res.json().catch(() => null);
   if (!res.ok) {
-    // Use backend error message if available
     const message =
       typeof data === "string" ? data :
         data?.error ? data.error :
@@ -97,7 +96,6 @@ export const investorApi = {
       headers: headers(token),
     }).then(handle),
 
-  // AC-1 — live dashboard endpoint
   getDashboard: (token) =>
     fetch(`${BASE_URL}/investor/dashboard`, {
       headers: headers(token),
@@ -107,7 +105,7 @@ export const investorApi = {
     fetch(`${BASE_URL}/investor/kyc`, {
       method: "POST",
       headers: headers(token),
-      body: JSON.stringify(data),       
+      body: JSON.stringify(data),
     }).then(handle),
 
   getOpportunities: (token) =>
@@ -129,29 +127,46 @@ export const investorApi = {
 // ── Auditor endpoints ────────────────────────────────────────
 export const auditorApi = {
 
-  getFarms: (token) =>
-    fetch(`${BASE_URL}/auditor/farms`, {
+  // AC-1 — gets pending KYC + pending farmer applications
+  getDashboard: (token) =>
+    fetch(`${BASE_URL}/auditor/dashboard`, {
       headers: headers(token),
     }).then(handle),
 
-  getUsers: (token) =>
-    fetch(`${BASE_URL}/auditor/users`, {
+  // Generate a 60-second signed URL for a document
+  getSignedUrl: (token, bucket, path) =>
+    fetch(`${BASE_URL}/auditor/signed-url`, {
+      method: "POST",
+      headers: headers(token),
+      body: JSON.stringify({ bucket, path }),
+    }).then(handle),
+
+  // KYC review
+  approveKyc: (token, id) =>
+    fetch(`${BASE_URL}/auditor/kyc/${id}/approve`, {
+      method: "PUT",
       headers: headers(token),
     }).then(handle),
 
-  getTransactions: (token) =>
-    fetch(`${BASE_URL}/auditor/transactions`, {
+  rejectKyc: (token, id, reason) =>
+    fetch(`${BASE_URL}/auditor/kyc/${id}/reject`, {
+      method: "PUT",
+      headers: headers(token),
+      body: JSON.stringify({ reason }),
+    }).then(handle),
+
+  // Farmer application review
+  approveFarmer: (token, id) =>
+    fetch(`${BASE_URL}/auditor/farmer/${id}/approve`, {
+      method: "PUT",
       headers: headers(token),
     }).then(handle),
 
-  getLogs: (token) =>
-    fetch(`${BASE_URL}/auditor/logs`, {
+  rejectFarmer: (token, id, reason) =>
+    fetch(`${BASE_URL}/auditor/farmer/${id}/reject`, {
+      method: "PUT",
       headers: headers(token),
-    }).then(handle),
-
-  getReports: (token) =>
-    fetch(`${BASE_URL}/auditor/reports`, {
-      headers: headers(token),
+      body: JSON.stringify({ reason }),
     }).then(handle),
 };
 

@@ -3,9 +3,11 @@ import { useAuth } from "../hooks/useAuth";
 import { ROUTES } from "./routePaths";
 import { PublicLayout } from "../layouts/PublicLayout";
 import { InvestorLayout } from "../layouts/InvestorLayout";
+import { AuditorLayout } from "../layouts/AuditorLayout";
+import { FarmerLayout } from "../layouts/FarmerLayout";
 
-import Home     from "../pages/Home";
-import Login    from "../pages/Login";
+import Home from "../pages/Home";
+import Login from "../pages/Login";
 import Register from "../pages/Register";
 import GatePage from "../pages/GatePage";
 
@@ -13,6 +15,8 @@ import InvestorDashboard from "../pages/investor/InvestorDashboard";
 import InvestorPortfolio from "../pages/investor/InvestorPortfolio";
 import InvestorOpportunities from "../pages/investor/InvestorOpportunities";
 import InvestorReports from "../pages/investor/InvestorReports";
+
+import AuditorDashboard from "../pages/auditor/AuditorDashboard";
 
 import FarmerDashboard from "../pages/FarmerDashboard";
 
@@ -30,6 +34,7 @@ function RequireAuth({ children }) {
   return children;
 }
 
+// ── Guard 2 — must have correct role ────────────────────────
 function RequireRole({ role, children }) {
   const { user, isAuthenticated, booting } = useAuth();
 
@@ -66,43 +71,24 @@ export default function AppRoutes() {
 
       {/* Public routes — navbar + footer */}
       <Route element={<PublicLayout />}>
-
-        <Route
-          path={ROUTES.home}
-          element={<Home />}
-        />
-
+        <Route path={ROUTES.home} element={<Home />} />
         <Route
           path={ROUTES.login}
-          element={
-            <RedirectIfLoggedIn>
-              <Login />
-            </RedirectIfLoggedIn>
-          }
+          element={<RedirectIfLoggedIn><Login /></RedirectIfLoggedIn>}
         />
-
         <Route
           path={ROUTES.register}
-          element={
-            <RedirectIfLoggedIn>
-              <Register />
-            </RedirectIfLoggedIn>
-          }
+          element={<RedirectIfLoggedIn><Register /></RedirectIfLoggedIn>}
         />
-
       </Route>
 
       {/* Gate — 2nd door, checked right after login */}
       <Route
         path={ROUTES.gate}
-        element={
-          <RequireAuth>
-            <GatePage />
-          </RequireAuth>
-        }
+        element={<RequireAuth><GatePage /></RequireAuth>}
       />
 
-      {/* ── Investor — sidebar layout with 4 sub-pages ──────── */}
+      {/* ── Investor — sidebar layout ────────────────────── */}
       <Route
         element={
           <RequireRole role="INVESTOR">
@@ -110,33 +96,61 @@ export default function AppRoutes() {
           </RequireRole>
         }
       >
-        <Route path={ROUTES.investorDashboard} element={<InvestorDashboard />} />
-        <Route path={ROUTES.investorPortfolio} element={<InvestorPortfolio />} />
+        <Route path={ROUTES.investorDashboard}     element={<InvestorDashboard />}     />
+        <Route path={ROUTES.investorPortfolio}     element={<InvestorPortfolio />}     />
         <Route path={ROUTES.investorOpportunities} element={<InvestorOpportunities />} />
-        <Route path={ROUTES.investorReports} element={<InvestorReports />} />
+        <Route path={ROUTES.investorReports}       element={<InvestorReports />}       />
       </Route>
 
-      {/* Other role dashboards */}
+      {/* ── Auditor — sidebar layout ─────────────────────── */}
       <Route
-        path={ROUTES.farmer}
-        element={
-          <RequireRole role="FARMER">
-            <FarmerDashboard />
-          </RequireRole>
-        }
-      />
-
-      <Route
-        path={ROUTES.auditor}
         element={
           <RequireRole role="AUDITOR">
-            <div style={{ padding: "2rem", color: "white" }}>
-              Auditor dashboard — coming soon
-            </div>
+            <AuditorLayout />
           </RequireRole>
         }
-      />
+      >
+        <Route path={ROUTES.auditorDashboard} element={<AuditorDashboard />} />
+        <Route path={ROUTES.auditorKyc}       element={<AuditorDashboard />} />
+        <Route path={ROUTES.auditorFarmers}   element={<AuditorDashboard />} />
+        <Route
+          path={ROUTES.auditorReports}
+          element={
+            <div style={{ color: "var(--text)", padding: "2rem" }}>
+              Reports — coming soon
+            </div>
+          }
+        />
+      </Route>
 
+      {/* ── Farmer — sidebar layout ──────────────────────── */}
+      <Route
+        element={
+          <RequireRole role="FARMER">
+            <FarmerLayout />
+          </RequireRole>
+        }
+      >
+        <Route path={ROUTES.farmerDashboard}   element={<FarmerDashboard />} />
+        <Route
+          path={ROUTES.farmerApplication}
+          element={
+            <div style={{ color: "var(--text)", padding: "2rem" }}>
+              Application — coming soon
+            </div>
+          }
+        />
+        <Route
+          path={ROUTES.farmerCrops}
+          element={
+            <div style={{ color: "var(--text)", padding: "2rem" }}>
+              My Crops — coming soon
+            </div>
+          }
+        />
+      </Route>
+
+      {/* ── Admin ────────────────────────────────────────── */}
       <Route
         path={ROUTES.admin}
         element={
