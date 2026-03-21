@@ -14,10 +14,10 @@ async function handle(res) {
   if (!res.ok) {
     // Use backend error message if available
     const message =
-      typeof data === "string"    ? data :
-      data?.error                 ? data.error :
-      data?.message               ? data.message :
-      `HTTP ${res.status}`;
+      typeof data === "string" ? data :
+        data?.error ? data.error :
+          data?.message ? data.message :
+            `HTTP ${res.status}`;
     throw new Error(message);
   }
   return data;
@@ -26,18 +26,18 @@ async function handle(res) {
 // ── Auth endpoints ───────────────────────────────────────────
 export const authApi = {
 
-  register: (fullName, email, password, role) =>
+  register: (data) =>
     fetch(`${BASE_URL}/users/register`, {
-      method:  "POST",
+      method: "POST",
       headers: headers(),
-      body:    JSON.stringify({ fullName, email, password, role }),
+      body: JSON.stringify(data),
     }).then(handle),
 
   login: (email, password) =>
     fetch(`${BASE_URL}/users/login`, {
-      method:  "POST",
+      method: "POST",
       headers: headers(),
-      body:    JSON.stringify({ email, password }),
+      body: JSON.stringify({ email, password }),
     }).then(handle),
 };
 
@@ -46,7 +46,7 @@ export const gateApi = {
 
   check: (token) =>
     fetch(`${BASE_URL}/gate/check`, {
-      method:  "GET",
+      method: "GET",
       headers: headers(token),
     }).then(handle),
 };
@@ -56,6 +56,11 @@ export const farmerApi = {
 
   getProfile: (token) =>
     fetch(`${BASE_URL}/farmer/profile`, {
+      headers: headers(token),
+    }).then(handle),
+
+  getDashboard: (token) =>
+    fetch(`${BASE_URL}/farmer/dashboard`, {
       headers: headers(token),
     }).then(handle),
 
@@ -71,16 +76,16 @@ export const farmerApi = {
 
   submitApplication: (token, data) =>
     fetch(`${BASE_URL}/farmer/application`, {
-      method:  "POST",
+      method: "POST",
       headers: headers(token),
-      body:    JSON.stringify(data),
+      body: JSON.stringify(data),
     }).then(handle),
 
   requestUpdate: (token, details) =>
     fetch(`${BASE_URL}/farmer/update-request`, {
-      method:  "POST",
+      method: "POST",
       headers: headers(token),
-      body:    JSON.stringify({ details }),
+      body: JSON.stringify({ details }),
     }).then(handle),
 };
 
@@ -100,9 +105,9 @@ export const investorApi = {
 
   submitKyc: (token, data) =>
     fetch(`${BASE_URL}/investor/kyc`, {
-      method:  "POST",
+      method: "POST",
       headers: headers(token),
-      body:    JSON.stringify({ data }),
+      body: JSON.stringify(data),       
     }).then(handle),
 
   getOpportunities: (token) =>
@@ -165,40 +170,40 @@ export const adminApi = {
 
   approveKyc: (token, id) =>
     fetch(`${BASE_URL}/admin/kyc/${id}/approve`, {
-      method:  "PUT",
+      method: "PUT",
       headers: headers(token),
     }).then(handle),
 
   rejectKyc: (token, id, reason) =>
     fetch(`${BASE_URL}/admin/kyc/${id}/reject`, {
-      method:  "PUT",
+      method: "PUT",
       headers: headers(token),
-      body:    JSON.stringify({ reason }),
+      body: JSON.stringify({ reason }),
     }).then(handle),
 
   approveFarmer: (token, id) =>
     fetch(`${BASE_URL}/admin/farmer/${id}/approve`, {
-      method:  "PUT",
+      method: "PUT",
       headers: headers(token),
     }).then(handle),
 
   rejectFarmer: (token, id, reason) =>
     fetch(`${BASE_URL}/admin/farmer/${id}/reject`, {
-      method:  "PUT",
+      method: "PUT",
       headers: headers(token),
-      body:    JSON.stringify({ reason }),
+      body: JSON.stringify({ reason }),
     }).then(handle),
 
   approveUpdateRequest: (token, userId) =>
     fetch(`${BASE_URL}/admin/update-request/${userId}/approve`, {
-      method:  "PUT",
+      method: "PUT",
       headers: headers(token),
     }).then(handle),
 
   rejectUpdateRequest: (token, userId, reason) =>
     fetch(`${BASE_URL}/admin/update-request/${userId}/reject`, {
-      method:  "PUT",
+      method: "PUT",
       headers: headers(token),
-      body:    JSON.stringify({ reason }),
+      body: JSON.stringify({ reason }),
     }).then(handle),
 };
