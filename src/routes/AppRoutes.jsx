@@ -2,20 +2,28 @@ import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { ROUTES } from "./routePaths";
 import { PublicLayout } from "../layouts/PublicLayout";
+import { InvestorLayout } from "../layouts/InvestorLayout";
 
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import GatePage from "../pages/GatePage";
 
+import InvestorDashboard from "../pages/investor/InvestorDashboard";
+import InvestorPortfolio from "../pages/investor/InvestorPortfolio";
+import InvestorOpportunities from "../pages/investor/InvestorOpportunities";
+import InvestorReports from "../pages/investor/InvestorReports";
+
+import FarmerDashboard from "../pages/FarmerDashboard";
+
 // ── Guard 1 — must be logged in ─────────────────────────────
 function RequireAuth({ children }) {
-  const { isAuthenticated, booting } = useAuth();  // ✏️ use isAuthenticated
+  const { isAuthenticated, booting } = useAuth();
   const location = useLocation();
 
   if (booting) return null;
 
-  if (!isAuthenticated) {  // ✏️ was !user
+  if (!isAuthenticated) {
     return <Navigate to={ROUTES.login} state={{ from: location }} replace />;
   }
 
@@ -23,11 +31,11 @@ function RequireAuth({ children }) {
 }
 
 function RequireRole({ role, children }) {
-  const { user, isAuthenticated, booting } = useAuth();  // ✏️ added isAuthenticated
+  const { user, isAuthenticated, booting } = useAuth();
 
   if (booting) return null;
 
-  if (!isAuthenticated) {  // ✏️ was !user
+  if (!isAuthenticated) {
     return <Navigate to={ROUTES.login} replace />;
   }
 
@@ -94,25 +102,26 @@ export default function AppRoutes() {
         }
       />
 
-      {/* Role dashboards — protected */}
+      {/* ── Investor — sidebar layout with 4 sub-pages ──────── */}
+      <Route
+        element={
+          <RequireRole role="INVESTOR">
+            <InvestorLayout />
+          </RequireRole>
+        }
+      >
+        <Route path={ROUTES.investorDashboard} element={<InvestorDashboard />} />
+        <Route path={ROUTES.investorPortfolio} element={<InvestorPortfolio />} />
+        <Route path={ROUTES.investorOpportunities} element={<InvestorOpportunities />} />
+        <Route path={ROUTES.investorReports} element={<InvestorReports />} />
+      </Route>
+
+      {/* Other role dashboards */}
       <Route
         path={ROUTES.farmer}
         element={
           <RequireRole role="FARMER">
-            <div style={{ padding: "2rem", color: "white" }}>
-              Farmer dashboard — coming soon
-            </div>
-          </RequireRole>
-        }
-      />
-
-      <Route
-        path={ROUTES.investor}
-        element={
-          <RequireRole role="INVESTOR">
-            <div style={{ padding: "2rem", color: "white" }}>
-              Investor dashboard — coming soon
-            </div>
+            <FarmerDashboard />
           </RequireRole>
         }
       />

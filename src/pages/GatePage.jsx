@@ -96,7 +96,7 @@ function FileUploadField({ label, labelSi, accept = "image/*,.pdf", required, on
 }
 
 // ─────────────────────────────────────────────────────────────
-// MULTI FILE UPLOAD FIELD — top level, NOT inside FileUploadField
+// MULTI FILE UPLOAD FIELD
 // ─────────────────────────────────────────────────────────────
 function MultiFileUploadField({ label, labelSi, accept = "image/*", onUploaded, uploadFn, maxFiles = 5 }) {
   const [files,     setFiles]     = useState([]);
@@ -156,12 +156,8 @@ function MultiFileUploadField({ label, labelSi, accept = "image/*", onUploaded, 
           {status === "idle" && (
             <>
               <span className="uploadIcon">🖼️</span>
-              <span className="uploadText">
-                Click to upload up to {maxFiles} photos
-              </span>
-              <span className="uploadHint">
-                ඡායාරූප {maxFiles}ක් දක්වා උඩුගත කරන්න
-              </span>
+              <span className="uploadText">Click to upload up to {maxFiles} photos</span>
+              <span className="uploadHint">ඡායාරූප {maxFiles}ක් දක්වා උඩුගත කරන්න</span>
             </>
           )}
           {status === "uploading" && (
@@ -224,8 +220,8 @@ function InvestorKycForm({ onSubmitted }) {
   const [section, setSection] = useState(1);
 
   const [title,       setTitle]       = useState("Mr");
-  const [firstName,   setFirstName]   = useState("");
-  const [lastName,    setLastName]    = useState("");
+  const [firstName,   setFirstName]   = useState(user?.fullName?.split(" ")[0] || "");
+  const [lastName,    setLastName]    = useState(user?.fullName?.split(" ").slice(1).join(" ") || "");
   const [age,         setAge]         = useState("");
   const [nationality, setNationality] = useState("Sri Lankan");
 
@@ -311,7 +307,7 @@ function InvestorKycForm({ onSubmitted }) {
             <div className="field">
               <span>Title</span>
               <select className="input" value={title} onChange={e => setTitle(e.target.value)}>
-                {["Mr","Mrs","Miss","Ms","Dr","Rev"].map(t => (
+                {["Mr", "Mrs", "Miss", "Ms", "Dr", "Rev"].map(t => (
                   <option key={t} value={t}>{t}</option>
                 ))}
               </select>
@@ -458,8 +454,8 @@ function FarmerRegistrationForm({ onSubmitted }) {
   const TOTAL = 3;
   const [section, setSection] = useState(1);
 
-  const [farmerName,       setFarmerName]       = useState("");
-  const [surname,          setSurname]          = useState("");
+  const [farmerName,       setFarmerName]       = useState(user?.fullName?.split(" ")[0] || "");
+  const [surname,          setSurname]          = useState(user?.fullName?.split(" ").slice(1).join(" ") || "");
   const [familyName,       setFamilyName]       = useState("");
   const [nicNumber,        setNicNumber]        = useState("");
   const [address,          setAddress]          = useState("");

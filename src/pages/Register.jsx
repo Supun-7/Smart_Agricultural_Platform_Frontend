@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { authApi } from "../services/api.js";
+import { useAuth } from "../hooks/useAuth.js";
 import { ROUTES } from "../routes/routePaths.js";
-import { ErrorBanner } from "../components/ErrorBanner.jsx";
 import "../styles/pages/auth.css";
 
 const ROLES = [
@@ -11,7 +11,8 @@ const ROLES = [
 ];
 
 export default function Register() {
-  const [fullName,   setFullName]   = useState("");
+  const [firstName,  setFirstName]  = useState("");
+  const [lastName,   setLastName]   = useState("");
   const [email,      setEmail]      = useState("");
   const [password,   setPassword]   = useState("");
   const [role,       setRole]       = useState("FARMER");
@@ -25,21 +26,18 @@ export default function Register() {
     e.preventDefault();
     setSubmitting(true);
     setError("");
-    setDone(false);
 
     try {
-      // authApi.register instead of registerUser
-      await authApi.register(fullName, email, password, role);
-
+      await authApi.register({
+        fullName: `${firstName} ${lastName}`,
+        email,
+        password,
+        role,
+      });
       setDone(true);
-
-      // Redirect to login after short delay
-      // User can see the success message
       setTimeout(() => navigate(ROUTES.login), 1200);
-
     } catch (err) {
       setError(err.message);
-    } finally {
       setSubmitting(false);
     }
   }
@@ -47,83 +45,57 @@ export default function Register() {
   return (
     <section className="authWrap">
       <div className="authCard">
-        <h2 className="authTitle">Register</h2>
+        <h2 className="authTitle">Create Account</h2>
 
-        <ErrorBanner message={error} />
-
-        {done && (
-          <div className="successBanner">
-            Account created! Redirecting to login…
-          </div>
-        )}
+        {error && <div className="authError">{error}</div>}
+        {done  && <div className="successBanner">Account created! Redirecting…</div>}
 
         <form className="form" onSubmit={onSubmit}>
 
-          <label className="field">
-            <span>Full name</span>
-            <input
-              className="input"
-              type="text"
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-              required
-            />
-          </label>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+            <label className="field">
+              <span>First Name</span>
+              <input className="input" type="text" placeholder="e.g. Nimal"
+                value={firstName} onChange={e => setFirstName(e.target.value)} required />
+            </label>
+            <label className="field">
+              <span>Last Name</span>
+              <input className="input" type="text" placeholder="e.g. Silva"
+                value={lastName} onChange={e => setLastName(e.target.value)} required />
+            </label>
+          </div>
 
           <label className="field">
             <span>Email</span>
-            <input
-              className="input"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              autoComplete="email"
-            />
+            <input className="input" type="email" placeholder="you@email.com"
+              value={email} onChange={e => setEmail(e.target.value)}
+              required autoComplete="email" />
           </label>
 
           <label className="field">
             <span>Password</span>
-            <input
-              className="input"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              minLength={6}
-              autoComplete="new-password"
-            />
+            <input className="input" type="password" placeholder="Min. 6 characters"
+              value={password} onChange={e => setPassword(e.target.value)}
+              required minLength={6} autoComplete="new-password" />
           </label>
 
           <label className="field">
             <span>I am a</span>
-            <select
-              className="input"
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-            >
-              {ROLES.map((r) => (
-                <option key={r.value} value={r.value}>
-                  {r.label}
-                </option>
+            <select className="input" value={role} onChange={e => setRole(e.target.value)}>
+              {ROLES.map(r => (
+                <option key={r.value} value={r.value}>{r.label}</option>
               ))}
             </select>
           </label>
 
-          <button
-            className="btn btnBlock"
-            disabled={submitting || done}
-            type="submit"
-          >
+          <button className="btn btnBlock" disabled={submitting || done} type="submit">
             {submitting ? "Creating account…" : "Create account"}
           </button>
-
         </form>
 
         <p className="authHint">
           Already have an account? <Link to={ROUTES.login}>Login</Link>
         </p>
-
       </div>
     </section>
   );

@@ -1,0 +1,125 @@
+.landCard {
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: var(--radius);
+  padding: 1.1rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: .9rem;
+}
+
+.landCardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: .75rem;
+}
+
+.landCardName {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+
+.landCardLocation {
+  font-size: .82rem;
+  color: var(--muted);
+  margin: .2rem 0 0;
+}
+
+/* ── Status badges — CANCELLED is muted grey, not red ─────── */
+.landBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: .25rem .7rem;
+  border-radius: 999px;
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.landBadgeActive {
+  background: rgba(89,193,115,.12);
+  border: 1px solid rgba(89,193,115,.3);
+  color: var(--brand);
+}
+
+.landBadgePending {
+  background: rgba(255,193,7,.1);
+  border: 1px solid rgba(255,193,7,.3);
+  color: #ffc107;
+}
+
+.landBadgeDone {
+  background: rgba(48,162,255,.1);
+  border: 1px solid rgba(48,162,255,.3);
+  color: var(--brand2);
+}
+
+.landBadgeMuted {
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.12);
+  color: var(--muted);
+}
+
+/* ── Progress bar ─────────────────────────────────────────── */
+.landCardProgress {
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+}
+
+.landCardBar {
+  height: 6px;
+  background: rgba(255,255,255,.08);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.landCardFill {
+  height: 100%;
+  background: var(--brand);
+  border-radius: 999px;
+  transition: width .4s ease;
+}
+
+.landCardProgressLabel {
+  font-size: .74rem;
+  color: var(--muted);
+}
+
+/* ── Footer stats ─────────────────────────────────────────── */
+.landCardFooter {
+  display: flex;
+  gap: .75rem;
+  flex-wrap: wrap;
+  border-top: 1px solid rgba(255,255,255,.07);
+  padding-top: .75rem;
+}
+
+.landCardStat {
+  display: flex;
+  flex-direction: column;
+  gap: .1rem;
+  flex: 1;
+  min-width: 80px;
+}
+
+.landCardStatLabel {
+  font-size: .68rem;
+  text-transform: uppercase;
+  letter-spacing: .4px;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.landCardStatValue {
+  font-size: .9rem;
+  font-weight: 600;
+  color: var(--text);
+}
