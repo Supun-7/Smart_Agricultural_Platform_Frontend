@@ -4,8 +4,8 @@ import { ROUTES } from "./routePaths";
 import { PublicLayout } from "../layouts/PublicLayout";
 import { InvestorLayout } from "../layouts/InvestorLayout";
 
-import Home from "../pages/Home";
-import Login from "../pages/Login";
+import Home     from "../pages/Home";
+import Login    from "../pages/Login";
 import Register from "../pages/Register";
 import GatePage from "../pages/GatePage";
 
