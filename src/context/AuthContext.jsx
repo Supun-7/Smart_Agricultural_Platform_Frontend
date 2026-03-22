@@ -1,4 +1,10 @@
-import React, { createContext, useCallback, useEffect, useMemo, useState } from "react";
+import React, {
+  createContext,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
 export const AuthContext = createContext(null);
 
@@ -13,9 +19,9 @@ function loadSession() {
   }
 }
 
-function saveSession(user) {
-  if (user) {
-    localStorage.setItem(SESSION_KEY, JSON.stringify(user));
+function saveSession(userData) {
+  if (userData) {
+    localStorage.setItem(SESSION_KEY, JSON.stringify(userData));
   } else {
     localStorage.removeItem(SESSION_KEY);
   }
@@ -26,7 +32,6 @@ export function AuthProvider({ children }) {
   const [booting, setBooting] = useState(true);
 
   useEffect(() => {
-    // Small delay for preloader feel
     const t = setTimeout(() => setBooting(false), 400);
     return () => clearTimeout(t);
   }, []);
@@ -41,13 +46,21 @@ export function AuthProvider({ children }) {
     setUser(null);
   }, []);
 
+  const isAuthenticated = Boolean(user?.token);
+
   const value = useMemo(() => ({
     user,
     role: user?.role ?? null,
+    token: user?.token ?? null,
+    isAuthenticated,
     booting,
     signIn,
     signOut,
-  }), [user, booting, signIn, signOut]);
+  }), [user, booting, isAuthenticated, signIn, signOut]);
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+      <AuthContext.Provider value={value}>
+        {children}
+      </AuthContext.Provider>
+  );
 }

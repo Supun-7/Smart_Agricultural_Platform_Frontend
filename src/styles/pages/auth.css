@@ -10,23 +10,15 @@
 .authTitle{ margin: 0 0 .9rem; font-size: 1.5rem; }
 .authHint{ color: var(--muted); margin: .9rem 0 0; }
 .authHint a{ text-decoration: underline; }
-.successBanner{
-  border: 1px solid rgba(89,193,115,.35);
-  background: rgba(89,193,115,.12);
-  padding: .8rem .9rem;
+.authError{
+  background: rgba(255,92,122,.1);
+  border: 1px solid rgba(255,92,122,.3);
+  color: var(--danger, #ff5c7a);
+  padding: .75rem .9rem;
   border-radius: var(--radius);
   margin-bottom: .9rem;
+  font-size: .88rem;
 }
-
-
-/* Mock mode demo login helpers */
-.demoBox{margin:12px 0 18px;padding:12px;border:1px solid rgba(0,0,0,.08);border-radius:14px;background:rgba(255,255,255,.7)}
-.demoTitle{font-weight:700;margin-bottom:6px}
-.demoHint{font-size:13px;opacity:.8;margin-bottom:10px}
-.demoBtns{display:flex;gap:8px;flex-wrap:wrap}
-.btnGhost{background:transparent;border:1px solid rgba(0,0,0,.15);color:inherit}
-.btnGhost:hover{border-color:rgba(0,0,0,.35)}
-
 .successBanner {
   background: rgba(89,193,115,.15);
   border: 1px solid rgba(89,193,115,.35);
@@ -35,4 +27,148 @@
   border-radius: 16px;
   text-align: center;
   font-weight: 600;
+  margin-bottom: .9rem;
+}
+
+/* ── Google button ────────────────────────────────────────── */
+.googleBtn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .75rem;
+  padding: .72rem 1rem;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: var(--radius);
+  color: var(--text, #eef5ef);
+  font-size: .95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .15s, border-color .15s;
+  margin-bottom: 1.1rem;
+}
+.googleBtn:hover {
+  background: rgba(255,255,255,.1);
+  border-color: rgba(255,255,255,.28);
+}
+.googleBtn:disabled {
+  opacity: .6;
+  cursor: not-allowed;
+}
+.googleIcon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* ── Divider ──────────────────────────────────────────────── */
+.authDivider {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  margin-bottom: 1.1rem;
+}
+.authDividerLine {
+  flex: 1;
+  height: 1px;
+  background: rgba(255,255,255,.1);
+}
+.authDividerText {
+  font-size: .78rem;
+  color: var(--muted, #9ab0a0);
+  white-space: nowrap;
+}
+
+/* ── Role picker modal ────────────────────────────────────── */
+.roleModalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  padding: 1rem;
+  animation: fadeIn .2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.roleModalCard {
+  background: #131a14;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 20px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 460px;
+  animation: slideUp .25s cubic-bezier(.16,1,.3,1);
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.roleModalTitle {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text, #eef5ef);
+  margin: 0 0 .5rem;
+  text-align: center;
+}
+
+.roleModalSub {
+  font-size: .88rem;
+  color: var(--muted, #9ab0a0);
+  text-align: center;
+  margin: 0 0 1.5rem;
+  line-height: 1.6;
+}
+
+.roleModalBtns {
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+}
+
+.roleModalBtn {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 14px;
+  cursor: pointer;
+  text-align: left;
+  transition: background .15s, border-color .15s;
+  color: var(--text, #eef5ef);
+}
+
+.roleModalBtn:hover {
+  background: rgba(89,193,115,.08);
+  border-color: rgba(89,193,115,.35);
+}
+
+.roleModalIcon {
+  font-size: 1.8rem;
+  flex-shrink: 0;
+}
+
+.roleModalLabel {
+  display: block;
+  font-size: .95rem;
+  font-weight: 700;
+  color: var(--text, #eef5ef);
+}
+
+.roleModalHint {
+  display: block;
+  font-size: .78rem;
+  color: var(--muted, #9ab0a0);
+  margin-top: .2rem;
 }

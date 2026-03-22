@@ -1,0 +1,104 @@
+.oppCard {
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: var(--radius);
+  padding: 1.1rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: .9rem;
+  transition: border-color .15s ease, background .15s ease;
+}
+
+.oppCard:hover {
+  border-color: rgba(89,193,115,.25);
+  background: rgba(89,193,115,.03);
+}
+
+.oppCardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: .75rem;
+}
+
+.oppCardName {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+
+.oppCardLocation {
+  font-size: .82rem;
+  color: var(--muted);
+  margin: .2rem 0 0;
+}
+
+.oppBadge {
+  display: inline-flex;
+  padding: .25rem .7rem;
+  border-radius: 999px;
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+  background: rgba(89,193,115,.12);
+  border: 1px solid rgba(89,193,115,.3);
+  color: var(--brand);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.oppProgress {
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+}
+
+.oppProgressBar {
+  height: 6px;
+  background: rgba(255,255,255,.08);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.oppProgressFill {
+  height: 100%;
+  background: var(--brand);
+  border-radius: 999px;
+}
+
+.oppProgressLabel {
+  font-size: .74rem;
+  color: var(--muted);
+}
+
+.oppCardFooter {
+  display: flex;
+  gap: .75rem;
+  border-top: 1px solid rgba(255,255,255,.07);
+  padding-top: .75rem;
+  flex-wrap: wrap;
+}
+
+.oppStat {
+  display: flex;
+  flex-direction: column;
+  gap: .1rem;
+  flex: 1;
+}
+
+.oppStatLabel {
+  font-size: .68rem;
+  text-transform: uppercase;
+  letter-spacing: .4px;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.oppStatValue {
+  font-size: .9rem;
+  font-weight: 600;
+  color: var(--text);
+}
