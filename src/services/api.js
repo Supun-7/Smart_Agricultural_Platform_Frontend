@@ -221,4 +221,22 @@ export const adminApi = {
       headers: headers(token),
       body: JSON.stringify({ reason }),
     }).then(handle),
+
+  getDashboard: async (token) => {
+    const MAX_RETRIES = 3;
+    const DELAY_MS = 1200;
+
+    for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+      try {
+        return await fetch(`${BASE_URL}/admin/dashboard`, {
+          headers: headers(token),
+        }).then(handle);
+      } catch (err) {
+        if (attempt === MAX_RETRIES) throw err;
+        // Wait before retrying — gives the DB connection pool time to warm up
+        await new Promise(resolve => setTimeout(resolve, DELAY_MS));
+      }
+    }
+  },
+
 };

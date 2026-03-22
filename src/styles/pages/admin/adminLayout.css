@@ -1,0 +1,169 @@
+.admShell {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ── Sidebar ─────────────────────────────────────────────── */
+.admSidebar {
+  width: 230px;
+  flex-shrink: 0;
+  background: rgba(255,255,255,.03);
+  border-right: 1px solid rgba(255,255,255,.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.5rem 1rem;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.admSidebarTop {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Brand */
+.admBrand {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  padding: 0 .4rem;
+}
+
+.admBrandLogo {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+}
+
+.admBrandText {
+  font-weight: 800;
+  font-size: .9rem;
+  color: var(--text);
+}
+
+/* Nav */
+.admNav {
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+}
+
+.admNavItem {
+  display: flex;
+  align-items: center;
+  gap: .7rem;
+  padding: .65rem .8rem;
+  border-radius: 10px;
+  text-decoration: none;
+  color: var(--muted);
+  font-size: .92rem;
+  font-weight: 500;
+  transition: background .12s ease, color .12s ease;
+}
+
+.admNavItem:hover {
+  background: rgba(255,255,255,.05);
+  color: var(--text);
+}
+
+.admNavItem.active {
+  background: rgba(89,193,115,.12);
+  color: var(--brand);
+  font-weight: 700;
+}
+
+.admNavIcon {
+  font-size: 1rem;
+  width: 20px;
+  text-align: center;
+}
+
+/* Bottom user strip */
+.admSidebarBottom {
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+}
+
+.admUser {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+}
+
+.admAvatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(89,193,115,.18);
+  border: 1px solid rgba(89,193,115,.35);
+  color: var(--brand);
+  font-weight: 700;
+  font-size: .85rem;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.admUserInfo {
+  display: flex;
+  flex-direction: column;
+  gap: .1rem;
+  overflow: hidden;
+}
+
+.admUserName {
+  font-size: .85rem;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.admUserRole {
+  font-size: .72rem;
+  color: var(--muted);
+}
+
+.admSignOut {
+  font-size: .82rem;
+  padding: .45rem .75rem;
+  border: 1px solid rgba(255,255,255,.1);
+}
+
+/* ── Main content ─────────────────────────────────────────── */
+.admMain {
+  flex: 1;
+  min-width: 0;
+  overflow-y: auto;
+}
+
+/* ── Mobile — collapse sidebar to top bar ─────────────────── */
+@media (max-width: 680px) {
+  .admShell   { flex-direction: column; }
+
+  .admSidebar {
+    width: 100%;
+    height: auto;
+    position: static;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: .75rem 1rem;
+    border-right: none;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    gap: .5rem;
+  }
+
+  .admSidebarTop    { flex-direction: row; align-items: center; gap: .5rem; flex: 1; }
+  .admSidebarBottom { flex-direction: row; align-items: center; }
+  .admNav           { flex-direction: row; }
+  .admNavLabel      { display: none; }
+  .admNavItem       { padding: .5rem; }
+  .admBrandText     { display: none; }
+  .admUserInfo      { display: none; }
+}
