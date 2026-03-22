@@ -5,6 +5,7 @@ import { PublicLayout } from "../layouts/PublicLayout";
 import { InvestorLayout } from "../layouts/InvestorLayout";
 import { AuditorLayout } from "../layouts/AuditorLayout";
 import { FarmerLayout } from "../layouts/FarmerLayout";
+import { AdminLayout } from "../layouts/AdminLayout.jsx";
 
 import Home from "../pages/Home";
 import Login from "../pages/Login";
@@ -15,7 +16,7 @@ import InvestorDashboard from "../pages/investor/InvestorDashboard";
 import InvestorPortfolio from "../pages/investor/InvestorPortfolio";
 import InvestorOpportunities from "../pages/investor/InvestorOpportunities";
 import InvestorReports from "../pages/investor/InvestorReports";
-
+import AdminDashboard from "../pages/admin/AdminDashboard.jsx";
 import AuditorDashboard from "../pages/auditor/AuditorDashboard";
 
 import FarmerDashboard from "../pages/FarmerDashboard";
@@ -96,10 +97,10 @@ export default function AppRoutes() {
           </RequireRole>
         }
       >
-        <Route path={ROUTES.investorDashboard}     element={<InvestorDashboard />}     />
-        <Route path={ROUTES.investorPortfolio}     element={<InvestorPortfolio />}     />
+        <Route path={ROUTES.investorDashboard} element={<InvestorDashboard />} />
+        <Route path={ROUTES.investorPortfolio} element={<InvestorPortfolio />} />
         <Route path={ROUTES.investorOpportunities} element={<InvestorOpportunities />} />
-        <Route path={ROUTES.investorReports}       element={<InvestorReports />}       />
+        <Route path={ROUTES.investorReports} element={<InvestorReports />} />
       </Route>
 
       {/* ── Auditor — sidebar layout ─────────────────────── */}
@@ -111,8 +112,8 @@ export default function AppRoutes() {
         }
       >
         <Route path={ROUTES.auditorDashboard} element={<AuditorDashboard />} />
-        <Route path={ROUTES.auditorKyc}       element={<AuditorDashboard />} />
-        <Route path={ROUTES.auditorFarmers}   element={<AuditorDashboard />} />
+        <Route path={ROUTES.auditorKyc} element={<AuditorDashboard />} />
+        <Route path={ROUTES.auditorFarmers} element={<AuditorDashboard />} />
         <Route
           path={ROUTES.auditorReports}
           element={
@@ -131,7 +132,7 @@ export default function AppRoutes() {
           </RequireRole>
         }
       >
-        <Route path={ROUTES.farmerDashboard}   element={<FarmerDashboard />} />
+        <Route path={ROUTES.farmerDashboard} element={<FarmerDashboard />} />
         <Route
           path={ROUTES.farmerApplication}
           element={
@@ -152,15 +153,14 @@ export default function AppRoutes() {
 
       {/* ── Admin ────────────────────────────────────────── */}
       <Route
-        path={ROUTES.admin}
         element={
           <RequireRole role="ADMIN">
-            <div style={{ padding: "2rem", color: "white" }}>
-              Admin dashboard — coming soon
-            </div>
+            <AdminLayout />
           </RequireRole>
         }
-      />
+      >
+        <Route path={ROUTES.admin} element={<AdminDashboard />} />
+      </Route>
 
       {/* Catch all */}
       <Route path="*" element={<Navigate to={ROUTES.home} replace />} />
