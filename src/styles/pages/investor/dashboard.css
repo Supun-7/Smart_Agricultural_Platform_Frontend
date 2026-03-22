@@ -6,6 +6,9 @@
   max-width: 1000px;
 }
 
+.adminFormField { display: flex; flex-direction: column; gap: .4rem; }
+.adminFormLabel { font-size: .78rem; font-weight: 600; color: var(--muted); letter-spacing: .04em; }
+
 /* ── Page header ──────────────────────────────────────────── */
 .invPageHeader {
   display: flex;

@@ -1,14 +1,13 @@
 import { Outlet, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth.js";
 import { ROUTES } from "../routes/routePaths.js";
-import "../styles/pages/investor/investorLayout.css";
-import logo from "../assets/logo.png";
+import { Navbar } from "../components/Navbar.jsx";
 
 const NAV_ITEMS = [
-  { to: ROUTES.investorDashboard,     icon: "📊", label: "Dashboard"     },
-  { to: ROUTES.investorPortfolio,     icon: "💼", label: "Portfolio"     },
-  { to: ROUTES.investorOpportunities, icon: "🌱", label: "Opportunities" },
-  { to: ROUTES.investorReports,       icon: "📈", label: "Reports"       },
+  { to: "/investor/dashboard",      icon: "📊", label: "Dashboard"     },
+  { to: "/investor/opportunities",  icon: "🌱", label: "Opportunities"  },
+  { to: "/investor/portfolio",      icon: "💼", label: "Portfolio"      },
+  { to: "/investor/reports",        icon: "📈", label: "Reports"        },
 ];
 
 export function InvestorLayout() {
@@ -21,55 +20,56 @@ export function InvestorLayout() {
   }
 
   return (
-    <div className="invShell">
+    <div style={{ minHeight: "100vh", background: "var(--bg, #0b0f0c)" }}>
+      <Navbar />
+      <div style={{ display: "flex", paddingTop: "70px" }}>
 
-      {/* ── Sidebar ─────────────────────────────────────── */}
-      <aside className="invSidebar">
-
-        <div className="invSidebarTop">
-          <div className="invBrand">
-            <img src={logo} alt="CHC" className="invBrandLogo" />
-            <span className="invBrandText">Ceylon Harvest</span>
-          </div>
-
-          <nav className="invNav">
+        {/* Sidebar */}
+        <aside style={{
+          width: 220, flexShrink: 0,
+          background: "rgba(255,255,255,.03)",
+          borderRight: "1px solid rgba(255,255,255,.08)",
+          display: "flex", flexDirection: "column",
+          justifyContent: "space-between",
+          padding: "1.5rem 1rem",
+          position: "sticky", top: 70,
+          height: "calc(100vh - 70px)",
+          overflowY: "auto",
+        }}>
+          <nav style={{ display: "flex", flexDirection: "column", gap: ".3rem" }}>
             {NAV_ITEMS.map(({ to, icon, label }) => (
-              <NavLink
-                key={to}
-                to={to}
-                className={({ isActive }) =>
-                  "invNavItem" + (isActive ? " active" : "")
-                }
-              >
-                <span className="invNavIcon">{icon}</span>
-                <span className="invNavLabel">{label}</span>
+              <NavLink key={to} to={to} className={({ isActive }) =>
+                "admNavItem" + (isActive ? " active" : "")
+              }>
+                <span className="admNavIcon">{icon}</span>
+                <span className="admNavLabel">{label}</span>
               </NavLink>
             ))}
           </nav>
-        </div>
 
-        <div className="invSidebarBottom">
-          <div className="invUser">
-            <div className="invAvatar">
-              {user?.fullName?.charAt(0)?.toUpperCase() ?? "I"}
+          <div style={{ display: "flex", flexDirection: "column", gap: ".75rem" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: ".65rem" }}>
+              <div className="admAvatar">
+                {user?.fullName?.charAt(0)?.toUpperCase() ?? "I"}
+              </div>
+              <div style={{ overflow: "hidden" }}>
+                <div style={{ fontSize: ".85rem", fontWeight: 600, color: "var(--text)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                  {user?.fullName}
+                </div>
+                <div style={{ fontSize: ".72rem", color: "var(--muted)" }}>Investor</div>
+              </div>
             </div>
-            <div className="invUserInfo">
-              <span className="invUserName">{user?.fullName}</span>
-              <span className="invUserRole">Investor</span>
-            </div>
+            <button className="btn btnGhost admSignOut" onClick={handleSignOut}>
+              Sign out
+            </button>
           </div>
-          <button className="btn btnGhost invSignOut" onClick={handleSignOut}>
-            Sign out
-          </button>
-        </div>
+        </aside>
 
-      </aside>
-
-      {/* ── Page content ─────────────────────────────────── */}
-      <main className="invMain">
-        <Outlet />
-      </main>
-
+        {/* Main */}
+        <main style={{ flex: 1, minWidth: 0, overflowY: "auto" }}>
+          <Outlet />
+        </main>
+      </div>
     </div>
   );
 }
