@@ -25,18 +25,36 @@ async function handle(res) {
 // ── Auth endpoints ───────────────────────────────────────────
 export const authApi = {
 
+  // Public registration — FARMER and INVESTOR only
   register: (data) =>
     fetch(`${BASE_URL}/users/register`, {
-      method: "POST",
+      method:  "POST",
       headers: headers(),
-      body: JSON.stringify(data),
+      body:    JSON.stringify(data),
+    }).then(handle),
+
+  // Admin-only registration — creates ADMIN or AUDITOR accounts
+  // Sends admin JWT token in Authorization header so backend allows it
+  registerAsAdmin: (token, data) =>
+    fetch(`${BASE_URL}/users/register`, {
+      method:  "POST",
+      headers: headers(token),
+      body:    JSON.stringify(data),
+    }).then(handle),
+
+  // Redirect flow — backend exchanges authorization code for user info
+  googleCallback: (code, role) =>
+    fetch(`${BASE_URL}/auth/google/callback`, {
+      method:  "POST",
+      headers: headers(),
+      body:    JSON.stringify({ code, role }),
     }).then(handle),
 
   login: (email, password) =>
     fetch(`${BASE_URL}/users/login`, {
-      method: "POST",
+      method:  "POST",
       headers: headers(),
-      body: JSON.stringify({ email, password }),
+      body:    JSON.stringify({ email, password }),
     }).then(handle),
 };
 
@@ -45,7 +63,7 @@ export const gateApi = {
 
   check: (token) =>
     fetch(`${BASE_URL}/gate/check`, {
-      method: "GET",
+      method:  "GET",
       headers: headers(token),
     }).then(handle),
 };
@@ -75,16 +93,16 @@ export const farmerApi = {
 
   submitApplication: (token, data) =>
     fetch(`${BASE_URL}/farmer/application`, {
-      method: "POST",
+      method:  "POST",
       headers: headers(token),
-      body: JSON.stringify(data),
+      body:    JSON.stringify(data),
     }).then(handle),
 
   requestUpdate: (token, details) =>
     fetch(`${BASE_URL}/farmer/update-request`, {
-      method: "POST",
+      method:  "POST",
       headers: headers(token),
-      body: JSON.stringify({ details }),
+      body:    JSON.stringify({ details }),
     }).then(handle),
 };
 
@@ -103,9 +121,9 @@ export const investorApi = {
 
   submitKyc: (token, data) =>
     fetch(`${BASE_URL}/investor/kyc`, {
-      method: "POST",
+      method:  "POST",
       headers: headers(token),
-      body: JSON.stringify(data),
+      body:    JSON.stringify(data),
     }).then(handle),
 
   getOpportunities: (token) =>
@@ -136,37 +154,37 @@ export const auditorApi = {
   // Generate a 60-second signed URL for a document
   getSignedUrl: (token, bucket, path) =>
     fetch(`${BASE_URL}/auditor/signed-url`, {
-      method: "POST",
+      method:  "POST",
       headers: headers(token),
-      body: JSON.stringify({ bucket, path }),
+      body:    JSON.stringify({ bucket, path }),
     }).then(handle),
 
   // KYC review
   approveKyc: (token, id) =>
     fetch(`${BASE_URL}/auditor/kyc/${id}/approve`, {
-      method: "PUT",
+      method:  "PUT",
       headers: headers(token),
     }).then(handle),
 
   rejectKyc: (token, id, reason) =>
     fetch(`${BASE_URL}/auditor/kyc/${id}/reject`, {
-      method: "PUT",
+      method:  "PUT",
       headers: headers(token),
-      body: JSON.stringify({ reason }),
+      body:    JSON.stringify({ reason }),
     }).then(handle),
 
   // Farmer application review
   approveFarmer: (token, id) =>
     fetch(`${BASE_URL}/auditor/farmer/${id}/approve`, {
-      method: "PUT",
+      method:  "PUT",
       headers: headers(token),
     }).then(handle),
 
   rejectFarmer: (token, id, reason) =>
     fetch(`${BASE_URL}/auditor/farmer/${id}/reject`, {
-      method: "PUT",
+      method:  "PUT",
       headers: headers(token),
-      body: JSON.stringify({ reason }),
+      body:    JSON.stringify({ reason }),
     }).then(handle),
 };
 
@@ -185,46 +203,46 @@ export const adminApi = {
 
   approveKyc: (token, id) =>
     fetch(`${BASE_URL}/admin/kyc/${id}/approve`, {
-      method: "PUT",
+      method:  "PUT",
       headers: headers(token),
     }).then(handle),
 
   rejectKyc: (token, id, reason) =>
     fetch(`${BASE_URL}/admin/kyc/${id}/reject`, {
-      method: "PUT",
+      method:  "PUT",
       headers: headers(token),
-      body: JSON.stringify({ reason }),
+      body:    JSON.stringify({ reason }),
     }).then(handle),
 
   approveFarmer: (token, id) =>
     fetch(`${BASE_URL}/admin/farmer/${id}/approve`, {
-      method: "PUT",
+      method:  "PUT",
       headers: headers(token),
     }).then(handle),
 
   rejectFarmer: (token, id, reason) =>
     fetch(`${BASE_URL}/admin/farmer/${id}/reject`, {
-      method: "PUT",
+      method:  "PUT",
       headers: headers(token),
-      body: JSON.stringify({ reason }),
+      body:    JSON.stringify({ reason }),
     }).then(handle),
 
   approveUpdateRequest: (token, userId) =>
     fetch(`${BASE_URL}/admin/update-request/${userId}/approve`, {
-      method: "PUT",
+      method:  "PUT",
       headers: headers(token),
     }).then(handle),
 
   rejectUpdateRequest: (token, userId, reason) =>
     fetch(`${BASE_URL}/admin/update-request/${userId}/reject`, {
-      method: "PUT",
+      method:  "PUT",
       headers: headers(token),
-      body: JSON.stringify({ reason }),
+      body:    JSON.stringify({ reason }),
     }).then(handle),
 
   getDashboard: async (token) => {
     const MAX_RETRIES = 3;
-    const DELAY_MS = 1200;
+    const DELAY_MS    = 1200;
 
     for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
       try {
@@ -233,10 +251,8 @@ export const adminApi = {
         }).then(handle);
       } catch (err) {
         if (attempt === MAX_RETRIES) throw err;
-        // Wait before retrying — gives the DB connection pool time to warm up
         await new Promise(resolve => setTimeout(resolve, DELAY_MS));
       }
     }
   },
-
 };

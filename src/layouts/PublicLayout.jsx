@@ -1,19 +1,23 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { Navbar } from "../components/Navbar.jsx";
 import "../styles/layouts.css";
 
 export function PublicLayout() {
+  const location = useLocation();
+  const isHome = location.pathname === "/" || location.pathname === "/home";
+
   return (
     <div className="appShell">
       <Navbar />
-      <main className="container mainContent">
-        <Outlet />
-      </main>
-      <footer className="footer">
-        <div className="container footerInner">
-          <span>© {new Date().getFullYear()} Ceylon Harvest Capital</span>
+      {isHome ? (
+        <div style={{ paddingTop: "70px" }}>
+          <Outlet />
         </div>
-      </footer>
+      ) : (
+        <main className="container mainContent" style={{ paddingTop: "70px" }}>
+          <Outlet />
+        </main>
+      )}
     </div>
   );
 }

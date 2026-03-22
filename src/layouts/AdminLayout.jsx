@@ -5,7 +5,8 @@ import "../styles/pages/admin/adminLayout.css";
 import logo from "../assets/logo.png";
 
 const NAV_ITEMS = [
-  { to: "/admin/dashboard", icon: "📊", label: "Dashboard" }
+  { to: "/admin/dashboard",    icon: "📊", label: "Dashboard"   },
+  { to: "/admin/create-user",  icon: "➕", label: "Create User" },
 ];
 
 export function AdminLayout() {
@@ -22,8 +23,8 @@ export function AdminLayout() {
 
       {/* ── Sidebar ─────────────────────────────────────── */}
       <aside className="admSidebar">
-
         <div className="admSidebarTop">
+
           <div className="admBrand">
             <img src={logo} alt="CHC" className="admBrandLogo" />
             <span className="admBrandText">Ceylon Harvest</span>
@@ -43,6 +44,7 @@ export function AdminLayout() {
               </NavLink>
             ))}
           </nav>
+
         </div>
 
         <div className="admSidebarBottom">
@@ -59,7 +61,6 @@ export function AdminLayout() {
             Sign out
           </button>
         </div>
-
       </aside>
 
       {/* ── Page content ─────────────────────────────────── */}

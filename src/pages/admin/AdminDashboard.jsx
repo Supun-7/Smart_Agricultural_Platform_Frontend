@@ -82,6 +82,7 @@ export default function AdminDashboard() {
 
   return (
     <div className="adminPage">
+
       {/* Header */}
       <div className="adminPageHeader">
         <div>
@@ -94,7 +95,7 @@ export default function AdminDashboard() {
       {/* Loading state */}
       {loading && (
         <div className="adminLoading">
-          <div className="adminSpin"/>
+          <div className="adminSpin" />
           <p>Loading dashboard…</p>
         </div>
       )}
@@ -108,29 +109,35 @@ export default function AdminDashboard() {
         </div>
       )}
 
-      {/* Dashboard content — only shown when not loading and no error */}
+      {/* Dashboard content */}
       {!loading && !error && dashboard && (
         <>
-          {/* Summary stat cards */}
           <div className="adminStatGrid">
             <StatCard icon="🌾" label="Registered Farmers"   value={dashboard.totalFarmers}               />
             <StatCard icon="💼" label="Registered Investors" value={dashboard.totalInvestors}  accent      />
             <StatCard icon="💰" label="Total Investment"     value={fmt(dashboard.totalInvestment)} accent />
           </div>
 
-          {/* Farmers table */}
           <div className="adminSection">
             <h2 className="adminSectionTitle">All Farmers</h2>
-            <UserTable users={dashboard.farmers} searchPlaceholder="Search farmers by name or email…" emptyEmoji="🌾" />
+            <UserTable
+              users={dashboard.farmers}
+              searchPlaceholder="Search farmers by name or email…"
+              emptyEmoji="🌾"
+            />
           </div>
 
-          {/* Investors table */}
           <div className="adminSection">
             <h2 className="adminSectionTitle">All Investors</h2>
-            <UserTable users={dashboard.investors} searchPlaceholder="Search investors by name or email…" emptyEmoji="💼" />
+            <UserTable
+              users={dashboard.investors}
+              searchPlaceholder="Search investors by name or email…"
+              emptyEmoji="💼"
+            />
           </div>
         </>
       )}
+
     </div>
   );
 }

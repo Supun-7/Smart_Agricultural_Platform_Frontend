@@ -1,13 +1,12 @@
 import { Outlet, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth.js";
 import { ROUTES } from "../routes/routePaths.js";
-import "../styles/pages/farmer/farmerLayout.css";
-import logo from "../assets/logo.png";
+import { Navbar } from "../components/Navbar.jsx";
 
 const NAV_ITEMS = [
-  { to: ROUTES.farmerDashboard,   icon: "🏡", label: "Dashboard"   },
-  { to: ROUTES.farmerApplication, icon: "📋", label: "Application"  },
-  { to: ROUTES.farmerCrops,       icon: "🌿", label: "My Crops"     },
+  { to: "/farmer/dashboard",    icon: "🏠", label: "Dashboard"    },
+  { to: "/farmer/application",  icon: "📝", label: "Application"  },
+  { to: "/farmer/crops",        icon: "🌾", label: "My Crops"     },
 ];
 
 export function FarmerLayout() {
@@ -20,66 +19,56 @@ export function FarmerLayout() {
   }
 
   return (
-    <div className="frmShell">
+    <div style={{ minHeight: "100vh", background: "var(--bg, #0b0f0c)" }}>
+      <Navbar />
+      <div style={{ display: "flex", paddingTop: "70px" }}>
 
-      {/* ── Sidebar ───────────────────────────────────────── */}
-      <aside className="frmSidebar">
-        <div className="frmSidebarTop">
-
-          {/* Brand */}
-          <div className="frmBrand">
-            <img src={logo} alt="CHC" className="frmBrandLogo" />
-            <div>
-              <span className="frmBrandText">Ceylon Harvest</span>
-              <span className="frmBrandSub">Capital</span>
-            </div>
-          </div>
-
-          {/* Role badge */}
-          <div className="frmRoleBadge">
-            🌾 Farmer Portal
-          </div>
-
-          {/* Nav */}
-          <nav className="frmNav">
+        {/* Sidebar */}
+        <aside style={{
+          width: 220, flexShrink: 0,
+          background: "rgba(255,255,255,.03)",
+          borderRight: "1px solid rgba(255,255,255,.08)",
+          display: "flex", flexDirection: "column",
+          justifyContent: "space-between",
+          padding: "1.5rem 1rem",
+          position: "sticky", top: 70,
+          height: "calc(100vh - 70px)",
+          overflowY: "auto",
+        }}>
+          <nav style={{ display: "flex", flexDirection: "column", gap: ".3rem" }}>
             {NAV_ITEMS.map(({ to, icon, label }) => (
-              <NavLink
-                key={to}
-                to={to}
-                className={({ isActive }) =>
-                  "frmNavItem" + (isActive ? " active" : "")
-                }
-              >
-                <span className="frmNavIcon">{icon}</span>
-                <span className="frmNavLabel">{label}</span>
+              <NavLink key={to} to={to} className={({ isActive }) =>
+                "admNavItem" + (isActive ? " active" : "")
+              }>
+                <span className="admNavIcon">{icon}</span>
+                <span className="admNavLabel">{label}</span>
               </NavLink>
             ))}
           </nav>
 
-        </div>
-
-        {/* Bottom user strip */}
-        <div className="frmSidebarBottom">
-          <div className="frmUser">
-            <div className="frmAvatar">
-              {user?.fullName?.charAt(0)?.toUpperCase() ?? "F"}
+          <div style={{ display: "flex", flexDirection: "column", gap: ".75rem" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: ".65rem" }}>
+              <div className="admAvatar">
+                {user?.fullName?.charAt(0)?.toUpperCase() ?? "F"}
+              </div>
+              <div style={{ overflow: "hidden" }}>
+                <div style={{ fontSize: ".85rem", fontWeight: 600, color: "var(--text)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                  {user?.fullName}
+                </div>
+                <div style={{ fontSize: ".72rem", color: "var(--muted)" }}>Farmer</div>
+              </div>
             </div>
-            <div className="frmUserInfo">
-              <span className="frmUserName">{user?.fullName}</span>
-              <span className="frmUserRole">Farmer</span>
-            </div>
+            <button className="btn btnGhost admSignOut" onClick={handleSignOut}>
+              Sign out
+            </button>
           </div>
-          <button className="frmSignOut" onClick={handleSignOut}>
-            Sign out
-          </button>
-        </div>
-      </aside>
+        </aside>
 
-      {/* ── Page content ──────────────────────────────────── */}
-      <main className="frmMain">
-        <Outlet />
-      </main>
-
+        {/* Main */}
+        <main style={{ flex: 1, minWidth: 0, overflowY: "auto" }}>
+          <Outlet />
+        </main>
+      </div>
     </div>
   );
 }
