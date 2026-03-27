@@ -34,4 +34,9 @@ export const ROUTES = {
   farmerDashboard:      "/farmer/dashboard",
   farmerApplication:    "/farmer/application",
   farmerCrops:          "/farmer/crops",
+
+  // ── investor project detail (milestones) — NEW ────────────
+  investorProjectMilestones: "/investor/projects/:landId/milestones",
+
+
 };
