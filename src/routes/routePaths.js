@@ -13,11 +13,16 @@ export const ROUTES = {
   admin:   "/admin/dashboard",
 
   // ── investor sub-pages ───────────────────────────────────
-  investor:              "/investor/dashboard",
-  investorDashboard:     "/investor/dashboard",
-  investorPortfolio:     "/investor/portfolio",
-  investorOpportunities: "/investor/opportunities",
-  investorReports:       "/investor/reports",
+  investor:                "/investor/dashboard",
+  investorDashboard:       "/investor/dashboard",
+  investorPortfolio:       "/investor/portfolio",
+  investorOpportunities:   "/investor/opportunities",
+  investorReports:         "/investor/reports",
+
+  // ── NEW investor pages ───────────────────────────────────
+  investorAvailableLands:  "/investor/available-lands",
+  investorInvest:          "/investor/invest",
+  investorContracts:       "/investor/contracts",
 
   // ── auditor sub-pages ────────────────────────────────────
   auditorDashboard:     "/auditor/dashboard",
