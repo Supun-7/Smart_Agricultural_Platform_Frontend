@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../../hooks/useAuth.js";
 import { investorApi } from "../../services/api.js";
-import { LandCard } from "../../components/investor/LandCard.jsx";
 import { LandCardLinked } from "../../components/investor/LandCardLinked.jsx";
 import "../../styles/pages/investor/dashboard.css";
 
@@ -103,7 +102,6 @@ export default function InvestorPortfolio() {
       ) : (
         <div className="invLandGrid">
           {filtered.map((inv) => (
-            <LandCard key={inv.investmentId} investment={inv} />
             <LandCardLinked key={inv.investmentId} investment={inv} />
           ))}
         </div>
