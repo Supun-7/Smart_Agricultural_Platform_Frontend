@@ -16,6 +16,8 @@ import InvestorDashboard    from "../pages/investor/InvestorDashboard";
 import InvestorPortfolio    from "../pages/investor/InvestorPortfolio";
 import InvestorOpportunities from "../pages/investor/InvestorOpportunities";
 import InvestorReports      from "../pages/investor/InvestorReports";
+import ProjectMilestonesPage from "../pages/investor/ProjectMilestonesPage";
+
 
 // ── NEW imports ──────────────────────────────────────────────
 import AvailableLands       from "../pages/investor/AvailableLands";
@@ -110,6 +112,7 @@ export default function AppRoutes() {
         <Route path={ROUTES.investorPortfolio}      element={<InvestorPortfolio />}    />
         <Route path={ROUTES.investorOpportunities}  element={<InvestorOpportunities />} />
         <Route path={ROUTES.investorReports}        element={<InvestorReports />}      />
+        <Route path={ROUTES.investorProjectMilestones} element={<ProjectMilestonesPage />} />
 
         {/* NEW routes */}
         <Route path={ROUTES.investorAvailableLands} element={<AvailableLands />}       />
