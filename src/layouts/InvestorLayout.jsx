@@ -4,10 +4,13 @@ import { ROUTES } from "../routes/routePaths.js";
 import { Navbar } from "../components/Navbar.jsx";
 
 const NAV_ITEMS = [
-  { to: "/investor/dashboard",      icon: "📊", label: "Dashboard"     },
-  { to: "/investor/opportunities",  icon: "🌱", label: "Opportunities"  },
-  { to: "/investor/portfolio",      icon: "💼", label: "Portfolio"      },
-  { to: "/investor/reports",        icon: "📈", label: "Reports"        },
+  { to: "/investor/dashboard",       icon: "📊", label: "Dashboard"       },
+  { to: "/investor/available-lands", icon: "🌾", label: "Available Lands"  },
+  { to: "/investor/invest",          icon: "💸", label: "Invest"           },
+  { to: "/investor/opportunities",   icon: "🌱", label: "Opportunities"    },
+  { to: "/investor/portfolio",       icon: "💼", label: "Portfolio"        },
+  { to: "/investor/contracts",       icon: "📄", label: "Contracts"        },
+  { to: "/investor/reports",         icon: "📈", label: "Reports"          },
 ];
 
 export function InvestorLayout() {
@@ -53,7 +56,10 @@ export function InvestorLayout() {
                 {user?.fullName?.charAt(0)?.toUpperCase() ?? "I"}
               </div>
               <div style={{ overflow: "hidden" }}>
-                <div style={{ fontSize: ".85rem", fontWeight: 600, color: "var(--text)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                <div style={{
+                  fontSize: ".85rem", fontWeight: 600, color: "var(--text)",
+                  whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
+                }}>
                   {user?.fullName}
                 </div>
                 <div style={{ fontSize: ".72rem", color: "var(--muted)" }}>Investor</div>

@@ -256,3 +256,18 @@ export const adminApi = {
     }
   },
 };
+
+// Investments endpoints
+export const investmentApi = {
+  fund: (token, data) =>
+    fetch(`${BASE_URL}/investment/fund`, {
+      method:  "POST",
+      headers: headers(token),
+      body:    JSON.stringify(data),
+    }).then(handle),
+
+  getContract: (token, investmentId) =>
+    fetch(`${BASE_URL}/investment/contract/${investmentId}`, {
+      headers: headers(token),
+    }).then(handle),
+};
