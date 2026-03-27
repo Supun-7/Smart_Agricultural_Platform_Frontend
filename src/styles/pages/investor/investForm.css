@@ -1,0 +1,457 @@
+/* ── Investment Form page ────────────────────────────────── */
+
+/* Step indicator */
+.ifSteps {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: .25rem 0;
+  flex-wrap: wrap;
+  row-gap: .5rem;
+}
+
+.ifStep {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  flex-shrink: 0;
+}
+
+.ifStepCircle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.15);
+  color: var(--muted);
+  font-size: .78rem;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  transition: background .15s, color .15s, border-color .15s;
+}
+
+.ifStepLabel {
+  font-size: .8rem;
+  font-weight: 600;
+  color: var(--muted);
+  transition: color .15s;
+}
+
+.ifStepLine {
+  width: 36px;
+  height: 1px;
+  background: rgba(255,255,255,.12);
+  margin: 0 .4rem;
+}
+
+.ifStepActive .ifStepCircle {
+  background: rgba(89,193,115,.18);
+  border-color: rgba(89,193,115,.5);
+  color: var(--brand);
+}
+.ifStepActive .ifStepLabel {
+  color: var(--text);
+}
+
+.ifStepDone .ifStepCircle {
+  background: rgba(89,193,115,.25);
+  border-color: var(--brand);
+  color: var(--brand);
+}
+.ifStepDone .ifStepLabel {
+  color: var(--muted);
+}
+
+/* Panel container */
+.ifPanel {
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.ifPanelTitle {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+
+.ifPanelSub {
+  color: var(--muted);
+  font-size: .88rem;
+  margin: -.5rem 0 0;
+}
+
+/* Land option list */
+.ifLandList {
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+}
+
+.ifLandOption {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  width: 100%;
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 12px;
+  padding: .9rem 1rem;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color .12s, background .12s, transform .12s;
+  color: var(--text);
+}
+
+.ifLandOption:hover {
+  border-color: rgba(89,193,115,.3);
+  background: rgba(89,193,115,.04);
+  transform: translateX(3px);
+}
+
+.ifLandOptionSel {
+  border-color: rgba(89,193,115,.55) !important;
+  background: rgba(89,193,115,.07) !important;
+}
+
+.ifLandOptionLeft {
+  flex: 1;
+  min-width: 0;
+}
+
+.ifLandOptionName {
+  font-size: .92rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ifLandOptionSub {
+  font-size: .78rem;
+  color: var(--muted);
+  margin: .15rem 0 0;
+}
+
+.ifLandOptionRight {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.ifLandOptionVal {
+  font-size: .88rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+
+.ifLandOptionMin {
+  font-size: .74rem;
+  color: var(--muted);
+  margin: .1rem 0 0;
+}
+
+.ifLandOptionArrow {
+  color: var(--muted);
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+/* Selected land banner */
+.ifSelectedLandBanner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(89,193,115,.07);
+  border: 1px solid rgba(89,193,115,.22);
+  border-radius: 12px;
+  padding: .8rem 1rem;
+  gap: .75rem;
+}
+
+.ifBannerName {
+  font-size: .95rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+
+.ifBannerSub {
+  font-size: .78rem;
+  color: var(--muted);
+  margin: .15rem 0 0;
+}
+
+.ifChangeLand {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,.15);
+  color: var(--muted);
+  font-size: .78rem;
+  font-weight: 600;
+  padding: .3rem .7rem;
+  border-radius: 999px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: color .12s, border-color .12s;
+}
+.ifChangeLand:hover {
+  color: var(--text);
+  border-color: rgba(255,255,255,.3);
+}
+
+/* Amount input area */
+.ifAmountWrap {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.ifLabel {
+  font-size: .78rem;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.ifAmountInputRow {
+  display: flex;
+  align-items: center;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: border-color .15s, box-shadow .15s;
+}
+
+.ifAmountInputRow:focus-within {
+  border-color: rgba(89,193,115,.7);
+  box-shadow: 0 0 0 3px rgba(89,193,115,.18);
+}
+
+.ifCurrencyTag {
+  padding: 0 .85rem;
+  font-size: .82rem;
+  font-weight: 700;
+  color: var(--brand);
+  border-right: 1px solid rgba(255,255,255,.1);
+  background: rgba(89,193,115,.06);
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.ifAmountInput {
+  border: none !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  flex: 1;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.ifAmountInput:focus {
+  outline: none;
+  box-shadow: none !important;
+}
+
+.ifInputErr + .ifCurrencyTag,
+.ifInputErr { border-color: var(--danger) !important; }
+
+.ifFieldErr {
+  font-size: .8rem;
+  color: var(--danger);
+  margin: 0;
+}
+
+/* Quick fill */
+.ifQuickFill {
+  display: flex;
+  gap: .5rem;
+  flex-wrap: wrap;
+  margin-top: .2rem;
+}
+
+.ifQuickBtn {
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.1);
+  color: var(--muted);
+  font-size: .78rem;
+  font-weight: 600;
+  padding: .3rem .7rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background .12s, color .12s, border-color .12s;
+}
+.ifQuickBtn:hover {
+  background: rgba(89,193,115,.1);
+  border-color: rgba(89,193,115,.3);
+  color: var(--brand);
+}
+
+.ifMinNote {
+  font-size: .78rem;
+  color: var(--muted);
+  margin: .1rem 0 0;
+}
+
+/* Summary card */
+.ifSummaryCard {
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.ifSummaryRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: .7rem 1.1rem;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+  font-size: .9rem;
+  gap: .75rem;
+}
+
+.ifSummaryRow:last-child {
+  border-bottom: none;
+}
+
+.ifSummaryRow span {
+  color: var(--muted);
+  font-size: .83rem;
+}
+
+.ifSummaryRow strong {
+  color: var(--text);
+  font-weight: 600;
+  text-align: right;
+}
+
+.ifHighlight {
+  color: var(--brand) !important;
+  font-size: 1rem !important;
+}
+
+.ifReturn {
+  color: #59c173 !important;
+}
+
+.ifChainOk {
+  color: var(--brand) !important;
+}
+
+.ifChainPending {
+  color: #ffc107 !important;
+}
+
+/* Disclaimer */
+.ifDisclaimer {
+  background: rgba(255,193,7,.06);
+  border: 1px solid rgba(255,193,7,.2);
+  border-radius: 10px;
+  padding: .8rem 1rem;
+  font-size: .82rem;
+  color: #ffc107;
+  line-height: 1.5;
+}
+
+/* Submit error */
+.ifSubmitError {
+  background: rgba(255,92,122,.08);
+  border: 1px solid rgba(255,92,122,.25);
+  border-radius: 10px;
+  padding: .75rem 1rem;
+  font-size: .85rem;
+  color: var(--danger);
+}
+
+/* Action buttons */
+.ifActions {
+  display: flex;
+  gap: .75rem;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.ifConfirmBtn {
+  min-width: 180px;
+}
+
+.ifBtnSpin {
+  width: 16px !important;
+  height: 16px !important;
+  border-width: 2px !important;
+  border-color: rgba(6,17,10,.2) !important;
+  border-top-color: #06110a !important;
+}
+
+/* Contract link */
+.ifContractLink {
+  color: var(--brand2);
+  font-size: .85rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+.ifContractLink:hover { text-decoration: underline; }
+
+/* Success screen */
+.ifSuccess {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 2rem 1rem;
+  text-align: center;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.ifSuccessIcon {
+  font-size: 3.5rem;
+}
+
+.ifSuccessTitle {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text);
+  margin: 0;
+}
+
+.ifSuccessSub {
+  color: var(--muted);
+  font-size: .9rem;
+  margin: -.5rem 0 0;
+}
+
+.ifSuccessActions {
+  display: flex;
+  gap: .75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.ifSuccess .ifSummaryCard {
+  width: 100%;
+  text-align: left;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .ifPanel      { padding: 1.1rem; }
+  .ifActions    { flex-direction: column-reverse; }
+  .ifConfirmBtn { min-width: 0; width: 100%; }
+  .ifStepLine   { width: 20px; }
+  .ifStepLabel  { display: none; }
+}
