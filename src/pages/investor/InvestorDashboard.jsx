@@ -1,6 +1,5 @@
 import { useInvestorDashboard } from "../../hooks/useInvestorDashboard.js";
 import { StatCard } from "../../components/investor/StatCard.jsx";
-import { LandCard } from "../../components/investor/LandCard.jsx";
 import { LandCardLinked } from "../../components/investor/LandCardLinked.jsx";
 import "../../styles/pages/investor/dashboard.css";
 
@@ -115,7 +114,6 @@ export default function InvestorDashboard() {
           <div className="invLandGrid">
             {/* AC-6: investedLands comes from API — no hardcoded data */}
             {investedLands.map((inv) => (
-              <LandCard key={inv.investmentId} investment={inv} />
               <LandCardLinked key={inv.investmentId} investment={inv} />
             ))}
           </div>
