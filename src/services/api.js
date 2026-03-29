@@ -186,6 +186,29 @@ export const auditorApi = {
       headers: headers(token),
       body:    JSON.stringify({ reason }),
     }).then(handle),
+
+  getPendingMilestones: (token) =>
+    fetch(`${BASE_URL}/auditor/milestones/pending`, {
+      headers: headers(token),
+    }).then(handle),
+
+  getMilestoneDetail: (token, milestoneId) =>
+    fetch(`${BASE_URL}/auditor/milestones/${milestoneId}`, {
+      headers: headers(token),
+    }).then(handle),
+
+  approveMilestone: (token, milestoneId) =>
+    fetch(`${BASE_URL}/auditor/milestones/${milestoneId}/approve`, {
+      method: "PUT",
+      headers: headers(token),
+    }).then(handle),
+
+  rejectMilestone: (token, milestoneId, reason) =>
+    fetch(`${BASE_URL}/auditor/milestones/${milestoneId}/reject`, {
+      method: "PUT",
+      headers: headers(token),
+      body: JSON.stringify({ reason }),
+    }).then(handle),
 };
 
 // ── Admin endpoints ──────────────────────────────────────────
@@ -255,19 +278,4 @@ export const adminApi = {
       }
     }
   },
-};
-
-// Investments endpoints
-export const investmentApi = {
-  fund: (token, data) =>
-    fetch(`${BASE_URL}/investment/fund`, {
-      method:  "POST",
-      headers: headers(token),
-      body:    JSON.stringify(data),
-    }).then(handle),
-
-  getContract: (token, investmentId) =>
-    fetch(`${BASE_URL}/investment/contract/${investmentId}`, {
-      headers: headers(token),
-    }).then(handle),
 };

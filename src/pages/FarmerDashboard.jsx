@@ -25,6 +25,7 @@ function clampProgress(value) {
 function StatusBadge({ status }) {
   const colors = {
     VERIFIED:      { background: "rgba(89,193,115,.15)",  color: "#59c173" },
+    APPROVED:      { background: "rgba(89,193,115,.15)",  color: "#59c173" },
     PENDING:       { background: "rgba(255,193,7,.12)",   color: "#ffc107" },
     REJECTED:      { background: "rgba(255,92,122,.12)",  color: "#ff5c7a" },
     NOT_SUBMITTED: { background: "rgba(255,255,255,.06)", color: "#9ab0a0" },
@@ -203,6 +204,61 @@ export default function FarmerDashboard() {
             </div>
           </div>
         )}
+
+        {/* ── Milestones ───────────────────────────────────── */}
+        <div className="card farmerLandsSection">
+          <div className="farmerSectionHead">
+            <div>
+              <h2 className="farmerSectionTitle">Milestone Updates</h2>
+              <p className="farmerSectionSub">
+                Approved and rejected milestone decisions are shown here.
+              </p>
+            </div>
+          </div>
+
+          {!Array.isArray(dashboard?.milestones) || dashboard.milestones.length === 0 ? (
+            <div className="farmerEmptyState">
+              <h3>No milestone updates yet</h3>
+              <p>Submit milestone progress to see auditor decisions here.</p>
+            </div>
+          ) : (
+            <div style={{ display: "grid", gap: "1rem" }}>
+              {dashboard.milestones.map((milestone) => (
+                <div
+                  key={milestone.id}
+                  style={{
+                    border: "1px solid rgba(255,255,255,.08)",
+                    borderRadius: "16px",
+                    padding: "1rem 1.1rem",
+                    background: "rgba(255,255,255,.02)",
+                  }}
+                >
+                  <div style={{ display: "flex", justifyContent: "space-between", gap: "1rem", flexWrap: "wrap" }}>
+                    <div>
+                      <strong style={{ color: "var(--text)", fontSize: "1rem" }}>
+                        {milestone.projectName || "Untitled project"}
+                      </strong>
+                      <div style={{ color: "var(--muted)", marginTop: ".25rem" }}>
+                        {milestone.milestoneDate || "—"} · {milestone.progressPercentage ?? 0}% complete
+                      </div>
+                    </div>
+                    <StatusBadge status={milestone.status} />
+                  </div>
+
+                  <p style={{ color: "var(--text)", margin: ".8rem 0 .35rem", lineHeight: 1.6 }}>
+                    {milestone.notes || "No milestone notes provided."}
+                  </p>
+
+                  {milestone.rejectionReason ? (
+                    <div style={{ color: "#ffb4c0", fontSize: ".92rem" }}>
+                      Rejection reason: {milestone.rejectionReason}
+                    </div>
+                  ) : null}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
 
         {/* ── Projects ─────────────────────────────────────── */}
         <div className="card farmerLandsSection">
