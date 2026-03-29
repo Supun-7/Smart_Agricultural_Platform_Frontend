@@ -1,6 +1,6 @@
 import { useInvestorDashboard } from "../../hooks/useInvestorDashboard.js";
 import { StatCard } from "../../components/investor/StatCard.jsx";
-import { LandCardLinked } from "../../components/investor/LandCardLinked.jsx";
+import { LandCard } from "../../components/investor/LandCard.jsx";
 import "../../styles/pages/investor/dashboard.css";
 
 function fmt(val) {
@@ -48,6 +48,7 @@ export default function InvestorDashboard() {
     kycStatus,
     investedLands       = [],
     investmentBreakdown = {},
+    approvedMilestones  = [],
   } = dashboard;
 
   // AC-4: all breakdown figures from API
@@ -114,7 +115,52 @@ export default function InvestorDashboard() {
           <div className="invLandGrid">
             {/* AC-6: investedLands comes from API — no hardcoded data */}
             {investedLands.map((inv) => (
-              <LandCardLinked key={inv.investmentId} investment={inv} />
+              <LandCard key={inv.investmentId} investment={inv} />
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="invSection">
+        <h2 className="invSectionTitle">Approved Milestones</h2>
+
+        {approvedMilestones.length === 0 ? (
+          <div className="invEmpty">
+            <span>📝</span>
+            <p>No approved milestone updates yet.</p>
+          </div>
+        ) : (
+          <div className="invLandGrid">
+            {approvedMilestones.map((milestone) => (
+              <div key={milestone.id} className="landCard">
+                <div className="landCardHeader">
+                  <div>
+                    <p className="landCardName">{milestone.projectName}</p>
+                    <p className="landCardLocation">👨‍🌾 {milestone.farmerName}</p>
+                  </div>
+                  <span className="landBadge landBadgeDone">Approved</span>
+                </div>
+
+                <div className="landCardProgress">
+                  <div className="landCardBar">
+                    <div className="landCardFill" style={{ width: `${milestone.progressPercentage ?? 0}%` }} />
+                  </div>
+                  <span className="landCardProgressLabel">
+                    {milestone.progressPercentage ?? 0}% verified progress
+                  </span>
+                </div>
+
+                <div className="landCardFooter">
+                  <div className="landCardStat" style={{ gridColumn: "1 / -1" }}>
+                    <span className="landCardStatLabel">Latest note</span>
+                    <span className="landCardStatValue">{milestone.notes || "No notes provided."}</span>
+                  </div>
+                  <div className="landCardStat">
+                    <span className="landCardStatLabel">Milestone date</span>
+                    <span className="landCardStatValue">{milestone.milestoneDate || "—"}</span>
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
         )}

@@ -12,21 +12,14 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import GatePage from "../pages/GatePage";
 
-import InvestorDashboard    from "../pages/investor/InvestorDashboard";
-import InvestorPortfolio    from "../pages/investor/InvestorPortfolio";
+import InvestorDashboard from "../pages/investor/InvestorDashboard";
+import InvestorPortfolio from "../pages/investor/InvestorPortfolio";
 import InvestorOpportunities from "../pages/investor/InvestorOpportunities";
-import InvestorReports      from "../pages/investor/InvestorReports";
-import ProjectMilestonesPage from "../pages/investor/ProjectMilestonesPage";
+import InvestorReports from "../pages/investor/InvestorReports";
 
-
-// ── NEW imports ──────────────────────────────────────────────
-import AvailableLands       from "../pages/investor/AvailableLands";
-import InvestForm           from "../pages/investor/InvestForm";
-import InvestorContracts    from "../pages/investor/InvestorContracts";
-
-import AdminDashboard   from "../pages/admin/AdminDashboard.jsx";
+import AdminDashboard from "../pages/admin/AdminDashboard.jsx";
 import GoogleAuthCallback from "../pages/GoogleAuthCallback.jsx";
-import CreateUserPage   from "../pages/admin/CreateUserPage.jsx";
+import CreateUserPage from "../pages/admin/CreateUserPage.jsx";
 
 import AuditorDashboard from "../pages/auditor/AuditorDashboard";
 
@@ -108,16 +101,10 @@ export default function AppRoutes() {
           </RequireRole>
         }
       >
-        <Route path={ROUTES.investorDashboard}      element={<InvestorDashboard />}    />
-        <Route path={ROUTES.investorPortfolio}      element={<InvestorPortfolio />}    />
-        <Route path={ROUTES.investorOpportunities}  element={<InvestorOpportunities />} />
-        <Route path={ROUTES.investorReports}        element={<InvestorReports />}      />
-        <Route path={ROUTES.investorProjectMilestones} element={<ProjectMilestonesPage />} />
-
-        {/* NEW routes */}
-        <Route path={ROUTES.investorAvailableLands} element={<AvailableLands />}       />
-        <Route path={ROUTES.investorInvest}         element={<InvestForm />}           />
-        <Route path={ROUTES.investorContracts}      element={<InvestorContracts />}    />
+        <Route path={ROUTES.investorDashboard}     element={<InvestorDashboard />}     />
+        <Route path={ROUTES.investorPortfolio}     element={<InvestorPortfolio />}     />
+        <Route path={ROUTES.investorOpportunities} element={<InvestorOpportunities />} />
+        <Route path={ROUTES.investorReports}       element={<InvestorReports />}       />
       </Route>
 
       {/* ── Auditor — sidebar layout ─────────────────────── */}
