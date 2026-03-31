@@ -9,6 +9,7 @@ const NAV_ITEMS = [
   { to: ROUTES.auditorKyc,       icon: "🪪", label: "KYC Reviews"        },
   { to: ROUTES.auditorFarmers,   icon: "🌾", label: "Farmer Applications" },
   { to: ROUTES.auditorReports,   icon: "📈", label: "Reports"             },
+  { to: ROUTES.auditorHistory,   icon: "🕓", label: "Audit History"       },
 ];
 
 export function AuditorLayout() {
