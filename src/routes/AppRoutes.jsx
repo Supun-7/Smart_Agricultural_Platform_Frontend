@@ -22,6 +22,8 @@ import GoogleAuthCallback from "../pages/GoogleAuthCallback.jsx";
 import CreateUserPage from "../pages/admin/CreateUserPage.jsx";
 
 import AuditorDashboard from "../pages/auditor/AuditorDashboard";
+import AuditHistory from "../pages/auditor/AuditHistory";
+
 
 import FarmerDashboard from "../pages/FarmerDashboard";
 
@@ -126,6 +128,7 @@ export default function AppRoutes() {
             </div>
           }
         />
+       <Route path={ROUTES.auditorHistory} element={<AuditHistory />} />
       </Route>
 
       {/* ── Farmer — sidebar layout ──────────────────────── */}
