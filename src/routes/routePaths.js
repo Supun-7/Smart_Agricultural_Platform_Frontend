@@ -24,6 +24,7 @@ export const ROUTES = {
   auditorKyc:           "/auditor/kyc",
   auditorFarmers:       "/auditor/farmers",
   auditorReports:       "/auditor/reports",
+  auditorHistory:       "/auditor/history",   // CHC-207
 
   // ── farmer sub-pages ─────────────────────────────────────
   farmerDashboard:      "/farmer/dashboard",
