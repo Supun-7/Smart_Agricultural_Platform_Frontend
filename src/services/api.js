@@ -209,6 +209,13 @@ export const auditorApi = {
       headers: headers(token),
       body: JSON.stringify({ reason }),
     }).then(handle),
+
+ // CHC-207 — fetches the calling auditor's full audit history, newest first
+  getAuditHistory: (token) =>
+    fetch(`${BASE_URL}/auditor/history`, {
+      headers: headers(token),
+    }).then(handle),
+
 };
 
 // ── Admin endpoints ──────────────────────────────────────────
