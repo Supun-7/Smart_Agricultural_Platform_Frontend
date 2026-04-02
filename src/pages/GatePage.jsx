@@ -844,6 +844,7 @@ export default function GatePage() {
         INVESTOR: ROUTES.investor,
         AUDITOR:  ROUTES.auditor,
         ADMIN:    ROUTES.admin,
+        SYSTEM_ADMIN: ROUTES.admin,
       }[role] ?? ROUTES.home;
       navigate(dest, { replace: true });
     }

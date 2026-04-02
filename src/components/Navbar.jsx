@@ -11,6 +11,7 @@ function getDashboardRoute(role) {
     case "FARMER":   return "/farmer/dashboard";
     case "INVESTOR": return "/investor/dashboard";
     case "ADMIN":    return "/admin/dashboard";
+    case "SYSTEM_ADMIN": return "/admin/dashboard";
     case "AUDITOR":  return "/auditor/dashboard";
     default:         return ROUTES.gate;
   }
