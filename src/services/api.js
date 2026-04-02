@@ -270,19 +270,41 @@ export const adminApi = {
       body:    JSON.stringify({ reason }),
     }).then(handle),
 
-  getDashboard: async (token) => {
-    const MAX_RETRIES = 3;
-    const DELAY_MS    = 1200;
+  // AC-2: suspend an active user account
+  suspendUser: (token, userId) =>
+    fetch(`${BASE_URL}/admin/users/${userId}/suspend`, {
+      method:  "PUT",
+      headers: headers(token),
+    }).then(handle),
 
-    for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
-      try {
-        return await fetch(`${BASE_URL}/admin/dashboard`, {
-          headers: headers(token),
-        }).then(handle);
-      } catch (err) {
-        if (attempt === MAX_RETRIES) throw err;
-        await new Promise(resolve => setTimeout(resolve, DELAY_MS));
-      }
-    }
-  },
+  // AC-3: reactivate a suspended user account
+  activateUser: (token, userId) =>
+    fetch(`${BASE_URL}/admin/users/${userId}/activate`, {
+      method:  "PUT",
+      headers: headers(token),
+    }).then(handle),
+
+  bulkSuspendUsers: (token, userIds) =>
+    fetch(`${BASE_URL}/admin/users/bulk-suspend`, {
+      method: "PUT",
+      headers: headers(token),
+      body: JSON.stringify({ userIds }),
+    }).then(handle),
+
+  bulkActivateUsers: (token, userIds) =>
+    fetch(`${BASE_URL}/admin/users/bulk-activate`, {
+      method: "PUT",
+      headers: headers(token),
+      body: JSON.stringify({ userIds }),
+    }).then(handle),
+
+  getAuditLogs: (token) =>
+    fetch(`${BASE_URL}/admin/audit-logs`, {
+      headers: headers(token),
+    }).then(handle),
+
+  getDashboard: (token) =>
+    fetch(`${BASE_URL}/admin/dashboard`, {
+      headers: headers(token),
+    }).then(handle),
 };
