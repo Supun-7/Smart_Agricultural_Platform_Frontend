@@ -42,7 +42,7 @@ function RequireAuth({ children }) {
 }
 
 // ── Guard 2 — must have correct role ────────────────────────
-function RequireRole({ role, children }) {
+function RequireRole({ role, roles, children }) {
   const { user, isAuthenticated, booting } = useAuth();
 
   if (booting) return null;
@@ -51,7 +51,8 @@ function RequireRole({ role, children }) {
     return <Navigate to={ROUTES.login} replace />;
   }
 
-  if (user.role !== role) {
+  const allowedRoles = roles ?? (role ? [role] : []);
+  if (!allowedRoles.includes(user.role)) {
     return <Navigate to={ROUTES.gate} replace />;
   }
 
@@ -161,7 +162,7 @@ export default function AppRoutes() {
       {/* ── Admin — sidebar layout ────────────────────────── */}
       <Route
         element={
-          <RequireRole role="ADMIN">
+          <RequireRole roles={["ADMIN", "SYSTEM_ADMIN"]}>
             <AdminLayout />
           </RequireRole>
         }
