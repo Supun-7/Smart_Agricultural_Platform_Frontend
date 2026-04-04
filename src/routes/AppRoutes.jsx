@@ -27,6 +27,7 @@ import AuditHistory from "../pages/auditor/AuditHistory";
 
 import FarmerDashboard from "../pages/FarmerDashboard";
 import FarmerLandRegistration from "../pages/farmer/FarmerLandRegistration.jsx";
+import FarmerMilestones from "../pages/farmer/FarmerMilestones.jsx";
 
 // ── Guard 1 — must be logged in ─────────────────────────────
 function RequireAuth({ children }) {
@@ -143,6 +144,7 @@ export default function AppRoutes() {
       >
         <Route path={ROUTES.farmerDashboard} element={<FarmerDashboard />} />
         <Route path={ROUTES.farmerApplication} element={<FarmerLandRegistration />} />
+        <Route path={ROUTES.farmerMilestones} element={<FarmerMilestones />} />
         <Route
           path={ROUTES.farmerCrops}
           element={
