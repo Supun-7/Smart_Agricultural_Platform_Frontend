@@ -168,35 +168,122 @@ function RejectModal({ open, loading, onCancel, onConfirm }) {
 }
 
 function EvidenceList({ files }) {
+  const [validFiles, setValidFiles] = useState([]);
+  const [checking, setChecking] = useState(false);
+
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || "https://rmihwiomlmvisdwzoubs.supabase.co";
+
+  useEffect(() => {
+    let isMounted = true;
+    if (!Array.isArray(files) || files.length === 0) {
+      if (isMounted) setValidFiles([]);
+      return;
+    }
+
+    setChecking(true);
+
+    async function checkFiles() {
+      const checks = files.map(async (file, index) => {
+        let fileUrl = file?.url || "";
+        let fileName = file?.name || `Evidence file ${index + 1}`;
+
+        // Handle case where the DB stored a string array instead of objects
+        if (typeof file === "string") {
+          fileUrl = file;
+          fileName = file.split("/").pop();
+        }
+
+        // Build absolute URL for relative paths/UUIDs from older entries
+        if (fileUrl && !fileUrl.startsWith("http")) {
+          let cleanPath = fileUrl.startsWith("/") ? fileUrl.slice(1) : fileUrl;
+          if (!cleanPath.startsWith("milestones/")) {
+            cleanPath = `milestones/${cleanPath}`;
+          }
+          fileUrl = `${supabaseUrl}/storage/v1/object/public/milestone-evidence/${cleanPath}`;
+        }
+
+        try {
+          const res = await fetch(fileUrl, { method: "HEAD" });
+          if (res.ok) {
+            return { url: fileUrl, name: fileName };
+          }
+        } catch (err) {
+          // If network error/CORS, treat as missing.
+        }
+        return null;
+      });
+
+      const checkedFiles = await Promise.all(checks);
+      if (isMounted) {
+        setValidFiles(checkedFiles.filter(Boolean));
+        setChecking(false);
+      }
+    }
+
+    checkFiles();
+
+    return () => { isMounted = false; };
+  }, [files, supabaseUrl]);
+
   if (!Array.isArray(files) || files.length === 0) {
-    return <p style={{ color: "var(--muted)", margin: 0 }}>No evidence files uploaded.</p>;
+    return <p style={{ color: "var(--muted)", margin: 0 }}>No evidence uploaded yet.</p>;
+  }
+
+  if (checking) {
+    return <p style={{ color: "var(--muted)", margin: 0, fontSize: "0.85rem" }}>Verifying evidence files...</p>;
+  }
+
+  if (validFiles.length === 0) {
+    return <p style={{ color: "var(--muted)", margin: 0 }}>No valid evidence files found.</p>;
   }
 
   return (
-    <div style={{ display: "grid", gap: 10 }}>
-      {files.map((file, index) => (
-        <a
-          key={`${file.url}-${index}`}
-          href={file.url}
-          target="_blank"
-          rel="noreferrer"
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            gap: 12,
-            alignItems: "center",
-            textDecoration: "none",
-            color: "var(--text)",
-            background: "#0e130e",
-            border: "1px solid #1f2b22",
-            borderRadius: 12,
-            padding: ".85rem 1rem",
-          }}
-        >
-          <span style={{ fontWeight: 600 }}>{file.name || `Evidence file ${index + 1}`}</span>
-          <span style={{ color: "var(--brand)", fontSize: ".9rem" }}>Open ↗</span>
-        </a>
-      ))}
+    <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+      {validFiles.map((file, index) => {
+        const fileUrl = file.url;
+        const fileName = file.name;
+
+        const isImage = fileUrl.match(/\.(jpeg|jpg|png|gif)(?:\?.*)?$/i) || fileName.match(/\.(jpeg|jpg|png|gif)$/i);
+        const isPdf = fileUrl.match(/\.pdf(?:\?.*)?$/i) || fileName.match(/\.pdf$/i);
+
+        if (isImage) {
+          return (
+            <a key={`${fileUrl}-${index}`} href={fileUrl} target="_blank" rel="noreferrer" style={{ textDecoration: "none", flexShrink: 0 }}>
+              <div style={{ border: "1px solid #1f2b22", borderRadius: 8, overflow: "hidden", background: "#0e130e", padding: "4px" }}>
+                <img src={fileUrl} alt={fileName} style={{ display: "block", width: "120px", height: "80px", objectFit: "cover", borderRadius: 4 }} title="Click to enlarge" />
+                <div style={{ padding: "4px", fontSize: "0.75rem", color: "var(--muted)", textAlign: "center", maxWidth: "120px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{fileName}</div>
+              </div>
+            </a>
+          );
+        }
+
+        return (
+          <a
+            key={`${fileUrl}-${index}`}
+            href={fileUrl}
+            target="_blank"
+            rel="noreferrer"
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              gap: 12,
+              alignItems: "center",
+              textDecoration: "none",
+              color: "var(--text)",
+              background: "#0e130e",
+              border: "1px solid #1f2b22",
+              borderRadius: 12,
+              padding: ".85rem 1rem",
+              width: "100%",
+            }}
+          >
+            <span style={{ fontWeight: 600, display: "flex", alignItems: "center", gap: 8 }}>
+              {isPdf ? "📄" : "📎"} {fileName}
+            </span>
+            <span style={{ color: "var(--brand)", fontSize: ".9rem" }}>Open ↗</span>
+          </a>
+        );
+      })}
     </div>
   );
 }
@@ -496,3 +583,4 @@ export default function AuditorDashboard() {
     </section>
   );
 }
+
