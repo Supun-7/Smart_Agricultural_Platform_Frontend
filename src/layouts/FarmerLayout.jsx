@@ -5,7 +5,7 @@ import { Navbar } from "../components/Navbar.jsx";
 
 const NAV_ITEMS = [
   { to: "/farmer/dashboard",    icon: "🏠", label: "Dashboard"    },
-  { to: "/farmer/application",  icon: "📝", label: "Application"  },
+  { to: "/farmer/application",  icon: "📝", label: "Register Land" },
   { to: "/farmer/crops",        icon: "🌾", label: "My Crops"     },
 ];
 
