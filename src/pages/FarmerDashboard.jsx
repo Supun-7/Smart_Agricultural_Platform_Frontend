@@ -62,6 +62,12 @@ export default function FarmerDashboard() {
   const [actionError, setActionError] = useState("");
   const [busyLandId, setBusyLandId] = useState(null);
 
+  const [evidenceOpen, setEvidenceOpen]         = useState(null);
+  const [evidenceFiles, setEvidenceFiles]       = useState([]);
+  const [evidenceError, setEvidenceError]       = useState("");
+  const [evidenceSuccess, setEvidenceSuccess]   = useState("");
+  const [uploadingEvidence, setUploadingEvidence] = useState(false);
+
   const loadDashboard = useCallback(async () => {
     setLoading(true);
     setError("");
@@ -119,6 +125,47 @@ export default function FarmerDashboard() {
   const app = dashboard?.application || {};
   const projects = dashboard?.projects || [];
   const lands = dashboard?.lands || [];
+
+  const ALLOWED_TYPES = ["image/jpeg", "image/png", "application/pdf"];
+  const MAX_BYTES = 5 * 1024 * 1024;
+
+  function validateEvidenceFiles(files) {
+    for (const file of files) {
+      if (!ALLOWED_TYPES.includes(file.type)) {
+        return `"${file.name}" is not supported. Only JPG, PNG, and PDF files are accepted.`;
+      }
+      if (file.size > MAX_BYTES) {
+        return `"${file.name}" exceeds the 5 MB size limit.`;
+      }
+    }
+    return null;
+  }
+
+  async function handleEvidenceUpload(milestoneId) {
+    if (!evidenceFiles.length) {
+      setEvidenceError("Please select at least one file.");
+      return;
+    }
+    const validationError = validateEvidenceFiles(evidenceFiles);
+    if (validationError) {
+      setEvidenceError(validationError);
+      return;
+    }
+    setUploadingEvidence(true);
+    setEvidenceError("");
+    setEvidenceSuccess("");
+    try {
+      await farmerApi.uploadMilestoneEvidence(token, milestoneId, evidenceFiles);
+      setEvidenceSuccess("Evidence uploaded successfully.");
+      setEvidenceFiles([]);
+      setEvidenceOpen(null);
+      await loadDashboard();
+    } catch (err) {
+      setEvidenceError(err.message || "Upload failed. Please try again.");
+    } finally {
+      setUploadingEvidence(false);
+    }
+  }
 
   return (
     <section className="farmerDashboard">
@@ -308,6 +355,7 @@ export default function FarmerDashboard() {
                     background: "rgba(255,255,255,.02)",
                   }}
                 >
+                  {/* Header row */}
                   <div style={{ display: "flex", justifyContent: "space-between", gap: "1rem", flexWrap: "wrap" }}>
                     <div>
                       <strong style={{ color: "var(--text)", fontSize: "1rem" }}>
@@ -320,15 +368,93 @@ export default function FarmerDashboard() {
                     <StatusBadge status={milestone.status} />
                   </div>
 
+                  {/* Notes */}
                   <p style={{ color: "var(--text)", margin: ".8rem 0 .35rem", lineHeight: 1.6 }}>
                     {milestone.notes || "No milestone notes provided."}
                   </p>
 
-                  {milestone.rejectionReason ? (
+                  {/* Rejection reason */}
+                  {milestone.rejectionReason && (
                     <div style={{ color: "#ffb4c0", fontSize: ".92rem" }}>
                       Rejection reason: {milestone.rejectionReason}
                     </div>
-                  ) : null}
+                  )}
+
+                  {/* Upload evidence — PENDING milestones only */}
+                  {milestone.status === "PENDING" && (
+                    <div style={{ marginTop: ".8rem" }}>
+                      <button
+                        className="btn btnSmall btnGhost"
+                        onClick={() => {
+                          const isOpen = evidenceOpen === milestone.id;
+                          setEvidenceOpen(isOpen ? null : milestone.id);
+                          setEvidenceFiles([]);
+                          setEvidenceError("");
+                          setEvidenceSuccess("");
+                        }}
+                      >
+                        {evidenceOpen === milestone.id ? "Cancel upload" : "Upload evidence"}
+                      </button>
+
+                      {evidenceOpen === milestone.id && (
+                        <div
+                          style={{
+                            marginTop: ".8rem",
+                            padding: "1rem",
+                            background: "rgba(255,255,255,.03)",
+                            borderRadius: "12px",
+                            border: "1px solid rgba(255,255,255,.07)",
+                          }}
+                        >
+                          <p style={{ color: "var(--muted)", fontSize: ".85rem", margin: "0 0 .6rem" }}>
+                            Accepted: JPG, PNG, PDF · Max 5 MB per file
+                          </p>
+
+                          <input
+                            type="file"
+                            accept=".jpg,.jpeg,.png,.pdf"
+                            multiple
+                            disabled={uploadingEvidence}
+                            onChange={(e) => {
+                              setEvidenceFiles(Array.from(e.target.files));
+                              setEvidenceError("");
+                              setEvidenceSuccess("");
+                            }}
+                            style={{ color: "var(--text)", fontSize: ".88rem" }}
+                          />
+
+                          {evidenceFiles.length > 0 && (
+                            <ul style={{ margin: ".5rem 0 0", paddingLeft: "1.2rem", color: "var(--muted)", fontSize: ".82rem" }}>
+                              {evidenceFiles.map((f, i) => (
+                                <li key={i}>{f.name} ({(f.size / 1024).toFixed(1)} KB)</li>
+                              ))}
+                            </ul>
+                          )}
+
+                          {evidenceError && (
+                            <div style={{ color: "var(--danger)", fontSize: ".85rem", marginTop: ".5rem" }}>
+                              {evidenceError}
+                            </div>
+                          )}
+
+                          {evidenceSuccess && (
+                            <div style={{ color: "var(--brand)", fontSize: ".85rem", marginTop: ".5rem" }}>
+                              {evidenceSuccess}
+                            </div>
+                          )}
+
+                          <button
+                            className="btn btnSmall"
+                            style={{ marginTop: ".75rem" }}
+                            disabled={uploadingEvidence || evidenceFiles.length === 0}
+                            onClick={() => handleEvidenceUpload(milestone.id)}
+                          >
+                            {uploadingEvidence ? "Uploading…" : "Submit evidence"}
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
