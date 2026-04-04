@@ -1,0 +1,103 @@
+.landRegistrationPage {
+  min-height: calc(100vh - 72px);
+  padding: 2rem 0 3rem;
+}
+
+.landRegistrationInner {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.landRegistrationHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.landRegistrationTitle {
+  margin: 0;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+}
+
+.landRegistrationSub {
+  margin: .55rem 0 0;
+  color: var(--muted);
+  max-width: 68ch;
+}
+
+.landRegistrationForm {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.landRegistrationSection {
+  display: grid;
+  gap: 1rem;
+}
+
+.landRegistrationSection h2 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.landRegistrationSection p {
+  margin: .35rem 0 0;
+  color: var(--muted);
+}
+
+.landRegistrationGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.landFormError {
+  font-size: .82rem;
+  color: #ffb4c0;
+}
+
+.landFormAlert {
+  padding: .9rem 1rem;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.landFormAlertError {
+  border: 1px solid rgba(255,92,122,.25);
+  background: rgba(255,92,122,.08);
+  color: #ffb4c0;
+}
+
+.landFormAlertSuccess {
+  border: 1px solid rgba(89,193,115,.25);
+  background: rgba(89,193,115,.1);
+  color: #d8ffe2;
+}
+
+.landRegistrationHint {
+  color: var(--muted);
+  font-size: .92rem;
+}
+
+.landRegistrationActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: .75rem;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 800px) {
+  .landRegistrationHeader,
+  .landRegistrationActions {
+    flex-direction: column;
+  }
+
+  .landRegistrationGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .landRegistrationActions .btn {
+    width: 100%;
+  }
+}

@@ -98,6 +98,25 @@ export const farmerApi = {
       body:    JSON.stringify(data),
     }).then(handle),
 
+  createLand: (token, data) =>
+    fetch(`${BASE_URL}/farmer/lands`, {
+      method:  "POST",
+      headers: headers(token),
+      body:    JSON.stringify(data),
+    }).then(handle),
+
+  getLands: (token) =>
+    fetch(`${BASE_URL}/farmer/lands`, {
+      headers: headers(token),
+    }).then(handle),
+
+  updateLandStatus: (token, landId, isActive) =>
+    fetch(`${BASE_URL}/farmer/lands/${landId}/active`, {
+      method:  "PATCH",
+      headers: headers(token),
+      body:    JSON.stringify({ isActive }),
+    }).then(handle),
+
   requestUpdate: (token, details) =>
     fetch(`${BASE_URL}/farmer/update-request`, {
       method:  "POST",
