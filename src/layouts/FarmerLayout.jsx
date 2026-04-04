@@ -4,9 +4,10 @@ import { ROUTES } from "../routes/routePaths.js";
 import { Navbar } from "../components/Navbar.jsx";
 
 const NAV_ITEMS = [
-  { to: "/farmer/dashboard",    icon: "🏠", label: "Dashboard"    },
-  { to: "/farmer/application",  icon: "📝", label: "Register Land" },
-  { to: "/farmer/crops",        icon: "🌾", label: "My Crops"     },
+  { to: ROUTES.farmerDashboard,    icon: "🏠", label: "Dashboard"    },
+  { to: ROUTES.farmerApplication,  icon: "📝", label: "Register Land" },
+  { to: ROUTES.farmerCrops,        icon: "🌾", label: "My Crops"     },
+  { to: ROUTES.farmerMilestones,   icon: "📎", label: "Upload Evidence" },
 ];
 
 export function FarmerLayout() {
