@@ -123,6 +123,16 @@ export const farmerApi = {
       headers: headers(token),
       body:    JSON.stringify({ details }),
     }).then(handle),
+
+  uploadMilestoneEvidence: (token, milestoneId, files) => {
+    const formData = new FormData();
+    files.forEach((file) => formData.append("files", file));
+    return fetch(`${BASE_URL}/farmer/milestones/${milestoneId}/evidence`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}` },
+      body: formData,
+    }).then(handle);
+  },
 };
 
 // ── Investor endpoints ───────────────────────────────────────
