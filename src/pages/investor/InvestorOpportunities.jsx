@@ -10,7 +10,6 @@ function fmt(val) {
   });
 }
 
-// Note: no description field — backend commented it out
 function OpportunityCard({ land }) {
   const {
     projectName,
@@ -18,10 +17,22 @@ function OpportunityCard({ land }) {
     totalValue,
     minimumInvestment,
     progressPercentage,
+    description,
+    cropType,
+    sizeAcres,
+    imageUrls,
+    farmerName,
   } = land;
+
+  const coverImage = imageUrls?.split(",").find(Boolean);
 
   return (
     <div className="oppCard">
+      {coverImage ? (
+        <img className="oppCover" src={coverImage} alt={projectName} />
+      ) : (
+        <div className="oppCoverPlaceholder">No image available</div>
+      )}
 
       <div className="oppCardHeader">
         <div>
@@ -29,6 +40,23 @@ function OpportunityCard({ land }) {
           <p className="oppCardLocation">📍 {location}</p>
         </div>
         <span className="oppBadge">Open</span>
+      </div>
+
+      <p className="oppCardDescription">{description || "No description provided for this land listing."}</p>
+
+      <div className="oppMetaGrid">
+        <div className="oppStat">
+          <span className="oppStatLabel">Crop type</span>
+          <span className="oppStatValue">{cropType || "—"}</span>
+        </div>
+        <div className="oppStat">
+          <span className="oppStatLabel">Land size</span>
+          <span className="oppStatValue">{sizeAcres ? `${sizeAcres} acres` : "—"}</span>
+        </div>
+        <div className="oppStat">
+          <span className="oppStatLabel">Farmer</span>
+          <span className="oppStatValue">{farmerName || "—"}</span>
+        </div>
       </div>
 
       <div className="oppProgress">
@@ -53,7 +81,6 @@ function OpportunityCard({ land }) {
           <span className="oppStatValue">{fmt(minimumInvestment)}</span>
         </div>
       </div>
-
     </div>
   );
 }
@@ -61,9 +88,9 @@ function OpportunityCard({ land }) {
 export default function InvestorOpportunities() {
   const { token } = useAuth();
 
-  const [data,    setData]    = useState(null);
+  const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error,   setError]   = useState("");
+  const [error, setError] = useState("");
 
   async function load() {
     setLoading(true);
@@ -80,7 +107,6 @@ export default function InvestorOpportunities() {
 
   useEffect(() => { load(); }, [token]);
 
-  // AC-5: loading state
   if (loading) {
     return (
       <div className="invPage">
@@ -92,7 +118,6 @@ export default function InvestorOpportunities() {
     );
   }
 
-  // AC-5: error state with retry
   if (error) {
     return (
       <div className="invPage">
@@ -109,7 +134,6 @@ export default function InvestorOpportunities() {
 
   return (
     <div className="invPage">
-
       <div className="invPageHeader">
         <div>
           <h1 className="invPageTitle">Investment Opportunities</h1>
@@ -126,13 +150,11 @@ export default function InvestorOpportunities() {
         </div>
       ) : (
         <div className="invLandGrid">
-          {/* AC-6: data comes from API — no hardcoded list */}
           {opportunities.map((land) => (
             <OpportunityCard key={land.landId} land={land} />
           ))}
         </div>
       )}
-
     </div>
   );
 }
