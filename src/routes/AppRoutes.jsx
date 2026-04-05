@@ -1,76 +1,64 @@
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { ROUTES } from "./routePaths";
-import { PublicLayout } from "../layouts/PublicLayout";
+import { PublicLayout }   from "../layouts/PublicLayout";
 import { InvestorLayout } from "../layouts/InvestorLayout";
-import { AuditorLayout } from "../layouts/AuditorLayout";
-import { FarmerLayout } from "../layouts/FarmerLayout";
-import { AdminLayout } from "../layouts/AdminLayout.jsx";
+import { AuditorLayout }  from "../layouts/AuditorLayout";
+import { FarmerLayout }   from "../layouts/FarmerLayout";
+import { AdminLayout }    from "../layouts/AdminLayout.jsx";
 
-import Home from "../pages/Home";
-import Login from "../pages/Login";
-import Register from "../pages/Register";
-import GatePage from "../pages/GatePage";
+import Home             from "../pages/Home";
+import Login            from "../pages/Login";
+import Register         from "../pages/Register";
+import GatePage         from "../pages/GatePage";
 
-import InvestorDashboard from "../pages/investor/InvestorDashboard";
-import InvestorPortfolio from "../pages/investor/InvestorPortfolio";
+import InvestorDashboard     from "../pages/investor/InvestorDashboard";
+import InvestorPortfolio     from "../pages/investor/InvestorPortfolio";
 import InvestorOpportunities from "../pages/investor/InvestorOpportunities";
-import InvestorReports from "../pages/investor/InvestorReports";
+import InvestorReports       from "../pages/investor/InvestorReports";
 
-import AdminDashboard from "../pages/admin/AdminDashboard.jsx";
+import AdminDashboard    from "../pages/admin/AdminDashboard.jsx";
 import GoogleAuthCallback from "../pages/GoogleAuthCallback.jsx";
-import CreateUserPage from "../pages/admin/CreateUserPage.jsx";
+import CreateUserPage    from "../pages/admin/CreateUserPage.jsx";
 
 import AuditorDashboard from "../pages/auditor/AuditorDashboard";
-import AuditHistory from "../pages/auditor/AuditHistory";
+import AuditHistory     from "../pages/auditor/AuditHistory";
 
-
-import FarmerDashboard from "../pages/FarmerDashboard";
+import FarmerDashboard      from "../pages/FarmerDashboard";
 import FarmerLandRegistration from "../pages/farmer/FarmerLandRegistration.jsx";
-import FarmerMilestones from "../pages/farmer/FarmerMilestones.jsx";
+import FarmerMilestones     from "../pages/farmer/FarmerMilestones.jsx";
+import FarmerSupport        from "../pages/farmer/FarmerSupport.jsx";
 
 // ── Guard 1 — must be logged in ─────────────────────────────
 function RequireAuth({ children }) {
   const { isAuthenticated, booting } = useAuth();
   const location = useLocation();
-
   if (booting) return null;
-
   if (!isAuthenticated) {
     return <Navigate to={ROUTES.login} state={{ from: location }} replace />;
   }
-
   return children;
 }
 
 // ── Guard 2 — must have correct role ────────────────────────
 function RequireRole({ role, roles, children }) {
   const { user, isAuthenticated, booting } = useAuth();
-
   if (booting) return null;
-
   if (!isAuthenticated) {
     return <Navigate to={ROUTES.login} replace />;
   }
-
   const allowedRoles = roles ?? (role ? [role] : []);
   if (!allowedRoles.includes(user.role)) {
     return <Navigate to={ROUTES.gate} replace />;
   }
-
   return children;
 }
 
 // ── Guard 3 — already logged in ─────────────────────────────
 function RedirectIfLoggedIn({ children }) {
   const { user, booting } = useAuth();
-
   if (booting) return null;
-
-  if (user) {
-    return <Navigate to={ROUTES.gate} replace />;
-  }
-
+  if (user) return <Navigate to={ROUTES.gate} replace />;
   return children;
 }
 
@@ -79,9 +67,9 @@ export default function AppRoutes() {
   return (
     <Routes>
 
-      {/* Public routes — navbar + footer */}
+      {/* Public routes */}
       <Route element={<PublicLayout />}>
-        <Route path={ROUTES.home} element={<Home />} />
+        <Route path={ROUTES.home}  element={<Home />} />
         <Route
           path={ROUTES.login}
           element={<RedirectIfLoggedIn><Login /></RedirectIfLoggedIn>}
@@ -92,13 +80,13 @@ export default function AppRoutes() {
         />
       </Route>
 
-      {/* Gate — 2nd door, checked right after login */}
+      {/* Gate */}
       <Route
         path={ROUTES.gate}
         element={<RequireAuth><GatePage /></RequireAuth>}
       />
 
-      {/* ── Investor — sidebar layout ────────────────────── */}
+      {/* ── Investor ────────────────────────────────────── */}
       <Route
         element={
           <RequireRole role="INVESTOR">
@@ -112,7 +100,7 @@ export default function AppRoutes() {
         <Route path={ROUTES.investorReports}       element={<InvestorReports />}       />
       </Route>
 
-      {/* ── Auditor — sidebar layout ─────────────────────── */}
+      {/* ── Auditor ─────────────────────────────────────── */}
       <Route
         element={
           <RequireRole role="AUDITOR">
@@ -123,18 +111,15 @@ export default function AppRoutes() {
         <Route path={ROUTES.auditorDashboard} element={<AuditorDashboard />} />
         <Route path={ROUTES.auditorKyc}       element={<AuditorDashboard />} />
         <Route path={ROUTES.auditorFarmers}   element={<AuditorDashboard />} />
-        <Route
-          path={ROUTES.auditorReports}
-          element={
-            <div style={{ color: "var(--text)", padding: "2rem" }}>
-              Reports — coming soon
-            </div>
-          }
-        />
-       <Route path={ROUTES.auditorHistory} element={<AuditHistory />} />
+        <Route path={ROUTES.auditorReports}   element={
+          <div style={{ color: "var(--text)", padding: "2rem" }}>
+            Reports — coming soon
+          </div>
+        } />
+        <Route path={ROUTES.auditorHistory}   element={<AuditHistory />} />
       </Route>
 
-      {/* ── Farmer — sidebar layout ──────────────────────── */}
+      {/* ── Farmer ──────────────────────────────────────── */}
       <Route
         element={
           <RequireRole role="FARMER">
@@ -142,20 +127,18 @@ export default function AppRoutes() {
           </RequireRole>
         }
       >
-        <Route path={ROUTES.farmerDashboard} element={<FarmerDashboard />} />
+        <Route path={ROUTES.farmerDashboard}   element={<FarmerDashboard />}        />
         <Route path={ROUTES.farmerApplication} element={<FarmerLandRegistration />} />
-        <Route path={ROUTES.farmerMilestones} element={<FarmerMilestones />} />
-        <Route
-          path={ROUTES.farmerCrops}
-          element={
-            <div style={{ color: "var(--text)", padding: "2rem" }}>
-              My Crops — coming soon
-            </div>
-          }
-        />
+        <Route path={ROUTES.farmerMilestones}  element={<FarmerMilestones />}       />
+        <Route path={ROUTES.farmerSupport}     element={<FarmerSupport />}          /> {/* ← NEW */}
+        <Route path={ROUTES.farmerCrops}       element={
+          <div style={{ color: "var(--text)", padding: "2rem" }}>
+            My Crops — coming soon
+          </div>
+        } />
       </Route>
 
-      {/* ── Admin — sidebar layout ────────────────────────── */}
+      {/* ── Admin ───────────────────────────────────────── */}
       <Route
         element={
           <RequireRole roles={["ADMIN", "SYSTEM_ADMIN"]}>
@@ -163,9 +146,9 @@ export default function AppRoutes() {
           </RequireRole>
         }
       >
-        <Route path={ROUTES.admin}           element={<AdminDashboard />} />
-        <Route path="/admin/dashboard"       element={<AdminDashboard />} />
-        <Route path="/admin/create-user"     element={<CreateUserPage />} />
+        <Route path={ROUTES.admin}         element={<AdminDashboard />} />
+        <Route path="/admin/dashboard"     element={<AdminDashboard />} />
+        <Route path="/admin/create-user"   element={<CreateUserPage />} />
       </Route>
 
       {/* Google OAuth callback */}
