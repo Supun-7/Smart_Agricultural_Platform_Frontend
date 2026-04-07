@@ -169,6 +169,38 @@ export const investorApi = {
     fetch(`${BASE_URL}/investor/reports`, {
       headers: headers(token),
     }).then(handle),
+
+  /** Invest from wallet balance into a land project */
+  invest: (token, landId, amount) =>
+    fetch(`${BASE_URL}/investor/lands/${landId}/invest`, {
+      method:  "POST",
+      headers: headers(token),
+      body:    JSON.stringify({ amount }),
+    }).then(handle),
+
+  // ── Wallet endpoints (AC-1 … AC-8) ────────────────────────────────────
+
+  /** AC-8 — balance + full ledger history */
+  getWallet: (token) =>
+    fetch(`${BASE_URL}/investor/wallet`, {
+      headers: headers(token),
+    }).then(handle),
+
+  /** AC-1 / AC-2 / AC-3 / AC-7 */
+  deposit: (token, amount) =>
+    fetch(`${BASE_URL}/investor/wallet/deposit`, {
+      method:  "POST",
+      headers: headers(token),
+      body:    JSON.stringify({ amount }),
+    }).then(handle),
+
+  /** AC-4 / AC-5 / AC-6 / AC-7 */
+  withdraw: (token, amount) =>
+    fetch(`${BASE_URL}/investor/wallet/withdraw`, {
+      method:  "POST",
+      headers: headers(token),
+      body:    JSON.stringify({ amount }),
+    }).then(handle),
 };
 
 // ── Auditor endpoints ────────────────────────────────────────

@@ -18,6 +18,7 @@ export const ROUTES = {
   investorPortfolio:     "/investor/portfolio",
   investorOpportunities: "/investor/opportunities",
   investorReports:       "/investor/reports",
+  investorWallet:        "/investor/wallet",
 
   // ── auditor sub-pages ────────────────────────────────────
   auditorDashboard: "/auditor/dashboard",
