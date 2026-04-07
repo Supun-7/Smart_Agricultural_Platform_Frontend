@@ -330,3 +330,43 @@
 .mobileSignOut:hover {
   background: rgba(255, 92, 122, 0.08) !important;
 }
+/* ── Investor wallet pill ─────────────────────────────────── */
+.navWalletPill {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  background: rgba(89,193,115,.1);
+  border: 1px solid rgba(89,193,115,.25);
+  border-radius: 999px;
+  padding: .35rem .85rem;
+  cursor: pointer;
+  transition: background .15s, border-color .15s;
+  font-family: inherit;
+  white-space: nowrap;
+}
+.navWalletPill:hover {
+  background: rgba(89,193,115,.18);
+  border-color: rgba(89,193,115,.45);
+}
+.navWalletAmount {
+  font-size: .82rem;
+  font-weight: 700;
+  color: var(--brand);
+}
+
+/* dropdown wallet item */
+.profileDropdownItem {
+  display: block;
+  width: 100%;
+  padding: .55rem 1rem;
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: .85rem;
+  text-align: left;
+  cursor: pointer;
+  transition: background .12s;
+  font-family: inherit;
+  border-radius: 6px;
+}
+.profileDropdownItem:hover { background: rgba(255,255,255,.05); }
