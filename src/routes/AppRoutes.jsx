@@ -17,6 +17,8 @@ import InvestorPortfolio     from "../pages/investor/InvestorPortfolio.jsx";
 import InvestorOpportunities from "../pages/investor/InvestorOpportunities.jsx";
 import InvestorReports       from "../pages/investor/InvestorReports.jsx";
 import InvestorWallet        from "../pages/investor/InvestorWallet.jsx";
+import LandDetailPage        from "../pages/investor/LandDetailPage.jsx";
+import ContractPage          from "../pages/investor/ContractPage.jsx";
 
 import AdminDashboard    from "../pages/admin/AdminDashboard.jsx";
 import GoogleAuthCallback from "../pages/GoogleAuthCallback.jsx";
@@ -100,6 +102,8 @@ export default function AppRoutes() {
         <Route path={ROUTES.investorOpportunities} element={<InvestorOpportunities />} />
         <Route path={ROUTES.investorReports}       element={<InvestorReports />}       />
         <Route path={ROUTES.investorWallet}        element={<InvestorWallet />}        />
+        <Route path={ROUTES.investorLandDetail}    element={<LandDetailPage />}        />
+        <Route path={ROUTES.investorContract}      element={<ContractPage />}          />
       </Route>
 
       {/* ── Auditor ─────────────────────────────────────── */}

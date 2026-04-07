@@ -354,3 +354,260 @@
 .successToastBody               { flex: 1; }
 .successToastBody strong        { color: var(--brand); font-size: .92rem; display: block; margin-bottom: .2rem; }
 .successToastBody p             { color: var(--muted); font-size: .82rem; margin: 0; line-height: 1.5; }
+
+/* ══════════════════════════════════════════════════════════════
+   E-COMMERCE GRID & CARD ADDITIONS
+   ══════════════════════════════════════════════════════════════ */
+
+/* Grid layout */
+.oppEcomGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.25rem;
+}
+
+/* Card — override base to be tighter */
+.oppCard {
+  cursor: pointer;
+  flex-direction: column;
+  padding: 0;
+  gap: 0;
+  overflow: hidden;
+  transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+}
+.oppCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(0,0,0,.3);
+  border-color: rgba(89,193,115,.3);
+}
+
+/* Cover image area */
+.oppCoverWrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  background: rgba(89,193,115,.05);
+}
+.oppCover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .3s ease;
+}
+.oppCard:hover .oppCover { transform: scale(1.03); }
+.oppCoverPlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  background: rgba(89,193,115,.04);
+  border-bottom: 1px dashed rgba(89,193,115,.15);
+}
+
+/* Badges over image */
+.oppCoverBadges {
+  position: absolute;
+  top: .6rem;
+  left: .6rem;
+  display: flex;
+  gap: .4rem;
+  flex-wrap: wrap;
+}
+.oppCropTag {
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  padding: .2rem .6rem;
+  border-radius: 999px;
+  background: rgba(0,0,0,.55);
+  color: #86efac;
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(89,193,115,.3);
+}
+.oppOpenTag {
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  padding: .2rem .6rem;
+  border-radius: 999px;
+  background: rgba(0,0,0,.55);
+  color: #4ade80;
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(74,222,128,.3);
+}
+
+/* Thin progress stripe at bottom of image */
+.oppCoverProgress {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: rgba(255,255,255,.1);
+}
+.oppCoverProgressFill {
+  height: 100%;
+  background: var(--brand);
+  transition: width .5s ease;
+}
+
+/* Card body */
+.oppCardBody {
+  padding: 1rem 1rem .9rem;
+  display: flex;
+  flex-direction: column;
+  gap: .65rem;
+}
+.oppCardTop { display: flex; flex-direction: column; gap: .2rem; }
+.oppCardName {
+  font-size: .98rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+  line-height: 1.25;
+}
+.oppCardLocation {
+  font-size: .78rem;
+  color: var(--muted);
+  margin: 0;
+}
+.oppCardDesc {
+  font-size: .8rem;
+  color: var(--muted);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Meta chips row */
+.oppMetaRow {
+  display: flex;
+  gap: .4rem;
+  flex-wrap: wrap;
+}
+.oppMetaChip {
+  font-size: .72rem;
+  color: var(--muted);
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 6px;
+  padding: .2rem .55rem;
+}
+
+/* Progress */
+.oppProgressWrap { display: flex; flex-direction: column; gap: .3rem; }
+.oppProgressBar {
+  height: 5px;
+  background: rgba(255,255,255,.06);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.oppProgressFill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--brand) 0%, #86efac 100%);
+  border-radius: 999px;
+}
+.oppProgressMeta {
+  display: flex;
+  justify-content: space-between;
+  font-size: .72rem;
+  color: var(--muted);
+}
+.oppProgressLabel { color: var(--brand); font-weight: 600; }
+.oppProgressTarget {}
+
+/* Pricing row */
+.oppPricing {
+  display: flex;
+  justify-content: space-between;
+  gap: .5rem;
+  padding: .6rem 0;
+  border-top: 1px solid rgba(255,255,255,.06);
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.oppPricingItem { display: flex; flex-direction: column; gap: .15rem; }
+.oppPricingLabel {
+  font-size: .68rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  font-weight: 600;
+}
+.oppPricingValue {
+  font-size: .92rem;
+  font-weight: 800;
+  color: var(--text);
+}
+.oppPricingMuted {
+  color: var(--muted);
+  font-weight: 600;
+  font-size: .82rem;
+}
+
+/* Action buttons */
+.oppCardActions {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: .5rem;
+  margin-top: .1rem;
+}
+.oppViewBtn {
+  padding: .55rem .5rem;
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: .8rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background .15s;
+}
+.oppViewBtn:hover { background: rgba(255,255,255,.09); }
+
+.oppBuyBtn {
+  padding: .55rem .5rem;
+  background: linear-gradient(135deg, var(--brand) 0%, #16a34a 100%);
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-size: .82rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  letter-spacing: .02em;
+  transition: opacity .15s;
+  box-shadow: 0 2px 8px rgba(89,193,115,.25);
+}
+.oppBuyBtn:hover:not(:disabled) { opacity: .88; }
+.oppBuyBtn:disabled { opacity: .5; cursor: not-allowed; }
+.oppBuyBtnLow {
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,200,50,.25);
+  color: #fbbf24;
+  box-shadow: none;
+}
+
+/* Search */
+.oppSearchWrap {
+  width: 100%;
+  max-width: 480px;
+}
+.oppSearch {
+  width: 100%;
+  padding: .6rem .9rem;
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 10px;
+  color: var(--text);
+  font-size: .88rem;
+  font-family: inherit;
+  box-sizing: border-box;
+  transition: border-color .15s;
+}
+.oppSearch:focus {
+  outline: none;
+  border-color: rgba(89,193,115,.4);
+}
+.oppSearch::placeholder { color: var(--muted); }
