@@ -19,6 +19,8 @@ export const ROUTES = {
   investorOpportunities: "/investor/opportunities",
   investorReports:       "/investor/reports",
   investorWallet:        "/investor/wallet",
+  investorLandDetail:    "/investor/lands/:landId",
+  investorContract:      "/investor/contract",
 
   // ── auditor sub-pages ────────────────────────────────────
   auditorDashboard: "/auditor/dashboard",

@@ -170,6 +170,12 @@ export const investorApi = {
       headers: headers(token),
     }).then(handle),
 
+  /** Fetch single land detail by ID */
+  getLandById: (token, landId) =>
+    fetch(`${BASE_URL}/investor/lands/${landId}`, {
+      headers: headers(token),
+    }).then(handle),
+
   /** Invest from wallet balance into a land project */
   invest: (token, landId, amount) =>
     fetch(`${BASE_URL}/investor/lands/${landId}/invest`, {

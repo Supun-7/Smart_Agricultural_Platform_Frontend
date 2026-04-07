@@ -1,0 +1,534 @@
+/* ══════════════════════════════════════════════════════════════
+   LAND DETAIL PAGE — E-Commerce Style
+   ══════════════════════════════════════════════════════════════ */
+
+.ldPage {
+  padding: 1.5rem 1.75rem 3rem;
+  max-width: 1100px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* ── Loading / error states ── */
+.ldLoading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 5rem 2rem;
+  color: var(--muted);
+}
+.ldSpinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid rgba(89,193,115,.15);
+  border-top-color: var(--brand);
+  border-radius: 50%;
+  animation: ldSpin .7s linear infinite;
+}
+@keyframes ldSpin { to { transform: rotate(360deg); } }
+
+.ldErrorState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 4rem 2rem;
+  color: var(--muted);
+  text-align: center;
+}
+.ldErrorState span { font-size: 2rem; }
+
+/* ── Breadcrumb ── */
+.ldBreadcrumb {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  font-size: .82rem;
+  color: var(--muted);
+}
+.ldBreadLink {
+  background: none;
+  border: none;
+  color: var(--brand);
+  cursor: pointer;
+  padding: 0;
+  font-size: .82rem;
+  font-family: inherit;
+}
+.ldBreadLink:hover { text-decoration: underline; }
+.ldBreadSep { color: var(--muted); }
+.ldBreadCurrent { color: var(--text); font-weight: 600; }
+
+/* ── Two-column layout ── */
+.ldLayout {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 2rem;
+  align-items: start;
+}
+@media (max-width: 820px) {
+  .ldLayout {
+    grid-template-columns: 1fr;
+  }
+  .ldRight {
+    order: -1;
+  }
+}
+
+/* ══════════════════════════════
+   LEFT COLUMN
+═══════════════════════════════ */
+.ldLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+/* ── Gallery ── */
+.ldGallery {
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+}
+.ldGalleryHero {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  aspect-ratio: 16/9;
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.08);
+}
+.ldGalleryMain {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.ldGalleryOverlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.5rem 1rem .75rem;
+  background: linear-gradient(to top, rgba(0,0,0,.6) 0%, transparent 100%);
+}
+.ldGalleryBadge {
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  color: rgba(255,255,255,.9);
+  background: rgba(89,193,115,.25);
+  border: 1px solid rgba(89,193,115,.4);
+  padding: .25rem .75rem;
+  border-radius: 999px;
+  backdrop-filter: blur(4px);
+}
+.ldGalleryThumbs {
+  display: flex;
+  gap: .5rem;
+  overflow-x: auto;
+}
+.ldThumb {
+  flex-shrink: 0;
+  width: 72px;
+  height: 52px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 2px solid rgba(255,255,255,.1);
+  cursor: pointer;
+  padding: 0;
+  background: none;
+  transition: border-color .15s;
+}
+.ldThumb img { width: 100%; height: 100%; object-fit: cover; }
+.ldThumbActive { border-color: var(--brand); }
+.ldGalleryPlaceholder {
+  aspect-ratio: 16/9;
+  background: rgba(89,193,115,.04);
+  border: 2px dashed rgba(89,193,115,.2);
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  gap: .5rem;
+  font-size: 3rem;
+}
+.ldGalleryPlaceholder p { font-size: .85rem; margin: 0; }
+
+/* ── Meta (title, location, badges) ── */
+.ldMeta {
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+}
+.ldMetaBadges {
+  display: flex;
+  gap: .5rem;
+  flex-wrap: wrap;
+}
+.ldCropBadge {
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  padding: .25rem .7rem;
+  border-radius: 999px;
+  background: rgba(89,193,115,.1);
+  border: 1px solid rgba(89,193,115,.3);
+  color: var(--brand);
+  text-transform: uppercase;
+}
+.ldOpenBadge {
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  padding: .25rem .7rem;
+  border-radius: 999px;
+  background: rgba(34,197,94,.08);
+  border: 1px solid rgba(34,197,94,.25);
+  color: #4ade80;
+  text-transform: uppercase;
+}
+.ldTitle {
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: var(--text);
+  margin: 0;
+  line-height: 1.2;
+  letter-spacing: -.02em;
+}
+.ldLocation {
+  color: var(--muted);
+  font-size: .9rem;
+  margin: 0;
+}
+
+/* ── Section heading ── */
+.ldSectionHead {
+  font-size: .8rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 .85rem;
+}
+
+/* ── Description ── */
+.ldDescBox {
+  background: rgba(255,255,255,.025);
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+}
+.ldDesc {
+  color: var(--muted);
+  font-size: .9rem;
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* ── Stats grid ── */
+.ldStatsSection {
+  background: rgba(255,255,255,.025);
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+}
+.ldStatsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+@media (max-width: 560px) { .ldStatsGrid { grid-template-columns: repeat(2, 1fr); } }
+
+.ldStat {
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+}
+.ldStatLabel {
+  font-size: .72rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  font-weight: 600;
+}
+.ldStatValue {
+  font-size: .95rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* ── Blockchain note ── */
+.ldBlockchainNote {
+  background: rgba(89,193,115,.04);
+  border: 1px solid rgba(89,193,115,.15);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+}
+
+/* ══════════════════════════════
+   RIGHT COLUMN — INVEST PANEL
+═══════════════════════════════ */
+.ldRight {
+  position: sticky;
+  top: 1.5rem;
+}
+
+.ldPanel {
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: var(--radius);
+  padding: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  box-shadow: 0 8px 32px rgba(0,0,0,.25);
+}
+
+/* ── Wallet card ── */
+.ldWalletCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: rgba(89,193,115,.07);
+  border: 1px solid rgba(89,193,115,.2);
+  border-radius: 10px;
+  padding: .9rem 1rem;
+}
+.ldWalletLeft {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+}
+.ldWalletIcon {
+  font-size: 1.4rem;
+}
+.ldWalletLabel {
+  font-size: .72rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  font-weight: 600;
+  margin: 0;
+}
+.ldWalletValue {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--brand);
+  margin: .15rem 0 0;
+}
+.ldTopUpBtn {
+  background: none;
+  border: 1px solid rgba(89,193,115,.35);
+  color: var(--brand);
+  border-radius: 8px;
+  padding: .35rem .8rem;
+  font-size: .78rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  font-family: inherit;
+  transition: background .15s;
+}
+.ldTopUpBtn:hover { background: rgba(89,193,115,.1); }
+
+/* ── Price block ── */
+.ldPriceBlock {
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+  padding-bottom: .9rem;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+}
+.ldPriceRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.ldPriceLabel {
+  font-size: .78rem;
+  color: var(--muted);
+}
+.ldPrice {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--text);
+  margin: 0;
+}
+.ldPriceTotal .ldPriceSub {
+  font-size: .9rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+/* ── Panel progress ── */
+.ldPanelProgress {
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+}
+.ldPanelProgressBar {
+  height: 8px;
+  background: rgba(255,255,255,.06);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.ldPanelProgressFill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--brand) 0%, #86efac 100%);
+  border-radius: 999px;
+  transition: width .5s ease;
+}
+.ldPanelProgressMeta {
+  display: flex;
+  justify-content: space-between;
+  font-size: .75rem;
+  color: var(--muted);
+}
+
+/* ── Buy Now button ── */
+.ldBuyNowBtn {
+  width: 100%;
+  padding: .85rem;
+  background: linear-gradient(135deg, var(--brand) 0%, #16a34a 100%);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 800;
+  cursor: pointer;
+  font-family: inherit;
+  letter-spacing: .02em;
+  transition: opacity .15s, transform .1s;
+  box-shadow: 0 4px 16px rgba(89,193,115,.3);
+}
+.ldBuyNowBtn:hover { opacity: .92; transform: translateY(-1px); }
+.ldBuyNowBtn:active { transform: translateY(0); }
+
+/* ── Invest form ── */
+.ldInvestForm {
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+}
+.ldFormLabel {
+  font-size: .78rem;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: .03em;
+}
+.ldFormInput {
+  width: 100%;
+  padding: .65rem .8rem;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: .95rem;
+  font-family: inherit;
+  box-sizing: border-box;
+  transition: border-color .15s;
+}
+.ldFormInput:focus {
+  outline: none;
+  border-color: var(--brand);
+}
+.ldFormInputErr { border-color: var(--danger) !important; }
+.ldFormHint {
+  font-size: .74rem;
+  color: var(--muted);
+}
+.ldBalPreview {
+  display: flex;
+  justify-content: space-between;
+  font-size: .82rem;
+  color: var(--muted);
+  background: rgba(255,255,255,.03);
+  border-radius: 6px;
+  padding: .4rem .6rem;
+}
+.ldFormErr {
+  font-size: .8rem;
+  color: var(--danger);
+  margin: 0;
+}
+.ldErrLink {
+  background: none;
+  border: none;
+  color: var(--brand);
+  cursor: pointer;
+  padding: 0;
+  font-size: .8rem;
+  font-family: inherit;
+  text-decoration: underline;
+}
+.ldFormActions {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: .5rem;
+  margin-top: .3rem;
+}
+.ldCancelBtn {
+  padding: .65rem;
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 8px;
+  color: var(--muted);
+  font-size: .85rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background .15s;
+}
+.ldCancelBtn:hover { background: rgba(255,255,255,.08); }
+.ldConfirmBtn {
+  padding: .65rem;
+  background: var(--brand);
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-size: .88rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity .15s;
+}
+.ldConfirmBtn:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+}
+.ldConfirmBtn:not(:disabled):hover { opacity: .88; }
+
+/* ── Trust signals ── */
+.ldTrust {
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+  padding-top: .5rem;
+  border-top: 1px solid rgba(255,255,255,.06);
+}
+.ldTrustItem {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  font-size: .77rem;
+  color: var(--muted);
+}
+.ldTrustItem span { font-size: 1rem; }
+
+/* ── Back button ── */
+.ldBackBtn {
+  background: none;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 8px;
+  padding: .5rem 1rem;
+  color: var(--muted);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: .85rem;
+}
