@@ -1,30 +1,31 @@
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "../hooks/useAuth.js";
 import { ROUTES } from "./routePaths";
-import { PublicLayout }   from "../layouts/PublicLayout";
-import { InvestorLayout } from "../layouts/InvestorLayout";
-import { AuditorLayout }  from "../layouts/AuditorLayout";
-import { FarmerLayout }   from "../layouts/FarmerLayout";
+import { PublicLayout }   from "../layouts/PublicLayout.jsx";
+import { InvestorLayout } from "../layouts/InvestorLayout.jsx";
+import { AuditorLayout }  from "../layouts/AuditorLayout.jsx";
+import { FarmerLayout }   from "../layouts/FarmerLayout.jsx";
 import { AdminLayout }    from "../layouts/AdminLayout.jsx";
 
-import Home             from "../pages/Home";
-import Login            from "../pages/Login";
-import Register         from "../pages/Register";
-import GatePage         from "../pages/GatePage";
+import Home             from "../pages/Home.jsx";
+import Login            from "../pages/Login.jsx";
+import Register         from "../pages/Register.jsx";
+import GatePage         from "../pages/GatePage.jsx";
 
-import InvestorDashboard     from "../pages/investor/InvestorDashboard";
-import InvestorPortfolio     from "../pages/investor/InvestorPortfolio";
-import InvestorOpportunities from "../pages/investor/InvestorOpportunities";
-import InvestorReports       from "../pages/investor/InvestorReports";
+import InvestorDashboard     from "../pages/investor/InvestorDashboard.jsx";
+import InvestorPortfolio     from "../pages/investor/InvestorPortfolio.jsx";
+import InvestorOpportunities from "../pages/investor/InvestorOpportunities.jsx";
+import InvestorReports       from "../pages/investor/InvestorReports.jsx";
+import InvestorWallet        from "../pages/investor/InvestorWallet.jsx";
 
 import AdminDashboard    from "../pages/admin/AdminDashboard.jsx";
 import GoogleAuthCallback from "../pages/GoogleAuthCallback.jsx";
 import CreateUserPage    from "../pages/admin/CreateUserPage.jsx";
 
-import AuditorDashboard from "../pages/auditor/AuditorDashboard";
-import AuditHistory     from "../pages/auditor/AuditHistory";
+import AuditorDashboard from "../pages/auditor/AuditorDashboard.jsx";
+import AuditHistory     from "../pages/auditor/AuditHistory.jsx";
 
-import FarmerDashboard      from "../pages/FarmerDashboard";
+import FarmerDashboard      from "../pages/FarmerDashboard.jsx";
 import FarmerLandRegistration from "../pages/farmer/FarmerLandRegistration.jsx";
 import FarmerMilestones     from "../pages/farmer/FarmerMilestones.jsx";
 import FarmerSupport        from "../pages/farmer/FarmerSupport.jsx";
@@ -98,6 +99,7 @@ export default function AppRoutes() {
         <Route path={ROUTES.investorPortfolio}     element={<InvestorPortfolio />}     />
         <Route path={ROUTES.investorOpportunities} element={<InvestorOpportunities />} />
         <Route path={ROUTES.investorReports}       element={<InvestorReports />}       />
+        <Route path={ROUTES.investorWallet}        element={<InvestorWallet />}        />
       </Route>
 
       {/* ── Auditor ─────────────────────────────────────── */}
