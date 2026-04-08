@@ -5,9 +5,10 @@ import { Navbar } from "../components/Navbar.jsx";
 
 const NAV_ITEMS = [
   { to: "/investor/dashboard",      icon: "📊", label: "Dashboard"     },
-  { to: "/investor/opportunities",  icon: "🌱", label: "Land Market"  },
-  { to: "/investor/portfolio",      icon: "💼", label: "My Projects"      },
-  { to: "/investor/reports",        icon: "📈", label: "Reports"        },
+  { to: "/investor/opportunities",  icon: "🌱", label: "Land Market"   },
+  { to: "/investor/portfolio",      icon: "💼", label: "My Projects"   },
+  { to: "/investor/contracts",      icon: "📋", label: "Contracts"     },
+  { to: "/investor/reports",        icon: "📈", label: "Reports"       },
 ];
 
 export function InvestorLayout() {

@@ -1,0 +1,315 @@
+/* ══════════════════════════════════════════════════════════════
+   FARMER CONTRACTS PAGE — ගොවි ගිවිසුම් (Sinhala UI)
+   ══════════════════════════════════════════════════════════════ */
+
+.fcPage {
+  padding: 2rem 1.5rem 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+  max-width: 820px;
+}
+
+/* ── Loading / retry ── */
+.fcCenter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 4rem 2rem;
+  color: var(--muted);
+  text-align: center;
+}
+.fcMuted { color: var(--muted); }
+.fcSpinner {
+  width: 36px; height: 36px;
+  border: 3px solid rgba(255,255,255,.1);
+  border-top-color: var(--brand);
+  border-radius: 50%;
+  animation: fcSpin .8s linear infinite;
+}
+@keyframes fcSpin { to { transform: rotate(360deg); } }
+
+.fcRetryBtn {
+  padding: .6rem 1.4rem;
+  background: rgba(89,193,115,.1);
+  border: 1px solid rgba(89,193,115,.3);
+  border-radius: 10px;
+  color: var(--brand);
+  font-size: .9rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+}
+.fcRetryBtn:hover { background: rgba(89,193,115,.18); }
+
+/* ── Page header ── */
+.fcHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.fcHeaderIcon { font-size: 2rem; flex-shrink: 0; margin-top: .1rem; }
+.fcTitle {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: var(--text);
+  margin: 0;
+  /* Unicode range for Sinhala glyphs */
+  font-family: inherit;
+}
+.fcSubtitle {
+  color: var(--muted);
+  font-size: .9rem;
+  margin: .3rem 0 0;
+  line-height: 1.5;
+}
+.fcCount {
+  margin-left: auto;
+  padding: .35rem .9rem;
+  background: rgba(89,193,115,.1);
+  border: 1px solid rgba(89,193,115,.25);
+  border-radius: 999px;
+  font-size: .8rem;
+  font-weight: 700;
+  color: var(--brand);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ── Trust box ── */
+.fcTrustBox {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  padding: 1.1rem 1.3rem;
+  background: rgba(89,193,115,.06);
+  border: 1px solid rgba(89,193,115,.2);
+  border-radius: 14px;
+}
+.fcTrustIcon { font-size: 1.6rem; flex-shrink: 0; }
+.fcTrustTitle {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--text);
+  margin: 0 0 .4rem;
+}
+.fcTrustDesc {
+  font-size: .88rem;
+  color: var(--muted);
+  line-height: 1.65;
+  margin: 0;
+}
+.fcTrustDesc strong { color: var(--text); }
+
+/* ── Empty state ── */
+.fcEmpty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .75rem;
+  padding: 3.5rem 2rem;
+  border: 1px dashed rgba(255,255,255,.1);
+  border-radius: 16px;
+  text-align: center;
+}
+.fcEmptyIcon { font-size: 2.5rem; }
+.fcEmptyTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+.fcEmptyDesc {
+  color: var(--muted);
+  font-size: .9rem;
+  margin: 0;
+}
+
+/* ── List ── */
+.fcList {
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+}
+
+/* ── Card ── */
+.fcCard {
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: border-color .2s;
+}
+.fcCard:hover { border-color: rgba(255,255,255,.15); }
+.fcCardOpen { border-color: rgba(89,193,115,.3) !important; }
+
+/* Card head */
+.fcCardHead {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.2rem;
+  cursor: pointer;
+  user-select: none;
+}
+.fcCardNum {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(89,193,115,.12);
+  border: 1px solid rgba(89,193,115,.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .82rem;
+  font-weight: 800;
+  color: var(--brand);
+  flex-shrink: 0;
+}
+.fcCardHeadInfo { flex: 1; min-width: 0; }
+.fcCardProject {
+  font-size: .95rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.fcCardMeta {
+  font-size: .78rem;
+  color: var(--muted);
+  margin: .2rem 0 0;
+}
+.fcCardHeadRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: .3rem;
+  flex-shrink: 0;
+}
+.fcCardAmount {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--brand);
+  margin: 0;
+}
+.fcChevron {
+  font-size: .62rem;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+
+/* ── Badge ── */
+.fcBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: .2rem .65rem;
+  border-radius: 999px;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .02em;
+}
+
+/* ── Card body ── */
+.fcCardBody {
+  border-top: 1px solid rgba(255,255,255,.07);
+  padding: 1.15rem 1.4rem 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+/* Immutability notice inside card */
+.fcCardNotice {
+  display: flex;
+  align-items: flex-start;
+  gap: .6rem;
+  padding: .7rem .9rem;
+  background: rgba(89,193,115,.08);
+  border-left: 3px solid var(--brand);
+  border-radius: 8px;
+  font-size: .85rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.fcCardNotice strong { color: var(--text); }
+
+/* Detail list */
+.fcDetailList {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.fcDetailItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: .6rem 1rem;
+  border-bottom: 1px solid rgba(255,255,255,.05);
+  gap: 1rem;
+}
+.fcDetailItem:last-child { border-bottom: none; }
+.fcDetailItem:nth-child(even) { background: rgba(255,255,255,.02); }
+.fcDetailLabel {
+  font-size: .8rem;
+  color: var(--muted);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.fcDetailVal {
+  font-size: .88rem;
+  font-weight: 700;
+  color: var(--text);
+  text-align: right;
+  word-break: break-word;
+}
+.fcAmountVal { color: var(--brand); }
+
+/* Explanation box */
+.fcExplanationBox {
+  background: rgba(255,255,255,.025);
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 12px;
+  padding: 1rem 1.1rem;
+}
+.fcExplainTitle {
+  font-size: .85rem;
+  font-weight: 800;
+  color: var(--text);
+  margin: 0 0 .6rem;
+}
+.fcExplainText {
+  font-size: .85rem;
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 0 0 .55rem;
+}
+.fcExplainText:last-child { margin-bottom: 0; }
+.fcExplainText strong { color: var(--text); }
+
+/* ── Footer note ── */
+.fcFooterNote {
+  display: flex;
+  align-items: flex-start;
+  gap: .6rem;
+  font-size: .82rem;
+  color: var(--muted);
+  line-height: 1.5;
+  padding: .75rem 1rem;
+  background: rgba(255,255,255,.025);
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,.06);
+}
+
+/* ── Mobile ── */
+@media (max-width: 540px) {
+  .fcPage { padding: 1.25rem 1rem 3rem; }
+  .fcCardHead { gap: .6rem; }
+  .fcCount { margin-left: 0; }
+  .fcHeader { flex-wrap: wrap; }
+}

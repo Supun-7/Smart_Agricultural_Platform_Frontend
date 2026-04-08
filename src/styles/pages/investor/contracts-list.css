@@ -1,0 +1,387 @@
+/* ══════════════════════════════════════════════════════════════
+   INVESTOR CONTRACTS LIST PAGE
+   ══════════════════════════════════════════════════════════════ */
+
+.iclPage {
+  padding: 2rem 1.75rem 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 900px;
+}
+
+/* ── Loading / error ── */
+.iclLoading, .iclError {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 4rem 2rem;
+  color: var(--muted);
+  text-align: center;
+}
+.iclError span { font-size: 2rem; }
+.iclSpinner {
+  width: 36px; height: 36px;
+  border: 3px solid rgba(255,255,255,.1);
+  border-top-color: var(--brand);
+  border-radius: 50%;
+  animation: iclSpin .8s linear infinite;
+}
+@keyframes iclSpin { to { transform: rotate(360deg); } }
+
+.iclRetryBtn {
+  padding: .6rem 1.4rem;
+  background: rgba(89,193,115,.12);
+  border: 1px solid rgba(89,193,115,.3);
+  border-radius: 10px;
+  color: var(--brand);
+  font-size: .88rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background .15s;
+}
+.iclRetryBtn:hover { background: rgba(89,193,115,.2); }
+
+/* ── Page header ── */
+.iclHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.iclTitle {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text);
+  margin: 0;
+  letter-spacing: -.02em;
+}
+.iclSub {
+  color: var(--muted);
+  font-size: .9rem;
+  margin: .3rem 0 0;
+}
+.iclHeaderMeta { display: flex; align-items: center; gap: .75rem; }
+.iclTotalBadge {
+  padding: .35rem .9rem;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 999px;
+  font-size: .78rem;
+  font-weight: 700;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* ── Trust bar ── */
+.iclTrustBar {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  flex-wrap: wrap;
+  padding: .75rem 1.1rem;
+  background: rgba(89,193,115,.05);
+  border: 1px solid rgba(89,193,115,.15);
+  border-radius: 12px;
+  font-size: .8rem;
+  color: var(--muted);
+}
+.iclTrustItem strong { color: var(--text); }
+.iclTrustDot {
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.2);
+  flex-shrink: 0;
+}
+@media (max-width: 560px) {
+  .iclTrustDot { display: none; }
+  .iclTrustBar { flex-direction: column; align-items: flex-start; gap: .4rem; }
+}
+
+/* ── Filter row ── */
+.iclFilterRow {
+  display: flex;
+  gap: .45rem;
+  flex-wrap: wrap;
+}
+.iclFilterBtn {
+  padding: .38rem .9rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.1);
+  background: transparent;
+  color: var(--muted);
+  font-size: .82rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background .12s, color .12s, border-color .12s;
+}
+.iclFilterBtn:hover { background: rgba(255,255,255,.05); color: var(--text); }
+.iclFilterBtn.active {
+  background: rgba(89,193,115,.12);
+  border-color: rgba(89,193,115,.4);
+  color: var(--brand);
+}
+
+/* ── Empty state ── */
+.iclEmpty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .75rem;
+  padding: 3.5rem 2rem;
+  border: 1px dashed rgba(255,255,255,.1);
+  border-radius: 16px;
+  color: var(--muted);
+  text-align: center;
+}
+.iclEmpty span { font-size: 2.2rem; }
+
+/* ── Card list ── */
+.iclList {
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+}
+
+/* ── Single contract card ── */
+.iclCard {
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: border-color .2s;
+}
+.iclCard:hover { border-color: rgba(255,255,255,.14); }
+.iclCardOpen { border-color: rgba(89,193,115,.25) !important; }
+
+/* ── Card head (clickable) ── */
+.iclCardHead {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+  user-select: none;
+}
+.iclCardLeft {
+  display: flex;
+  align-items: center;
+  gap: .85rem;
+  flex: 1;
+  min-width: 0;
+}
+.iclCardIcon {
+  font-size: 1.35rem;
+  flex-shrink: 0;
+}
+.iclCardProject {
+  font-size: .95rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.iclCardMeta {
+  font-size: .78rem;
+  color: var(--muted);
+  margin: .2rem 0 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.iclCardRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: .25rem;
+  flex-shrink: 0;
+}
+.iclCardAmount {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--brand);
+  margin: 0;
+}
+.iclCardBadgeRow {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+}
+.iclCardDate {
+  font-size: .72rem;
+  color: var(--muted);
+}
+
+/* Status badge */
+.iclStatusBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: .2rem .6rem;
+  border-radius: 999px;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.iclOnchainDot {
+  font-size: .85rem;
+}
+
+/* Chevron */
+.iclChevron {
+  font-size: .65rem;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+
+/* ── Card body (expanded) ── */
+.iclCardBody {
+  border-top: 1px solid rgba(255,255,255,.07);
+  padding: 1.25rem 1.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Details grid */
+.iclDetailGrid {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.iclDetailRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: .55rem .9rem;
+  border-bottom: 1px solid rgba(255,255,255,.05);
+}
+.iclDetailRow:last-child { border-bottom: none; }
+.iclDetailRow:nth-child(even) { background: rgba(255,255,255,.02); }
+.iclDetailLabel {
+  font-size: .78rem;
+  color: var(--muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+}
+.iclDetailVal {
+  font-size: .85rem;
+  font-weight: 700;
+  color: var(--text);
+  text-align: right;
+  max-width: 60%;
+  word-break: break-all;
+}
+
+/* Blockchain panel */
+.iclBlockchainPanel {
+  background: rgba(89,193,115,.03);
+  border: 1px solid rgba(89,193,115,.12);
+  border-radius: 12px;
+  padding: 1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: .7rem;
+}
+.iclBlockchainTitle {
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--brand);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+}
+
+/* Hash rows */
+.iclHashRow {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  flex-wrap: wrap;
+}
+.iclHashLabel {
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  white-space: nowrap;
+  min-width: 130px;
+}
+.iclHashChip {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  background: rgba(0,0,0,.25);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 6px;
+  padding: .3rem .65rem;
+  cursor: pointer;
+  transition: border-color .15s;
+}
+.iclHashChip:hover { border-color: rgba(89,193,115,.35); }
+.iclHashChip code {
+  font-family: 'Courier New', monospace;
+  font-size: .75rem;
+  color: #86efac;
+}
+.iclHashCopyIcon { font-size: .75rem; opacity: .7; }
+
+/* PolygonScan button */
+.iclPolygonBtn {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .7rem 1rem;
+  background: rgba(89,193,115,.08);
+  border: 1px solid rgba(89,193,115,.3);
+  border-radius: 10px;
+  color: var(--brand);
+  font-size: .85rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background .15s, border-color .15s;
+}
+.iclPolygonBtn:hover {
+  background: rgba(89,193,115,.16);
+  border-color: rgba(89,193,115,.5);
+}
+.iclPolygonArrow { margin-left: auto; }
+
+.iclBlockchainDesc {
+  font-size: .78rem;
+  color: var(--muted);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.iclMockNote {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  font-size: .82rem;
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* ── Mobile ── */
+@media (max-width: 560px) {
+  .iclPage { padding: 1.25rem 1rem 3rem; }
+  .iclCardHead { flex-wrap: wrap; gap: .75rem; }
+  .iclCardRight { align-items: flex-start; }
+  .iclHashRow { flex-direction: column; align-items: flex-start; }
+}

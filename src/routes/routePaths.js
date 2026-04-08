@@ -21,6 +21,7 @@ export const ROUTES = {
   investorWallet:        "/investor/wallet",
   investorLandDetail:    "/investor/lands/:landId",
   investorContract:      "/investor/contract",
+  investorContracts:     "/investor/contracts",
 
   // ── auditor sub-pages ────────────────────────────────────
   auditorDashboard: "/auditor/dashboard",
@@ -34,5 +35,6 @@ export const ROUTES = {
   farmerApplication: "/farmer/application",
   farmerCrops:       "/farmer/crops",
   farmerMilestones:  "/farmer/milestones/evidence",
-  farmerSupport:     "/farmer/support",          // ← NEW: 24/7 AI Support
+  farmerSupport:     "/farmer/support",
+  farmerContracts:   "/farmer/contracts",
 };

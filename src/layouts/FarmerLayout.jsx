@@ -9,6 +9,7 @@ const NAV_ITEMS = [
   { to: ROUTES.farmerApplication, icon: "📝", label: "Register Land"   },
   { to: ROUTES.farmerCrops,       icon: "🌾", label: "My Crops"        },
   { to: ROUTES.farmerMilestones,  icon: "📎", label: "Upload Evidence" },
+  { to: ROUTES.farmerContracts,   icon: "📋", label: "ගිවිසුම්"        },
 ];
 
 export function FarmerLayout() {
