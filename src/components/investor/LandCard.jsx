@@ -1,10 +1,10 @@
 import "../../styles/components/investor/landCard.css";
 
 const STATUS_MAP = {
-  ACTIVE:    { label: "Active",    cls: "landBadgeActive"    },
-  PENDING:   { label: "Pending",   cls: "landBadgePending"   },
-  COMPLETED: { label: "Completed", cls: "landBadgeDone"      },
-  CANCELLED: { label: "Cancelled", cls: "landBadgeMuted"     },
+  ACTIVE:    { label: "Active",    cls: "landBadgeActive"  },
+  PENDING:   { label: "Pending",   cls: "landBadgePending" },
+  COMPLETED: { label: "Completed", cls: "landBadgeDone"    },
+  CANCELLED: { label: "Cancelled", cls: "landBadgeMuted"   },
 };
 
 function fmt(val) {
@@ -22,10 +22,21 @@ export function LandCard({ investment }) {
     progressPercentage,
     investmentDate,
     status,
+    blockchainTxHash,
+    contractAddress,
+    polygonScanUrl,
   } = investment;
 
   const badge   = STATUS_MAP[status] ?? { label: status, cls: "landBadgeMuted" };
   const dateStr = investmentDate ? investmentDate.split("T")[0] : "—";
+
+  // Only show the PolygonScan link for real on-chain hashes (66 chars, starts with 0x)
+  const hasRealLink =
+    polygonScanUrl &&
+    blockchainTxHash &&
+    !blockchainTxHash.startsWith("BLOCKCHAIN_ERROR") &&
+    !blockchainTxHash.startsWith("PENDING") &&
+    blockchainTxHash.length <= 66;
 
   return (
     <div className="landCard">
@@ -64,6 +75,22 @@ export function LandCard({ investment }) {
           <span className="landCardStatValue">{dateStr}</span>
         </div>
       </div>
+
+      {/* ── Blockchain verification link ───────────────────────────────── */}
+      {/* Shows only when the backend has returned a real Polygon Amoy tx hash */}
+      {hasRealLink && (
+        <div className="landCardBlockchain">
+          <a
+            href={polygonScanUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="landCardChainLink"
+          >
+            <span>⛓️</span>
+            View contract on PolygonScan ↗
+          </a>
+        </div>
+      )}
 
     </div>
   );
