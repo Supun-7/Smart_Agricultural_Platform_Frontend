@@ -1,6 +1,8 @@
 import { useInvestorDashboard } from "../../hooks/useInvestorDashboard.js";
 import { StatCard } from "../../components/investor/StatCard.jsx";
 import { LandCard } from "../../components/investor/LandCard.jsx";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../routes/routePaths.js";
 import "../../styles/pages/investor/dashboard.css";
 
 function fmt(val) {
@@ -12,6 +14,7 @@ function fmt(val) {
 export default function InvestorDashboard() {
   // AC-5: loading and error from hook
   const { dashboard, loading, error, reload } = useInvestorDashboard();
+  const navigate = useNavigate();
 
   // AC-5: loading state
   if (loading) {
@@ -175,6 +178,174 @@ export default function InvestorDashboard() {
           </div>
         </div>
       )}
+
+      {/* ── Contracts section ────────────────────────────── */}
+      <div className="invSection">
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: ".5rem" }}>
+          <h2 className="invSectionTitle" style={{ margin: 0, borderBottom: "none", paddingBottom: 0 }}>
+            My Contracts
+          </h2>
+          <button
+            onClick={() => navigate(ROUTES.investorContracts)}
+            style={{
+              padding: ".38rem 1rem",
+              background: "rgba(89,193,115,.1)",
+              border: "1px solid rgba(89,193,115,.3)",
+              borderRadius: "999px",
+              color: "var(--brand)",
+              fontSize: ".8rem",
+              fontWeight: 700,
+              fontFamily: "inherit",
+              cursor: "pointer",
+              transition: "background .15s",
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(89,193,115,.18)")}
+            onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(89,193,115,.1)")}
+          >
+            View All Contracts →
+          </button>
+        </div>
+        <div style={{ borderBottom: "1px solid rgba(255,255,255,.08)", marginBottom: ".25rem" }} />
+
+        {investedLands.length === 0 ? (
+          <div className="invEmpty">
+            <span>📋</span>
+            <p>No contracts yet. Invest in a land to create your first contract.</p>
+          </div>
+        ) : (
+          <div style={{ display: "flex", flexDirection: "column", gap: ".6rem" }}>
+            {investedLands.slice(0, 3).map((inv) => {
+              const hasLink =
+                inv.polygonScanUrl &&
+                inv.blockchainTxHash &&
+                !inv.blockchainTxHash.startsWith("BLOCKCHAIN_ERROR") &&
+                !inv.blockchainTxHash.startsWith("PENDING") &&
+                inv.blockchainTxHash.length <= 66;
+
+              const dateStr = inv.investmentDate
+                ? new Date(inv.investmentDate).toLocaleDateString("en-LK", { dateStyle: "medium" })
+                : "—";
+
+              const statusColors = {
+                ACTIVE:    { bg: "rgba(89,193,115,.12)", color: "#59c173" },
+                COMPLETED: { bg: "rgba(99,179,237,.12)", color: "#63b3ed" },
+                PENDING:   { bg: "rgba(255,193,7,.1)",   color: "#ffc107" },
+                CANCELLED: { bg: "rgba(255,92,122,.1)",  color: "#ff5c7a" },
+              };
+              const sc = statusColors[inv.status] || statusColors.PENDING;
+
+              return (
+                <div
+                  key={inv.investmentId}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    gap: "1rem",
+                    flexWrap: "wrap",
+                    padding: ".85rem 1.1rem",
+                    background: "rgba(255,255,255,.025)",
+                    border: "1px solid rgba(255,255,255,.07)",
+                    borderRadius: "12px",
+                    transition: "border-color .15s",
+                  }}
+                >
+                  {/* Left — project info */}
+                  <div style={{ display: "flex", alignItems: "center", gap: ".75rem", minWidth: 0 }}>
+                    <span style={{ fontSize: "1.2rem", flexShrink: 0 }}>📋</span>
+                    <div style={{ minWidth: 0 }}>
+                      <p style={{ margin: 0, fontWeight: 700, color: "var(--text)", fontSize: ".9rem", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                        {inv.projectName}
+                      </p>
+                      <p style={{ margin: ".15rem 0 0", fontSize: ".75rem", color: "var(--muted)" }}>
+                        📍 {inv.location} &nbsp;·&nbsp; 👨‍🌾 {inv.farmerName || "—"} &nbsp;·&nbsp; {dateStr}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Right — amount, status, blockchain link */}
+                  <div style={{ display: "flex", alignItems: "center", gap: ".75rem", flexShrink: 0, flexWrap: "wrap" }}>
+                    <span style={{ fontWeight: 800, color: "var(--brand)", fontSize: ".95rem" }}>
+                      {fmt(inv.amountInvested)}
+                    </span>
+                    <span style={{
+                      padding: ".2rem .6rem",
+                      borderRadius: "999px",
+                      fontSize: ".72rem",
+                      fontWeight: 700,
+                      textTransform: "uppercase",
+                      background: sc.bg,
+                      color: sc.color,
+                    }}>
+                      {inv.status}
+                    </span>
+                    {hasLink ? (
+                      <a
+                        href={inv.polygonScanUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: ".35rem",
+                          padding: ".28rem .75rem",
+                          background: "rgba(89,193,115,.08)",
+                          border: "1px solid rgba(89,193,115,.28)",
+                          borderRadius: "8px",
+                          color: "var(--brand)",
+                          fontSize: ".75rem",
+                          fontWeight: 700,
+                          textDecoration: "none",
+                          whiteSpace: "nowrap",
+                        }}
+                        title="View this contract on the Polygon blockchain explorer"
+                      >
+                        ⛓️ View Contract ↗
+                      </a>
+                    ) : (
+                      <span style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: ".35rem",
+                        padding: ".28rem .75rem",
+                        background: "rgba(255,255,255,.04)",
+                        border: "1px solid rgba(255,255,255,.08)",
+                        borderRadius: "8px",
+                        color: "var(--muted)",
+                        fontSize: ".75rem",
+                        fontWeight: 600,
+                      }}>
+                        ⛓️ Pending
+                      </span>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+
+            {/* Show "View All" link if there are more than 3 */}
+            {investedLands.length > 3 && (
+              <button
+                onClick={() => navigate(ROUTES.investorContracts)}
+                style={{
+                  alignSelf: "flex-start",
+                  padding: ".4rem 1rem",
+                  background: "transparent",
+                  border: "1px solid rgba(255,255,255,.1)",
+                  borderRadius: "8px",
+                  color: "var(--muted)",
+                  fontSize: ".82rem",
+                  fontWeight: 600,
+                  fontFamily: "inherit",
+                  cursor: "pointer",
+                }}
+              >
+                +{investedLands.length - 3} more contracts — View All
+              </button>
+            )}
+          </div>
+        )}
+      </div>
 
     </div>
   );
