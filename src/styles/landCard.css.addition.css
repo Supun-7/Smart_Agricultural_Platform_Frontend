@@ -1,0 +1,22 @@
+/* ── Add these lines to the BOTTOM of your existing landCard.css ── */
+
+.landCardBlockchain {
+  margin-top: .75rem;
+  padding-top: .75rem;
+  border-top: 1px solid rgba(255, 255, 255, .06);
+}
+
+.landCardChainLink {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  color: var(--brand);
+  font-size: .82rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: opacity .15s;
+}
+
+.landCardChainLink:hover {
+  opacity: .75;
+}
