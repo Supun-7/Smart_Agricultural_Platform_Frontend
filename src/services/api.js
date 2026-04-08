@@ -133,6 +133,12 @@ export const farmerApi = {
       body: formData,
     }).then(handle);
   },
+
+  /** Returns all investment contracts received on the farmer's lands */
+  getContracts: (token) =>
+    fetch(`${BASE_URL}/farmer/contracts`, {
+      headers: headers(token),
+    }).then(handle),
 };
 
 // ── Investor endpoints ───────────────────────────────────────
@@ -206,6 +212,12 @@ export const investorApi = {
       method:  "POST",
       headers: headers(token),
       body:    JSON.stringify({ amount }),
+    }).then(handle),
+
+  /** Returns all investment contracts for the investor — for contracts page */
+  getContracts: (token) =>
+    fetch(`${BASE_URL}/investor/contracts`, {
+      headers: headers(token),
     }).then(handle),
 };
 

@@ -19,6 +19,7 @@ import InvestorReports       from "../pages/investor/InvestorReports.jsx";
 import InvestorWallet        from "../pages/investor/InvestorWallet.jsx";
 import LandDetailPage        from "../pages/investor/LandDetailPage.jsx";
 import ContractPage          from "../pages/investor/ContractPage.jsx";
+import InvestorContractsPage from "../pages/investor/InvestorContractsPage.jsx";
 
 import AdminDashboard    from "../pages/admin/AdminDashboard.jsx";
 import GoogleAuthCallback from "../pages/GoogleAuthCallback.jsx";
@@ -31,6 +32,7 @@ import FarmerDashboard      from "../pages/FarmerDashboard.jsx";
 import FarmerLandRegistration from "../pages/farmer/FarmerLandRegistration.jsx";
 import FarmerMilestones     from "../pages/farmer/FarmerMilestones.jsx";
 import FarmerSupport        from "../pages/farmer/FarmerSupport.jsx";
+import FarmerContractsPage  from "../pages/farmer/FarmerContractsPage.jsx";
 
 // ── Guard 1 — must be logged in ─────────────────────────────
 function RequireAuth({ children }) {
@@ -104,6 +106,7 @@ export default function AppRoutes() {
         <Route path={ROUTES.investorWallet}        element={<InvestorWallet />}        />
         <Route path={ROUTES.investorLandDetail}    element={<LandDetailPage />}        />
         <Route path={ROUTES.investorContract}      element={<ContractPage />}          />
+        <Route path={ROUTES.investorContracts}     element={<InvestorContractsPage />} />
       </Route>
 
       {/* ── Auditor ─────────────────────────────────────── */}
@@ -136,7 +139,8 @@ export default function AppRoutes() {
         <Route path={ROUTES.farmerDashboard}   element={<FarmerDashboard />}        />
         <Route path={ROUTES.farmerApplication} element={<FarmerLandRegistration />} />
         <Route path={ROUTES.farmerMilestones}  element={<FarmerMilestones />}       />
-        <Route path={ROUTES.farmerSupport}     element={<FarmerSupport />}          /> {/* ← NEW */}
+        <Route path={ROUTES.farmerSupport}     element={<FarmerSupport />}          />
+        <Route path={ROUTES.farmerContracts}   element={<FarmerContractsPage />}    />
         <Route path={ROUTES.farmerCrops}       element={
           <div style={{ color: "var(--text)", padding: "2rem" }}>
             My Crops — coming soon
