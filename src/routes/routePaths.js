@@ -1,40 +1,42 @@
 export const ROUTES = {
   // public routes — no login needed
-  home:     "/",
-  login:    "/login",
+  home: "/",
+  login: "/login",
   register: "/register",
+  // ADD this line after `register: "/register",`
+  verifyOtp: "/verify-otp",
 
   // 2nd door — checked right after login
   gate: "/gate",
 
   // role dashboards — protected
-  farmer:  "/farmer/dashboard",
+  farmer: "/farmer/dashboard",
   auditor: "/auditor/dashboard",
-  admin:   "/admin/dashboard",
+  admin: "/admin/dashboard",
 
   // ── investor sub-pages ───────────────────────────────────
-  investor:              "/investor/dashboard",
-  investorDashboard:     "/investor/dashboard",
-  investorPortfolio:     "/investor/portfolio",
+  investor: "/investor/dashboard",
+  investorDashboard: "/investor/dashboard",
+  investorPortfolio: "/investor/portfolio",
   investorOpportunities: "/investor/opportunities",
-  investorReports:       "/investor/reports",
-  investorWallet:        "/investor/wallet",
-  investorLandDetail:    "/investor/lands/:landId",
-  investorContract:      "/investor/contract",
-  investorContracts:     "/investor/contracts",
+  investorReports: "/investor/reports",
+  investorWallet: "/investor/wallet",
+  investorLandDetail: "/investor/lands/:landId",
+  investorContract: "/investor/contract",
+  investorContracts: "/investor/contracts",
 
   // ── auditor sub-pages ────────────────────────────────────
   auditorDashboard: "/auditor/dashboard",
-  auditorKyc:       "/auditor/kyc",
-  auditorFarmers:   "/auditor/farmers",
-  auditorReports:   "/auditor/reports",
-  auditorHistory:   "/auditor/history",
+  auditorKyc: "/auditor/kyc",
+  auditorFarmers: "/auditor/farmers",
+  auditorReports: "/auditor/reports",
+  auditorHistory: "/auditor/history",
 
   // ── farmer sub-pages ─────────────────────────────────────
-  farmerDashboard:   "/farmer/dashboard",
+  farmerDashboard: "/farmer/dashboard",
   farmerApplication: "/farmer/application",
-  farmerCrops:       "/farmer/crops",
-  farmerMilestones:  "/farmer/milestones/evidence",
-  farmerSupport:     "/farmer/support",
-  farmerContracts:   "/farmer/contracts",
+  farmerCrops: "/farmer/crops",
+  farmerMilestones: "/farmer/milestones/evidence",
+  farmerSupport: "/farmer/support",
+  farmerContracts: "/farmer/contracts",
 };

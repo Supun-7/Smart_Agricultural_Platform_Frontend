@@ -1,38 +1,40 @@
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth.js";
 import { ROUTES } from "./routePaths";
-import { PublicLayout }   from "../layouts/PublicLayout.jsx";
+import { PublicLayout } from "../layouts/PublicLayout.jsx";
 import { InvestorLayout } from "../layouts/InvestorLayout.jsx";
-import { AuditorLayout }  from "../layouts/AuditorLayout.jsx";
-import { FarmerLayout }   from "../layouts/FarmerLayout.jsx";
-import { AdminLayout }    from "../layouts/AdminLayout.jsx";
+import { AuditorLayout } from "../layouts/AuditorLayout.jsx";
+import { FarmerLayout } from "../layouts/FarmerLayout.jsx";
+import { AdminLayout } from "../layouts/AdminLayout.jsx";
 
-import Home             from "../pages/Home.jsx";
-import Login            from "../pages/Login.jsx";
-import Register         from "../pages/Register.jsx";
-import GatePage         from "../pages/GatePage.jsx";
+import Home from "../pages/Home.jsx";
+import Login from "../pages/Login.jsx";
+import Register from "../pages/Register.jsx";
+// ADD this import alongside the other page imports near the top:
+import VerifyOtp from "../pages/VerifyOtp.jsx";
+import GatePage from "../pages/GatePage.jsx";
 
-import InvestorDashboard     from "../pages/investor/InvestorDashboard.jsx";
-import InvestorPortfolio     from "../pages/investor/InvestorPortfolio.jsx";
+import InvestorDashboard from "../pages/investor/InvestorDashboard.jsx";
+import InvestorPortfolio from "../pages/investor/InvestorPortfolio.jsx";
 import InvestorOpportunities from "../pages/investor/InvestorOpportunities.jsx";
-import InvestorReports       from "../pages/investor/InvestorReports.jsx";
-import InvestorWallet        from "../pages/investor/InvestorWallet.jsx";
-import LandDetailPage        from "../pages/investor/LandDetailPage.jsx";
-import ContractPage          from "../pages/investor/ContractPage.jsx";
+import InvestorReports from "../pages/investor/InvestorReports.jsx";
+import InvestorWallet from "../pages/investor/InvestorWallet.jsx";
+import LandDetailPage from "../pages/investor/LandDetailPage.jsx";
+import ContractPage from "../pages/investor/ContractPage.jsx";
 import InvestorContractsPage from "../pages/investor/InvestorContractsPage.jsx";
 
-import AdminDashboard    from "../pages/admin/AdminDashboard.jsx";
+import AdminDashboard from "../pages/admin/AdminDashboard.jsx";
 import GoogleAuthCallback from "../pages/GoogleAuthCallback.jsx";
-import CreateUserPage    from "../pages/admin/CreateUserPage.jsx";
+import CreateUserPage from "../pages/admin/CreateUserPage.jsx";
 
 import AuditorDashboard from "../pages/auditor/AuditorDashboard.jsx";
-import AuditHistory     from "../pages/auditor/AuditHistory.jsx";
+import AuditHistory from "../pages/auditor/AuditHistory.jsx";
 
-import FarmerDashboard      from "../pages/FarmerDashboard.jsx";
+import FarmerDashboard from "../pages/FarmerDashboard.jsx";
 import FarmerLandRegistration from "../pages/farmer/FarmerLandRegistration.jsx";
-import FarmerMilestones     from "../pages/farmer/FarmerMilestones.jsx";
-import FarmerSupport        from "../pages/farmer/FarmerSupport.jsx";
-import FarmerContractsPage  from "../pages/farmer/FarmerContractsPage.jsx";
+import FarmerMilestones from "../pages/farmer/FarmerMilestones.jsx";
+import FarmerSupport from "../pages/farmer/FarmerSupport.jsx";
+import FarmerContractsPage from "../pages/farmer/FarmerContractsPage.jsx";
 
 // ── Guard 1 — must be logged in ─────────────────────────────
 function RequireAuth({ children }) {
@@ -74,7 +76,7 @@ export default function AppRoutes() {
 
       {/* Public routes */}
       <Route element={<PublicLayout />}>
-        <Route path={ROUTES.home}  element={<Home />} />
+        <Route path={ROUTES.home} element={<Home />} />
         <Route
           path={ROUTES.login}
           element={<RedirectIfLoggedIn><Login /></RedirectIfLoggedIn>}
@@ -83,6 +85,8 @@ export default function AppRoutes() {
           path={ROUTES.register}
           element={<RedirectIfLoggedIn><Register /></RedirectIfLoggedIn>}
         />
+        {/* OTP verification — public, no redirect guard (user has no token yet) */}
+        <Route path={ROUTES.verifyOtp} element={<VerifyOtp />} />
       </Route>
 
       {/* Gate */}
@@ -99,14 +103,14 @@ export default function AppRoutes() {
           </RequireRole>
         }
       >
-        <Route path={ROUTES.investorDashboard}     element={<InvestorDashboard />}     />
-        <Route path={ROUTES.investorPortfolio}     element={<InvestorPortfolio />}     />
+        <Route path={ROUTES.investorDashboard} element={<InvestorDashboard />} />
+        <Route path={ROUTES.investorPortfolio} element={<InvestorPortfolio />} />
         <Route path={ROUTES.investorOpportunities} element={<InvestorOpportunities />} />
-        <Route path={ROUTES.investorReports}       element={<InvestorReports />}       />
-        <Route path={ROUTES.investorWallet}        element={<InvestorWallet />}        />
-        <Route path={ROUTES.investorLandDetail}    element={<LandDetailPage />}        />
-        <Route path={ROUTES.investorContract}      element={<ContractPage />}          />
-        <Route path={ROUTES.investorContracts}     element={<InvestorContractsPage />} />
+        <Route path={ROUTES.investorReports} element={<InvestorReports />} />
+        <Route path={ROUTES.investorWallet} element={<InvestorWallet />} />
+        <Route path={ROUTES.investorLandDetail} element={<LandDetailPage />} />
+        <Route path={ROUTES.investorContract} element={<ContractPage />} />
+        <Route path={ROUTES.investorContracts} element={<InvestorContractsPage />} />
       </Route>
 
       {/* ── Auditor ─────────────────────────────────────── */}
@@ -118,14 +122,14 @@ export default function AppRoutes() {
         }
       >
         <Route path={ROUTES.auditorDashboard} element={<AuditorDashboard />} />
-        <Route path={ROUTES.auditorKyc}       element={<AuditorDashboard />} />
-        <Route path={ROUTES.auditorFarmers}   element={<AuditorDashboard />} />
-        <Route path={ROUTES.auditorReports}   element={
+        <Route path={ROUTES.auditorKyc} element={<AuditorDashboard />} />
+        <Route path={ROUTES.auditorFarmers} element={<AuditorDashboard />} />
+        <Route path={ROUTES.auditorReports} element={
           <div style={{ color: "var(--text)", padding: "2rem" }}>
             Reports — coming soon
           </div>
         } />
-        <Route path={ROUTES.auditorHistory}   element={<AuditHistory />} />
+        <Route path={ROUTES.auditorHistory} element={<AuditHistory />} />
       </Route>
 
       {/* ── Farmer ──────────────────────────────────────── */}
@@ -136,12 +140,12 @@ export default function AppRoutes() {
           </RequireRole>
         }
       >
-        <Route path={ROUTES.farmerDashboard}   element={<FarmerDashboard />}        />
+        <Route path={ROUTES.farmerDashboard} element={<FarmerDashboard />} />
         <Route path={ROUTES.farmerApplication} element={<FarmerLandRegistration />} />
-        <Route path={ROUTES.farmerMilestones}  element={<FarmerMilestones />}       />
-        <Route path={ROUTES.farmerSupport}     element={<FarmerSupport />}          />
-        <Route path={ROUTES.farmerContracts}   element={<FarmerContractsPage />}    />
-        <Route path={ROUTES.farmerCrops}       element={
+        <Route path={ROUTES.farmerMilestones} element={<FarmerMilestones />} />
+        <Route path={ROUTES.farmerSupport} element={<FarmerSupport />} />
+        <Route path={ROUTES.farmerContracts} element={<FarmerContractsPage />} />
+        <Route path={ROUTES.farmerCrops} element={
           <div style={{ color: "var(--text)", padding: "2rem" }}>
             My Crops — coming soon
           </div>
@@ -156,9 +160,9 @@ export default function AppRoutes() {
           </RequireRole>
         }
       >
-        <Route path={ROUTES.admin}         element={<AdminDashboard />} />
-        <Route path="/admin/dashboard"     element={<AdminDashboard />} />
-        <Route path="/admin/create-user"   element={<CreateUserPage />} />
+        <Route path={ROUTES.admin} element={<AdminDashboard />} />
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/admin/create-user" element={<CreateUserPage />} />
       </Route>
 
       {/* Google OAuth callback */}
