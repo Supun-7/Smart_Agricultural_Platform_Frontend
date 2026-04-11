@@ -33,7 +33,7 @@ export default function Login() {
   const [showRolePicker, setShowRolePicker] = useState(false);
 
   const navigate = useNavigate();        // ← make sure this line is here
-  const { } = useAuth();  // or simply delete this line entirely since it's no longer needed in Login.jsx  const navigate = useNavigate();
+  const { signIn } = useAuth(); // or simply delete this line entirely since it's no longer needed in Login.jsx  const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname ?? ROUTES.gate;
 
@@ -52,9 +52,16 @@ export default function Login() {
     setSubmitting(true);
     setError("");
     try {
-      // Step 1: Validate credentials — backend sends OTP, returns { message, email }
-      await authApi.login(email, password);
-      // Redirect to OTP verification page, passing email in navigation state
+      const result = await authApi.login(email, password);
+
+      // Admin/System_Admin: backend returns JWT directly — no OTP step
+      if (result.token) {
+        signIn({ token: result.token, ...result.user });
+        navigate(from, { replace: true });
+        return;
+      }
+
+      // All other roles: backend returns { message, email } — go to OTP page
       navigate(ROUTES.verifyOtp, { state: { email, from } });
     } catch (err) {
       setError(err.message);
