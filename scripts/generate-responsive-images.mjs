@@ -33,11 +33,11 @@ async function buildVariant(inputPath, baseName, target, format) {
   const pipeline = sharp(inputPath).rotate().resize({ width: target.width, withoutEnlargement: true });
 
   if (format === "jpg") {
-    await pipeline.jpeg({ quality: 84, mozjpeg: true }).toFile(outPath);
+    await pipeline.jpeg({ quality: 72, mozjpeg: true }).toFile(outPath);
   } else if (format === "webp") {
-    await pipeline.webp({ quality: 82 }).toFile(outPath);
+    await pipeline.webp({ quality: 70 }).toFile(outPath);
   } else if (format === "avif") {
-    await pipeline.avif({ quality: 64 }).toFile(outPath);
+    await pipeline.avif({ quality: 52 }).toFile(outPath);
   }
 }
 

@@ -9,25 +9,12 @@
   justify-content: center;
 }
 
-/* Full screen background layers */
-.heroBgLayer {
+/* Full screen background image */
+.heroBg {
   position: absolute;
   inset: 0;
-  opacity: 0;
-  transition: opacity .52s ease;
-  will-change: opacity, transform;
-}
-
-.heroBgLayerActive {
-  opacity: 1;
-}
-
-.heroBgLayerIncoming {
-  z-index: 0;
-}
-
-.heroBgLayerIncoming.isVisible {
-  opacity: 1;
+  animation: bgZoom 6s ease forwards;
+  will-change: transform;
 }
 
 .heroBgImg {
@@ -36,8 +23,6 @@
   object-fit: cover;
   object-position: center;
   display: block;
-  animation: bgZoom 6s ease forwards;
-  will-change: transform;
 }
 
 @keyframes bgZoom {
