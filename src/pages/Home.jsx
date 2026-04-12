@@ -5,57 +5,19 @@ import { ROUTES } from "../routes/routePaths.js";
 import logo from "../assets/logo.png";
 import "../styles/pages/home.css";
 
-// Responsive generated assets (build-time): AVIF/WebP/JPEG with mobile + desktop variants.
-import slide1DesktopAvif from "../assets/slides/generated/mission-desktop.avif";
-import slide1DesktopWebp from "../assets/slides/generated/mission-desktop.webp";
-import slide1DesktopJpg from "../assets/slides/generated/mission-desktop.jpg";
-import slide1MobileAvif from "../assets/slides/generated/mission-mobile.avif";
-import slide1MobileWebp from "../assets/slides/generated/mission-mobile.webp";
-import slide1MobileJpg from "../assets/slides/generated/mission-mobile.jpg";
-
-import slide2DesktopAvif from "../assets/slides/generated/vision-desktop.avif";
-import slide2DesktopWebp from "../assets/slides/generated/vision-desktop.webp";
-import slide2DesktopJpg from "../assets/slides/generated/vision-desktop.jpg";
-import slide2MobileAvif from "../assets/slides/generated/vision-mobile.avif";
-import slide2MobileWebp from "../assets/slides/generated/vision-mobile.webp";
-import slide2MobileJpg from "../assets/slides/generated/vision-mobile.jpg";
-
-import slide3DesktopAvif from "../assets/slides/generated/howitworks-desktop.avif";
-import slide3DesktopWebp from "../assets/slides/generated/howitworks-desktop.webp";
-import slide3DesktopJpg from "../assets/slides/generated/howitworks-desktop.jpg";
-import slide3MobileAvif from "../assets/slides/generated/howitworks-mobile.avif";
-import slide3MobileWebp from "../assets/slides/generated/howitworks-mobile.webp";
-import slide3MobileJpg from "../assets/slides/generated/howitworks-mobile.jpg";
-
-import slide4DesktopAvif from "../assets/slides/generated/starts-desktop.avif";
-import slide4DesktopWebp from "../assets/slides/generated/starts-desktop.webp";
-import slide4DesktopJpg from "../assets/slides/generated/starts-desktop.jpg";
-import slide4MobileAvif from "../assets/slides/generated/starts-mobile.avif";
-import slide4MobileWebp from "../assets/slides/generated/starts-mobile.webp";
-import slide4MobileJpg from "../assets/slides/generated/starts-mobile.jpg";
-
-import slide5DesktopAvif from "../assets/slides/generated/about-desktop.avif";
-import slide5DesktopWebp from "../assets/slides/generated/about-desktop.webp";
-import slide5DesktopJpg from "../assets/slides/generated/about-desktop.jpg";
-import slide5MobileAvif from "../assets/slides/generated/about-mobile.avif";
-import slide5MobileWebp from "../assets/slides/generated/about-mobile.webp";
-import slide5MobileJpg from "../assets/slides/generated/about-mobile.jpg";
-
-import slide6DesktopAvif from "../assets/slides/generated/partners-desktop.avif";
-import slide6DesktopWebp from "../assets/slides/generated/partners-desktop.webp";
-import slide6DesktopJpg from "../assets/slides/generated/partners-desktop.jpg";
-import slide6MobileAvif from "../assets/slides/generated/partners-mobile.avif";
-import slide6MobileWebp from "../assets/slides/generated/partners-mobile.webp";
-import slide6MobileJpg from "../assets/slides/generated/partners-mobile.jpg";
+// Images are in src/assets/slides/ as jpg
+import slide1 from "../assets/slides/mission.jpg";
+import slide2 from "../assets/slides/vision.jpg";
+import slide3 from "../assets/slides/howitworks.jpg";
+import slide4 from "../assets/slides/starts.jpg";
+import slide5 from "../assets/slides/about.jpg";
+import slide6 from "../assets/slides/partners.jpg";
 
 // ── Slide data ───────────────────────────────────────────────
 const SLIDES = [
   {
     id: 0,
-    image: {
-      desktop: { avif: slide1DesktopAvif, webp: slide1DesktopWebp, jpg: slide1DesktopJpg },
-      mobile: { avif: slide1MobileAvif, webp: slide1MobileWebp, jpg: slide1MobileJpg },
-    },
+    image: slide1,
     eyebrow: "Our Mission",
     title: "Connecting Capital\nWith Cultivation",
     desc: "Ceylon Harvest Capital bridges Sri Lankan investors with verified local farmers through transparent, performance-based contracts. Every rupee funds a real farm, a real family, a real future.",
@@ -71,10 +33,7 @@ const SLIDES = [
   },
   {
     id: 1,
-    image: {
-      desktop: { avif: slide2DesktopAvif, webp: slide2DesktopWebp, jpg: slide2DesktopJpg },
-      mobile: { avif: slide2MobileAvif, webp: slide2MobileWebp, jpg: slide2MobileJpg },
-    },
+    image: slide2,
     eyebrow: "Our Vision",
     title: "Wealthy Farmer,\nSmart Investor",
     desc: "We envision a Sri Lanka where farmers earn what they deserve and investors grow their wealth alongside the harvest. Transparent contracts. Real returns. No middlemen.",
@@ -90,10 +49,7 @@ const SLIDES = [
   },
   {
     id: 2,
-    image: {
-      desktop: { avif: slide3DesktopAvif, webp: slide3DesktopWebp, jpg: slide3DesktopJpg },
-      mobile: { avif: slide3MobileAvif, webp: slide3MobileWebp, jpg: slide3MobileJpg },
-    },
+    image: slide3,
     eyebrow: "How It Works",
     title: "Four Steps to\nYour First Harvest",
     desc: "Register, verify your identity, choose a farm to fund, and watch your returns grow with every milestone. Simple, secure, and completely transparent from seed to sale.",
@@ -109,10 +65,7 @@ const SLIDES = [
   },
   {
     id: 3,
-    image: {
-      desktop: { avif: slide4DesktopAvif, webp: slide4DesktopWebp, jpg: slide4DesktopJpg },
-      mobile: { avif: slide4MobileAvif, webp: slide4MobileWebp, jpg: slide4MobileJpg },
-    },
+    image: slide4,
     eyebrow: "Platform Growth",
     title: "Rs. 68 Million\nDeployed in 2025",
     desc: "From Rs. 12M in 2021 to Rs. 68M in 2025 — Ceylon Harvest Capital is the fastest-growing agricultural investment platform in Sri Lanka. Join before the next season begins.",
@@ -128,10 +81,7 @@ const SLIDES = [
   },
   {
     id: 4,
-    image: {
-      desktop: { avif: slide5DesktopAvif, webp: slide5DesktopWebp, jpg: slide5DesktopJpg },
-      mobile: { avif: slide5MobileAvif, webp: slide5MobileWebp, jpg: slide5MobileJpg },
-    },
+    image: slide5,
     eyebrow: "About Us",
     title: "Built by Students,\nBacked by Vision",
     desc: "Developed by 2nd year Computer Science students at SLIIT, Ceylon Harvest Capital was born from a single belief — technology can make agriculture fair, transparent, and profitable for everyone.",
@@ -147,10 +97,7 @@ const SLIDES = [
   },
   {
     id: 5,
-    image: {
-      desktop: { avif: slide6DesktopAvif, webp: slide6DesktopWebp, jpg: slide6DesktopJpg },
-      mobile: { avif: slide6MobileAvif, webp: slide6MobileWebp, jpg: slide6MobileJpg },
-    },
+    image: slide6,
     eyebrow: "Our Partners",
     title: "Trusted By\nSri Lanka's Best",
     desc: "Working alongside Sri Lanka's Ministry of Agriculture, Department of Agriculture, Bank of Ceylon, and leading financial institutions to ensure every investment is secure and compliant.",
@@ -202,22 +149,12 @@ function HeroSlider({ user }) {
   return (
     <section className="heroSlider">
 
-      {/* Responsive background image — AVIF/WebP/JPEG with mobile/desktop sources */}
-      <picture className="heroBg" key={`bg-${current}`}>
-        <source media="(max-width: 768px)" srcSet={slide.image.mobile.avif} type="image/avif" />
-        <source media="(max-width: 768px)" srcSet={slide.image.mobile.webp} type="image/webp" />
-        <source media="(max-width: 768px)" srcSet={slide.image.mobile.jpg} type="image/jpeg" />
-        <source srcSet={slide.image.desktop.avif} type="image/avif" />
-        <source srcSet={slide.image.desktop.webp} type="image/webp" />
-        <img
-          className="heroBgImg"
-          src={slide.image.desktop.jpg}
-          alt=""
-          loading="eager"
-          decoding="async"
-          fetchPriority="high"
-        />
-      </picture>
+      {/* Background image — full screen, cover fit */}
+      <div
+        className="heroBg"
+        key={`bg-${current}`}
+        style={{ backgroundImage: `url(${slide.image})` }}
+      />
 
       {/* Dark overlay for text readability */}
       <div className="heroOverlay" style={{ background: slide.overlay }} />

@@ -1,4 +1,3 @@
-import { lazy, Suspense } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth.js";
 import { ROUTES } from "./routePaths";
@@ -8,33 +7,34 @@ import { AuditorLayout } from "../layouts/AuditorLayout.jsx";
 import { FarmerLayout } from "../layouts/FarmerLayout.jsx";
 import { AdminLayout } from "../layouts/AdminLayout.jsx";
 
-const Home = lazy(() => import("../pages/Home.jsx"));
-const Login = lazy(() => import("../pages/Login.jsx"));
-const Register = lazy(() => import("../pages/Register.jsx"));
-const VerifyOtp = lazy(() => import("../pages/VerifyOtp.jsx"));
-const GatePage = lazy(() => import("../pages/GatePage.jsx"));
+import Home from "../pages/Home.jsx";
+import Login from "../pages/Login.jsx";
+import Register from "../pages/Register.jsx";
+// ADD this import alongside the other page imports near the top:
+import VerifyOtp from "../pages/VerifyOtp.jsx";
+import GatePage from "../pages/GatePage.jsx";
 
-const InvestorDashboard = lazy(() => import("../pages/investor/InvestorDashboard.jsx"));
-const InvestorPortfolio = lazy(() => import("../pages/investor/InvestorPortfolio.jsx"));
-const InvestorOpportunities = lazy(() => import("../pages/investor/InvestorOpportunities.jsx"));
-const InvestorReports = lazy(() => import("../pages/investor/InvestorReports.jsx"));
-const InvestorWallet = lazy(() => import("../pages/investor/InvestorWallet.jsx"));
-const LandDetailPage = lazy(() => import("../pages/investor/LandDetailPage.jsx"));
-const ContractPage = lazy(() => import("../pages/investor/ContractPage.jsx"));
-const InvestorContractsPage = lazy(() => import("../pages/investor/InvestorContractsPage.jsx"));
+import InvestorDashboard from "../pages/investor/InvestorDashboard.jsx";
+import InvestorPortfolio from "../pages/investor/InvestorPortfolio.jsx";
+import InvestorOpportunities from "../pages/investor/InvestorOpportunities.jsx";
+import InvestorReports from "../pages/investor/InvestorReports.jsx";
+import InvestorWallet from "../pages/investor/InvestorWallet.jsx";
+import LandDetailPage from "../pages/investor/LandDetailPage.jsx";
+import ContractPage from "../pages/investor/ContractPage.jsx";
+import InvestorContractsPage from "../pages/investor/InvestorContractsPage.jsx";
 
-const AdminDashboard = lazy(() => import("../pages/admin/AdminDashboard.jsx"));
-const GoogleAuthCallback = lazy(() => import("../pages/GoogleAuthCallback.jsx"));
-const CreateUserPage = lazy(() => import("../pages/admin/CreateUserPage.jsx"));
+import AdminDashboard from "../pages/admin/AdminDashboard.jsx";
+import GoogleAuthCallback from "../pages/GoogleAuthCallback.jsx";
+import CreateUserPage from "../pages/admin/CreateUserPage.jsx";
 
-const AuditorDashboard = lazy(() => import("../pages/auditor/AuditorDashboard.jsx"));
-const AuditHistory = lazy(() => import("../pages/auditor/AuditHistory.jsx"));
+import AuditorDashboard from "../pages/auditor/AuditorDashboard.jsx";
+import AuditHistory from "../pages/auditor/AuditHistory.jsx";
 
-const FarmerDashboard = lazy(() => import("../pages/FarmerDashboard.jsx"));
-const FarmerLandRegistration = lazy(() => import("../pages/farmer/FarmerLandRegistration.jsx"));
-const FarmerMilestones = lazy(() => import("../pages/farmer/FarmerMilestones.jsx"));
-const FarmerSupport = lazy(() => import("../pages/farmer/FarmerSupport.jsx"));
-const FarmerContractsPage = lazy(() => import("../pages/farmer/FarmerContractsPage.jsx"));
+import FarmerDashboard from "../pages/FarmerDashboard.jsx";
+import FarmerLandRegistration from "../pages/farmer/FarmerLandRegistration.jsx";
+import FarmerMilestones from "../pages/farmer/FarmerMilestones.jsx";
+import FarmerSupport from "../pages/farmer/FarmerSupport.jsx";
+import FarmerContractsPage from "../pages/farmer/FarmerContractsPage.jsx";
 
 // ── Guard 1 — must be logged in ─────────────────────────────
 function RequireAuth({ children }) {
@@ -72,8 +72,7 @@ function RedirectIfLoggedIn({ children }) {
 // ── Main routes ──────────────────────────────────────────────
 export default function AppRoutes() {
   return (
-    <Suspense fallback={null}>
-      <Routes>
+    <Routes>
 
       {/* Public routes */}
       <Route element={<PublicLayout />}>
@@ -172,7 +171,6 @@ export default function AppRoutes() {
       {/* Catch all */}
       <Route path="*" element={<Navigate to={ROUTES.home} replace />} />
 
-      </Routes>
-    </Suspense>
+    </Routes>
   );
 }
