@@ -1,8 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useAuth } from "../../hooks/useAuth.js";
+import { BASE_URL } from "../../services/api.js";
 import "../../styles/pages/farmerSupport.css";
-
-const BASE_URL = "http://localhost:8080/api";
 
 const WELCOME =
   "ආයුබෝවන්! 🌾 මම CHC ගොවි තාක්ෂණික සහාය සේවාවයි.\n\nඩෑශ්බෝඩ් ගැටළු, ඉඩම් ලියාපදිංචිය, සාක්ෂි උඩුගත් කිරීම, හෝ ගෙවීම් පිළිබඳ ඔබට කෙසේ උදව් කළ හැකිද?";

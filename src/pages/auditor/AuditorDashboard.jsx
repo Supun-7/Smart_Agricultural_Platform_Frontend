@@ -171,7 +171,7 @@ function EvidenceList({ files }) {
   const [validFiles, setValidFiles] = useState([]);
   const [checking, setChecking] = useState(false);
 
-  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || "https://rmihwiomlmvisdwzoubs.supabase.co";
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 
   useEffect(() => {
     let isMounted = true;
@@ -195,6 +195,7 @@ function EvidenceList({ files }) {
 
         // Build absolute URL for relative paths/UUIDs from older entries
         if (fileUrl && !fileUrl.startsWith("http")) {
+          if (!supabaseUrl) return null;
           let cleanPath = fileUrl.startsWith("/") ? fileUrl.slice(1) : fileUrl;
           if (!cleanPath.startsWith("milestones/")) {
             cleanPath = `milestones/${cleanPath}`;
@@ -583,4 +584,3 @@ export default function AuditorDashboard() {
     </section>
   );
 }
-

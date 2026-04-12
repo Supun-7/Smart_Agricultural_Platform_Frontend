@@ -1,0 +1,160 @@
+name: Frontend CI/CD
+
+on:
+  pull_request:
+    branches: ["production"]
+  push:
+    branches: ["production"]
+
+concurrency:
+  group: fe-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  APP_NAME: CHC-fe
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    env:
+      VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
+      VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+      VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify (if present)
+        run: npm run verify --if-present
+
+      - name: Run tests (if present)
+        run: npm test --if-present
+
+      - name: Build
+        run: npm run build
+
+  build:
+    name: Build Image
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/production' }}
+    needs: test
+    runs-on: ubuntu-latest
+    environment: prod
+    env:
+      VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
+      VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+      VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Derive deployment metadata
+        run: |
+          echo "IMAGE_REPO=ghcr.io/$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_ENV"
+          echo "DEPLOY_ENV=prod" >> "$GITHUB_ENV"
+          echo "CONTAINER_NAME=${APP_NAME}-prod" >> "$GITHUB_ENV"
+          echo "NETWORK_ALIAS=${APP_NAME}-prod" >> "$GITHUB_ENV"
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build image
+        run: |
+          docker build \
+            --build-arg VITE_API_BASE_URL \
+            --build-arg VITE_SUPABASE_URL \
+            --build-arg VITE_SUPABASE_ANON_KEY \
+            -t "$IMAGE_REPO:$DEPLOY_ENV" \
+            -t "$IMAGE_REPO:${GITHUB_SHA::7}" \
+            .
+
+      - name: Push image
+        run: |
+          docker push "$IMAGE_REPO:$DEPLOY_ENV"
+          docker push "$IMAGE_REPO:${GITHUB_SHA::7}"
+
+  deploy:
+    name: Deploy
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/production' }}
+    needs: build
+    runs-on: ubuntu-latest
+    environment: prod
+    env:
+      SSH_HOST: ${{ secrets.SSH_HOST }}
+      SSH_PORT: ${{ secrets.SSH_PORT }}
+      SSH_USER: ${{ secrets.SSH_USER }}
+      SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+
+    steps:
+      - name: Derive deployment metadata
+        run: |
+          echo "IMAGE_REPO=ghcr.io/$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_ENV"
+          echo "DEPLOY_ENV=prod" >> "$GITHUB_ENV"
+          echo "CONTAINER_NAME=${APP_NAME}-prod" >> "$GITHUB_ENV"
+          echo "NETWORK_ALIAS=${APP_NAME}-prod" >> "$GITHUB_ENV"
+
+      - name: Install SSH client tools
+        run: sudo apt-get update && sudo apt-get install -y openssh-client sshpass
+
+      - name: Validate SSH settings
+        run: |
+          echo "SSH_HOST=$SSH_HOST"
+          echo "SSH_PORT=$SSH_PORT"
+          if [ -n "${SSH_USER:-}" ]; then
+            echo "SSH_USER set? yes"
+          else
+            echo "SSH_USER set? no"
+          fi
+          echo "SSH_PASSWORD length: ${#SSH_PASSWORD}"
+          if [ -z "${SSH_PORT:-}" ] || ! echo "$SSH_PORT" | grep -Eq '^[0-9]+$'; then
+            echo "Invalid SSH_PORT: $SSH_PORT" >&2
+            exit 1
+          fi
+          if [ -z "${SSH_PASSWORD:-}" ]; then
+            echo "SSH_PASSWORD is empty" >&2
+            exit 1
+          fi
+
+      - name: Configure known hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H -p "$SSH_PORT" "$SSH_HOST" >> ~/.ssh/known_hosts
+
+      - name: Deploy container
+        env:
+          NPM_NET_NAME: ${{ vars.NPM_NET_NAME }}
+        run: |
+          SSH_OPTS="-o StrictHostKeyChecking=yes"
+          sshpass -p "$SSH_PASSWORD" ssh $SSH_OPTS -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" \
+            "NPM_NET_NAME='${NPM_NET_NAME:-app_app-network}' IMAGE='$IMAGE_REPO:$DEPLOY_ENV' CONTAINER_NAME='$CONTAINER_NAME' NETWORK_ALIAS='$NETWORK_ALIAS' bash -s" <<'EOF'
+          set -euo pipefail
+          if ! docker network inspect "$NPM_NET_NAME" >/dev/null 2>&1; then
+            docker network create --driver bridge "$NPM_NET_NAME"
+          fi
+          docker rm -f "$CONTAINER_NAME" >/dev/null 2>&1 || true
+          docker pull "$IMAGE"
+          docker run -d --name "$CONTAINER_NAME" \
+            --network "$NPM_NET_NAME" \
+            --network-alias "$NETWORK_ALIAS" \
+            --restart unless-stopped \
+            "$IMAGE"
+          EOF

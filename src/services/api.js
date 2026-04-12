@@ -1,5 +1,14 @@
 // ── Base config ─────────────────────────────────────────────
-const BASE_URL = "http://localhost:8080/api";
+const RAW_API_BASE_URL = import.meta.env.VITE_API_BASE_URL?.trim();
+
+function normalizeApiBaseUrl(url) {
+  if (!url) {
+    throw new Error("Missing VITE_API_BASE_URL in environment configuration.");
+  }
+  return url.endsWith("/api") ? url : `${url.replace(/\/+$/, "")}/api`;
+}
+
+export const BASE_URL = normalizeApiBaseUrl(RAW_API_BASE_URL);
 
 // Helper — builds headers with or without token
 function headers(token = null) {
