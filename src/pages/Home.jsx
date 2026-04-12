@@ -167,65 +167,209 @@ const SLIDES = [
 ];
 
 // ── Hero Slider ──────────────────────────────────────────────
-function HeroSlider({ user }) {
-  const [current, setCurrent] = useState(0);
-  const [animKey, setAnimKey] = useState(0);
-  const timerRef = useRef(null);
+const SLIDE_INTERVAL_MS = 6000;
+const TRANSITION_MS = 520;
+const MOBILE_BREAKPOINT = 768;
 
-  function goTo(index) {
-    setCurrent(index);
-    setAnimKey(k => k + 1);
+function HeroSlider({ user }) {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [incoming, setIncoming] = useState(null);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [animKey, setAnimKey] = useState(0);
+  const [viewportBucket, setViewportBucket] = useState(
+    typeof window !== "undefined" && window.innerWidth <= MOBILE_BREAKPOINT ? "mobile" : "desktop"
+  );
+  const [formatOrder, setFormatOrder] = useState(["webp", "jpg"]);
+
+  const timerRef = useRef(null);
+  const transitionRef = useRef(null);
+  const loadedUrlsRef = useRef(new Set());
+  const decodePromisesRef = useRef(new Map());
+  const chosenUrlRef = useRef(new Map());
+  const failedFormatRef = useRef(new Set());
+
+  const detectFormatSupport = (format) => {
+    try {
+      const canvas = document.createElement("canvas");
+      return canvas.toDataURL(`image/${format}`).startsWith(`data:image/${format}`);
+    } catch {
+      return false;
+    }
+  };
+
+  const computeFormatOrder = () => {
+    const order = [];
+    if (detectFormatSupport("avif")) order.push("avif");
+    if (detectFormatSupport("webp")) order.push("webp");
+    order.push("jpg");
+    return order;
+  };
+
+  const getCandidateFormats = () => {
+    const dedup = [];
+    for (const fmt of formatOrder) {
+      if (!failedFormatRef.current.has(fmt) && !dedup.includes(fmt)) dedup.push(fmt);
+    }
+    if (!dedup.includes("jpg")) dedup.push("jpg");
+    return dedup;
+  };
+
+  const getSlideUrl = (index, bucket) => {
+    const cacheKey = `${index}:${bucket}`;
+    const cached = chosenUrlRef.current.get(cacheKey);
+    if (cached) return cached;
+
+    const slide = SLIDES[index];
+    for (const fmt of getCandidateFormats()) {
+      const url = slide.image?.[bucket]?.[fmt];
+      if (url) {
+        chosenUrlRef.current.set(cacheKey, url);
+        return url;
+      }
+    }
+
+    const fallback = slide.image?.[bucket]?.jpg || slide.image?.desktop?.jpg;
+    chosenUrlRef.current.set(cacheKey, fallback);
+    return fallback;
+  };
+
+  const preloadUrl = async (url) => {
+    if (!url) return;
+    if (loadedUrlsRef.current.has(url)) return;
+    if (decodePromisesRef.current.has(url)) return decodePromisesRef.current.get(url);
+
+    const promise = new Promise((resolve, reject) => {
+      const img = new Image();
+      img.loading = "eager";
+      img.decoding = "async";
+      img.src = url;
+      img.onload = async () => {
+        try {
+          if (typeof img.decode === "function") await img.decode();
+        } catch {
+          // Ignore decode failure and continue with loaded resource.
+        }
+        loadedUrlsRef.current.add(url);
+        decodePromisesRef.current.delete(url);
+        resolve(url);
+      };
+      img.onerror = () => {
+        decodePromisesRef.current.delete(url);
+        reject(new Error(`Failed to load ${url}`));
+      };
+    });
+
+    decodePromisesRef.current.set(url, promise);
+    return promise;
+  };
+
+  const preloadSlide = async (index, bucket) => {
+    const slide = SLIDES[index];
+    const cacheKey = `${index}:${bucket}`;
+
+    for (const fmt of getCandidateFormats()) {
+      const url = slide.image?.[bucket]?.[fmt];
+      if (!url) continue;
+      try {
+        await preloadUrl(url);
+        chosenUrlRef.current.set(cacheKey, url);
+        return url;
+      } catch {
+        failedFormatRef.current.add(fmt);
+      }
+    }
+
+    const fallback = slide.image?.[bucket]?.jpg || slide.image?.desktop?.jpg;
+    await preloadUrl(fallback);
+    chosenUrlRef.current.set(cacheKey, fallback);
+    return fallback;
+  };
+
+  const preloadUpcoming = async (centerIndex, bucket) => {
+    const targets = [centerIndex, (centerIndex + 1) % SLIDES.length, (centerIndex + 2) % SLIDES.length];
+    await Promise.allSettled(targets.map((idx) => preloadSlide(idx, bucket)));
+  };
+
+  const restartAuto = () => {
     clearInterval(timerRef.current);
     timerRef.current = setInterval(() => {
-      setCurrent(c => {
-        setAnimKey(k => k + 1);
-        return (c + 1) % SLIDES.length;
-      });
-    }, 6000);
-  }
+      void changeTo((activeIndex + 1) % SLIDES.length);
+    }, SLIDE_INTERVAL_MS);
+  };
 
-  function next() { goTo((current + 1) % SLIDES.length); }
-  function prev() { goTo((current - 1 + SLIDES.length) % SLIDES.length); }
+  const changeTo = async (targetIndex) => {
+    if (targetIndex === activeIndex || isTransitioning) return;
+    const url = await preloadSlide(targetIndex, viewportBucket);
+    setIncoming({ index: targetIndex, url });
+    setIsTransitioning(true);
+    clearTimeout(transitionRef.current);
+    transitionRef.current = setTimeout(() => {
+      setActiveIndex(targetIndex);
+      setIncoming(null);
+      setIsTransitioning(false);
+      setAnimKey((k) => k + 1);
+    }, TRANSITION_MS);
+  };
+
+  const goTo = (index) => {
+    void changeTo(index);
+    restartAuto();
+  };
+
+  const next = () => goTo((activeIndex + 1) % SLIDES.length);
+  const prev = () => goTo((activeIndex - 1 + SLIDES.length) % SLIDES.length);
 
   useEffect(() => {
-    timerRef.current = setInterval(() => {
-      setCurrent(c => {
-        setAnimKey(k => k + 1);
-        return (c + 1) % SLIDES.length;
-      });
-    }, 6000);
-    return () => clearInterval(timerRef.current);
+    setFormatOrder(computeFormatOrder());
   }, []);
 
-  const slide = SLIDES[current];
+  useEffect(() => {
+    const onResize = () => {
+      setViewportBucket(window.innerWidth <= MOBILE_BREAKPOINT ? "mobile" : "desktop");
+    };
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  useEffect(() => {
+    void preloadUpcoming(activeIndex, viewportBucket);
+  }, [activeIndex, viewportBucket, formatOrder]);
+
+  useEffect(() => {
+    restartAuto();
+    return () => {
+      clearInterval(timerRef.current);
+      clearTimeout(transitionRef.current);
+    };
+  }, [activeIndex, viewportBucket, formatOrder, isTransitioning]);
+
+  const slide = SLIDES[activeIndex];
+  const activeUrl = getSlideUrl(activeIndex, viewportBucket);
+  const incomingSlide = incoming ? SLIDES[incoming.index] : null;
 
   return (
     <section className="heroSlider">
-
-      {/* Responsive background image — AVIF/WebP/JPEG with mobile/desktop sources */}
-      <picture className="heroBg" key={`bg-${current}`}>
-        <source media="(max-width: 768px)" srcSet={slide.image.mobile.avif} type="image/avif" />
-        <source media="(max-width: 768px)" srcSet={slide.image.mobile.webp} type="image/webp" />
-        <source media="(max-width: 768px)" srcSet={slide.image.mobile.jpg} type="image/jpeg" />
-        <source srcSet={slide.image.desktop.avif} type="image/avif" />
-        <source srcSet={slide.image.desktop.webp} type="image/webp" />
+      <div className="heroBgLayer heroBgLayerActive">
         <img
           className="heroBgImg"
-          src={slide.image.desktop.jpg}
+          src={activeUrl}
           alt=""
           loading="eager"
           decoding="async"
           fetchPriority="high"
         />
-      </picture>
+      </div>
 
-      {/* Dark overlay for text readability */}
-      <div className="heroOverlay" style={{ background: slide.overlay }} />
+      {incoming && (
+        <div className={`heroBgLayer heroBgLayerIncoming ${isTransitioning ? "isVisible" : ""}`}>
+          <img className="heroBgImg" src={incoming.url} alt="" loading="eager" decoding="async" />
+        </div>
+      )}
 
-      {/* Content — centred on top of overlay */}
+      <div className="heroOverlay" style={{ background: incomingSlide?.overlay || slide.overlay }} />
+
       <div className="heroSliderInner" key={`content-${animKey}`}>
         <div className="heroContent">
-
           <span className="heroEyebrow" style={{ color: slide.accent }}>
             {slide.eyebrow}
           </span>
@@ -238,7 +382,6 @@ function HeroSlider({ user }) {
 
           <p className="heroDesc">{slide.desc}</p>
 
-          {/* Stats */}
           <div className="heroStats">
             {slide.stats.map((s, i) => (
               <div key={i} className="heroStat">
@@ -250,7 +393,6 @@ function HeroSlider({ user }) {
             ))}
           </div>
 
-          {/* CTAs */}
           <div className="heroCtas">
             {!user ? (
               <>
@@ -275,19 +417,17 @@ function HeroSlider({ user }) {
               </Link>
             )}
           </div>
-
         </div>
       </div>
 
-      {/* Bottom controls */}
       <div className="heroControls">
         <button className="heroArrow" onClick={prev} aria-label="Previous">←</button>
         <div className="heroDots">
           {SLIDES.map((_, i) => (
             <button
               key={i}
-              className={"heroDot" + (i === current ? " active" : "")}
-              style={i === current ? { background: slide.accent, transform: "scale(1.4)" } : {}}
+              className={"heroDot" + (i === activeIndex ? " active" : "")}
+              style={i === activeIndex ? { background: slide.accent, transform: "scale(1.4)" } : {}}
               onClick={() => goTo(i)}
               aria-label={`Slide ${i + 1}`}
             />
@@ -296,26 +436,22 @@ function HeroSlider({ user }) {
         <button className="heroArrow" onClick={next} aria-label="Next">→</button>
       </div>
 
-      {/* Slide counter */}
       <div className="heroCounter">
-        <span style={{ color: slide.accent }}>{String(current + 1).padStart(2, "0")}</span>
+        <span style={{ color: slide.accent }}>{String(activeIndex + 1).padStart(2, "0")}</span>
         <span className="heroCounterSep" />
         <span>{String(SLIDES.length).padStart(2, "0")}</span>
       </div>
 
-      {/* Progress bar */}
       <div className="heroProgressBar">
         <div
           className="heroProgressFill"
-          key={`prog-${current}`}
+          key={`prog-${activeIndex}`}
           style={{ background: slide.accent }}
         />
       </div>
-
     </section>
   );
 }
-
 // ── Stats Bar ────────────────────────────────────────────────
 function StatsBar() {
   return (
