@@ -2,9 +2,9 @@ name: Frontend CI/CD
 
 on:
   pull_request:
-    branches: ["production"]
+    branches: ["dev"]
   push:
-    branches: ["production"]
+    branches: ["dev"]
 
 concurrency:
   group: fe-ci-${{ github.workflow }}-${{ github.ref }}
