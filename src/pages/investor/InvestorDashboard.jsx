@@ -1,6 +1,7 @@
 import { useInvestorDashboard } from "../../hooks/useInvestorDashboard.js";
 import { StatCard } from "../../components/investor/StatCard.jsx";
 import { LandCard } from "../../components/investor/LandCard.jsx";
+import { ROIDashboardSection } from "../../components/investor/ROIDashboardSection.jsx";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../routes/routePaths.js";
 import "../../styles/pages/investor/dashboard.css";
@@ -52,6 +53,7 @@ export default function InvestorDashboard() {
     investedLands       = [],
     investmentBreakdown = {},
     approvedMilestones  = [],
+    portfolioRoiSummary = null,
   } = dashboard;
 
   // AC-4: all breakdown figures from API
@@ -123,6 +125,13 @@ export default function InvestorDashboard() {
           </div>
         )}
       </div>
+
+      <ROIDashboardSection
+        investedLands={investedLands}
+        approvedMilestones={approvedMilestones}
+        investmentBreakdown={investmentBreakdown}
+        portfolioRoiSummary={portfolioRoiSummary}
+      />
 
       <div className="invSection">
         <h2 className="invSectionTitle">Approved Milestones</h2>
