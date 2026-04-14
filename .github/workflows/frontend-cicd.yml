@@ -148,6 +148,7 @@ jobs:
           if ! docker network inspect "$NPM_NET_NAME" >/dev/null 2>&1; then
             docker network create --driver bridge "$NPM_NET_NAME"
           fi
+          docker stop "$CONTAINER_NAME" >/dev/null 2>&1 || true
           docker rm -f "$CONTAINER_NAME" >/dev/null 2>&1 || true
           docker pull "$IMAGE"
           docker run -d --name "$CONTAINER_NAME" \
