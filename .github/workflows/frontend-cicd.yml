@@ -50,7 +50,6 @@ jobs:
 
   build:
     name: Build Image
-    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/production' }}
     needs: test
     runs-on: ubuntu-latest
     environment: prod
@@ -94,7 +93,6 @@ jobs:
 
   deploy:
     name: Deploy
-    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/production' }}
     needs: build
     runs-on: ubuntu-latest
     environment: prod
