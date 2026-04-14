@@ -203,6 +203,16 @@ export const investorApi = {
       headers: headers(token),
     }).then(handle),
 
+  getRoiHistory: (token) =>
+    fetch(`${BASE_URL}/investor/roi/history`, {
+      headers: headers(token),
+    }).then(handle),
+
+  getLandMarket: (token) =>
+    fetch(`${BASE_URL}/investor/land-market`, {
+      headers: headers(token),
+    }).then(handle),
+
   /** Fetch single land detail by ID */
   getLandById: (token, landId) =>
     fetch(`${BASE_URL}/investor/lands/${landId}`, {
