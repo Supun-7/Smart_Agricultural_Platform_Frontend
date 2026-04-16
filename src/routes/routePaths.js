@@ -39,4 +39,5 @@ export const ROUTES = {
   farmerMilestones: "/farmer/milestones/evidence",
   farmerSupport: "/farmer/support",
   farmerContracts: "/farmer/contracts",
+  farmerFinancialReport: "/farmer/financial-report",
 };
