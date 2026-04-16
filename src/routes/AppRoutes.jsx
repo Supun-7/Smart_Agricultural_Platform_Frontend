@@ -35,6 +35,7 @@ import FarmerLandRegistration from "../pages/farmer/FarmerLandRegistration.jsx";
 import FarmerMilestones from "../pages/farmer/FarmerMilestones.jsx";
 import FarmerSupport from "../pages/farmer/FarmerSupport.jsx";
 import FarmerContractsPage from "../pages/farmer/FarmerContractsPage.jsx";
+import FarmerFinancialReport from "../pages/farmer/FarmerFinancialReport.jsx";
 
 // ── Guard 1 — must be logged in ─────────────────────────────
 function RequireAuth({ children }) {
@@ -145,6 +146,7 @@ export default function AppRoutes() {
         <Route path={ROUTES.farmerMilestones} element={<FarmerMilestones />} />
         <Route path={ROUTES.farmerSupport} element={<FarmerSupport />} />
         <Route path={ROUTES.farmerContracts} element={<FarmerContractsPage />} />
+        <Route path={ROUTES.farmerFinancialReport} element={<FarmerFinancialReport />} />
         <Route path={ROUTES.farmerCrops} element={
           <div style={{ color: "var(--text)", padding: "2rem" }}>
             My Crops — coming soon
