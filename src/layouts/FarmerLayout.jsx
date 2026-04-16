@@ -5,11 +5,12 @@ import { Navbar } from "../components/Navbar.jsx";
 import "../styles/pages/farmer/farmerLayout.css";
 
 const NAV_ITEMS = [
-  { to: ROUTES.farmerDashboard,   icon: "🏠", label: "Dashboard"       },
-  { to: ROUTES.farmerApplication, icon: "📝", label: "Register Land"   },
-  { to: ROUTES.farmerCrops,       icon: "🌾", label: "My Crops"        },
-  { to: ROUTES.farmerMilestones,  icon: "📎", label: "Upload Evidence" },
-  { to: ROUTES.farmerContracts,   icon: "📋", label: "ගිවිසුම්"        },
+  { to: ROUTES.farmerDashboard,       icon: "🏠", label: "Dashboard"        },
+  { to: ROUTES.farmerApplication,     icon: "📝", label: "Register Land"    },
+  { to: ROUTES.farmerCrops,           icon: "🌾", label: "My Crops"         },
+  { to: ROUTES.farmerMilestones,      icon: "📎", label: "Upload Evidence"  },
+  { to: ROUTES.farmerContracts,       icon: "📋", label: "ගිවිසුම්"         },
+  { to: ROUTES.farmerFinancialReport, icon: "📊", label: "Financial Report" },
 ];
 
 export function FarmerLayout() {
