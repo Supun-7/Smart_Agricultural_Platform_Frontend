@@ -29,6 +29,11 @@ import CreateUserPage from "../pages/admin/CreateUserPage.jsx";
 
 import AuditorDashboard from "../pages/auditor/AuditorDashboard.jsx";
 import AuditHistory from "../pages/auditor/AuditHistory.jsx";
+import KycDetailPage from "../pages/auditor/KycDetailPage.jsx";
+import FarmerDetailPage from "../pages/auditor/FarmerDetailPage.jsx";
+import AuditorProjectsPage from "../pages/auditor/AuditorProjectsPage.jsx";
+import ProjectDetailPage from "../pages/auditor/ProjectDetailPage.jsx";
+import FullHistoryPage from "../pages/auditor/FullHistoryPage.jsx";
 
 import FarmerDashboard from "../pages/FarmerDashboard.jsx";
 import FarmerLandRegistration from "../pages/farmer/FarmerLandRegistration.jsx";
@@ -124,13 +129,18 @@ export default function AppRoutes() {
       >
         <Route path={ROUTES.auditorDashboard} element={<AuditorDashboard />} />
         <Route path={ROUTES.auditorKyc} element={<AuditorDashboard />} />
+        <Route path={ROUTES.auditorKycDetail} element={<KycDetailPage />} />
         <Route path={ROUTES.auditorFarmers} element={<AuditorDashboard />} />
+        <Route path={ROUTES.auditorFarmerDetail} element={<FarmerDetailPage />} />
+        <Route path={ROUTES.auditorProjects} element={<AuditorProjectsPage />} />
+        <Route path={ROUTES.auditorProjectDetail} element={<ProjectDetailPage />} />
         <Route path={ROUTES.auditorReports} element={
           <div style={{ color: "var(--text)", padding: "2rem" }}>
             Reports — coming soon
           </div>
         } />
         <Route path={ROUTES.auditorHistory} element={<AuditHistory />} />
+        <Route path={ROUTES.auditorFullHistory} element={<FullHistoryPage />} />
       </Route>
 
       {/* ── Farmer ──────────────────────────────────────── */}

@@ -31,6 +31,11 @@ export const ROUTES = {
   auditorFarmers: "/auditor/farmers",
   auditorReports: "/auditor/reports",
   auditorHistory: "/auditor/history",
+  auditorKycDetail: "/auditor/kyc/:id",
+  auditorFarmerDetail: "/auditor/farmer/:id",
+  auditorProjects: "/auditor/projects",
+  auditorProjectDetail: "/auditor/projects/:landId",
+  auditorFullHistory: "/auditor/full-history",
 
   // ── farmer sub-pages ─────────────────────────────────────
   farmerDashboard: "/farmer/dashboard",
@@ -41,3 +46,5 @@ export const ROUTES = {
   farmerContracts: "/farmer/contracts",
   farmerFinancialReport: "/farmer/financial-report",
 };
+// ── NEW auditor detail + project routes ─────────────────────
+// These lines are appended — the ROUTES object above must be updated to include:
