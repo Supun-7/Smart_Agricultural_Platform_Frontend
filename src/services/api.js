@@ -354,6 +354,54 @@ export const auditorApi = {
       headers: headers(token),
     }).then(handle),
 
+
+  // KYC detail view — NEW
+  getKycDetail: (token, id) =>
+    fetch(`${BASE_URL}/auditor/kyc/${id}`, {
+      headers: headers(token),
+    }).then(handle),
+
+  // Farmer application detail view — NEW
+  getFarmerDetail: (token, id) =>
+    fetch(`${BASE_URL}/auditor/farmer/${id}`, {
+      headers: headers(token),
+    }).then(handle),
+
+  // Project/Land endpoints — ALL NEW
+  getPendingProjects: (token) =>
+    fetch(`${BASE_URL}/auditor/projects/pending`, {
+      headers: headers(token),
+    }).then(handle),
+
+  getAllProjects: (token) =>
+    fetch(`${BASE_URL}/auditor/projects`, {
+      headers: headers(token),
+    }).then(handle),
+
+  getProjectDetail: (token, landId) =>
+    fetch(`${BASE_URL}/auditor/projects/${landId}`, {
+      headers: headers(token),
+    }).then(handle),
+
+  approveProject: (token, landId) =>
+    fetch(`${BASE_URL}/auditor/projects/${landId}/approve`, {
+      method: "PUT",
+      headers: headers(token),
+    }).then(handle),
+
+  rejectProject: (token, landId, reason) =>
+    fetch(`${BASE_URL}/auditor/projects/${landId}/reject`, {
+      method: "PUT",
+      headers: headers(token),
+      body: JSON.stringify({ reason }),
+    }).then(handle),
+
+  // Full history — ALL types — NEW
+  getFullHistory: (token) =>
+    fetch(`${BASE_URL}/auditor/full-history`, {
+      headers: headers(token),
+    }).then(handle),
+
 };
 
 // ── Admin endpoints ──────────────────────────────────────────
