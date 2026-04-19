@@ -197,6 +197,15 @@ export function Navbar() {
             </NavLink>
           )}
 
+          {/* Language toggle in mobile menu */}
+          <div className="mobileDivider" />
+          <button
+            className="mobileLink mobileLangToggle"
+            onClick={toggleLanguage}
+          >
+            🌐 {(i18n.language || '').startsWith('si') ? 'Switch to English' : 'සිංහලට මාරු වන්න'}
+          </button>
+
           {!user && (
             <>
               <NavLink className="mobileLink" to={ROUTES.login}
