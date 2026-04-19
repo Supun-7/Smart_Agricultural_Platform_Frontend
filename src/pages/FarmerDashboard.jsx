@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth.js";
 import { ROUTES } from "../routes/routePaths.js";
@@ -26,13 +27,13 @@ function clampProgress(value) {
 
 function StatusBadge({ status }) {
   const colors = {
-    VERIFIED:      { background: "rgba(89,193,115,.15)", color: "#59c173" },
-    APPROVED:      { background: "rgba(89,193,115,.15)", color: "#59c173" },
-    ACTIVE:        { background: "rgba(89,193,115,.15)", color: "#59c173" },
-    PENDING:       { background: "rgba(255,193,7,.12)",  color: "#ffc107" },
-    REJECTED:      { background: "rgba(255,92,122,.12)", color: "#ff5c7a" },
-    INACTIVE:      { background: "rgba(255,255,255,.06)",color: "#9ab0a0" },
-    NOT_SUBMITTED: { background: "rgba(255,255,255,.06)",color: "#9ab0a0" },
+    VERIFIED: { background: "rgba(89,193,115,.15)", color: "#59c173" },
+    APPROVED: { background: "rgba(89,193,115,.15)", color: "#59c173" },
+    ACTIVE: { background: "rgba(89,193,115,.15)", color: "#59c173" },
+    PENDING: { background: "rgba(255,193,7,.12)", color: "#ffc107" },
+    REJECTED: { background: "rgba(255,92,122,.12)", color: "#ff5c7a" },
+    INACTIVE: { background: "rgba(255,255,255,.06)", color: "#9ab0a0" },
+    NOT_SUBMITTED: { background: "rgba(255,255,255,.06)", color: "#9ab0a0" },
   };
   const style = colors[status] || colors.NOT_SUBMITTED;
   return (
@@ -54,18 +55,18 @@ function StatusBadge({ status }) {
 }
 
 export default function FarmerDashboard() {
+  const { t } = useTranslation();
   const { token, user } = useAuth();
 
-  const [dashboard, setDashboard]               = useState(null);
-  const [loading, setLoading]                   = useState(true);
-  const [error, setError]                       = useState("");
-  const [actionError, setActionError]           = useState("");
-  const [busyLandId, setBusyLandId]             = useState(null);
+  const [dashboard, setDashboard] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  const [evidenceOpen, setEvidenceOpen]         = useState(null);
-  const [evidenceFiles, setEvidenceFiles]       = useState([]);
-  const [evidenceError, setEvidenceError]       = useState("");
-  const [evidenceSuccess, setEvidenceSuccess]   = useState("");
+
+  const [evidenceOpen, setEvidenceOpen] = useState(null);
+  const [evidenceFiles, setEvidenceFiles] = useState([]);
+  const [evidenceError, setEvidenceError] = useState("");
+  const [evidenceSuccess, setEvidenceSuccess] = useState("");
   const [uploadingEvidence, setUploadingEvidence] = useState(false);
 
   const loadDashboard = useCallback(async () => {
@@ -85,19 +86,6 @@ export default function FarmerDashboard() {
     if (!token) return;
     loadDashboard();
   }, [token, loadDashboard]);
-
-  async function toggleLandStatus(landId, isActive) {
-    setBusyLandId(landId);
-    setActionError("");
-    try {
-      await farmerApi.updateLandStatus(token, landId, isActive);
-      await loadDashboard();
-    } catch (err) {
-      setActionError(err.message || "Failed to update listing status.");
-    } finally {
-      setBusyLandId(null);
-    }
-  }
 
   if (loading) {
     return (
@@ -122,10 +110,8 @@ export default function FarmerDashboard() {
     );
   }
 
-  const app                = dashboard?.application       || {};
-  const projects           = dashboard?.projects          || [];
-  const lands              = dashboard?.lands             || [];
-  const receivedInvestments = dashboard?.receivedInvestments || [];
+  const app = dashboard?.application || {};
+  const projects = dashboard?.projects || [];
 
   const ALLOWED_TYPES = ["image/jpeg", "image/png", "application/pdf"];
   const MAX_BYTES = 5 * 1024 * 1024;
@@ -175,247 +161,79 @@ export default function FarmerDashboard() {
           <div className="farmerDashboardTitleBlock">
             <span className="farmerDashboardEyebrow">Farmer Dashboard</span>
             <h1 className="farmerDashboardTitle">
-              Welcome back, {dashboard?.farmerName || user?.fullName || "Farmer"}
+              {t("farmerDashboard.title", { name: dashboard?.farmerName || user?.fullName || "Farmer" })}
             </h1>
             <p className="farmerDashboardSub">
-              Manage your land listings, monitor project funding, and track your farm application progress.
+              {t("farmerDashboard.subtitle")}
             </p>
           </div>
 
           <div className="farmerDashboardHeaderActions">
-            <Link className="btn" to={ROUTES.farmerApplication}>+ Register land</Link>
+            <Link className="btn" to={ROUTES.farmerApplication}>{t("farmerDashboard.registerLandBtn")}</Link>
           </div>
         </div>
 
         <div className="farmerProfileGrid">
           <div className="card farmerProfileCard">
-            <span className="farmerCardLabel">Full Name</span>
+            <span className="farmerCardLabel">{t("farmerDashboard.profile.fullName")}</span>
             <strong className="farmerCardValue">{dashboard?.farmerName || user?.fullName || "—"}</strong>
           </div>
           <div className="card farmerProfileCard">
-            <span className="farmerCardLabel">Email</span>
+            <span className="farmerCardLabel">{t("farmerDashboard.profile.email")}</span>
             <strong className="farmerCardValue">{dashboard?.email || user?.email || "—"}</strong>
           </div>
           <div className="card farmerProfileCard">
-            <span className="farmerCardLabel">Account Status</span>
+            <span className="farmerCardLabel">{t("farmerDashboard.profile.accountStatus")}</span>
             <StatusBadge status={dashboard?.status || user?.verificationStatus} />
           </div>
           <div className="card farmerProfileCard">
-            <span className="farmerCardLabel">Application Status</span>
+            <span className="farmerCardLabel">{t("farmerDashboard.profile.applicationStatus")}</span>
             <StatusBadge status={app?.status} />
           </div>
         </div>
 
         <div className="farmerSummaryGrid">
           <div className="card farmerSummaryCard">
-            <span className="farmerCardLabel">Total Projects</span>
+            <span className="farmerCardLabel">{t("farmerDashboard.summary.totalProjects")}</span>
             <strong className="farmerSummaryValue">{dashboard?.totalProjects ?? 0}</strong>
           </div>
           <div className="card farmerSummaryCard">
-            <span className="farmerCardLabel">Total Funded</span>
+            <span className="farmerCardLabel">{t("farmerDashboard.summary.totalFunded")}</span>
             <strong className="farmerSummaryValue">{formatCurrency(dashboard?.totalFunded)}</strong>
           </div>
           <div className="card farmerSummaryCard">
-            <span className="farmerCardLabel">Land Listings</span>
+            <span className="farmerCardLabel">{t("farmerDashboard.summary.landListings")}</span>
             <strong className="farmerSummaryValue">{dashboard?.landCount ?? 0}</strong>
           </div>
           <div className="card farmerSummaryCard">
-            <span className="farmerCardLabel">Active Listings</span>
+            <span className="farmerCardLabel">{t("farmerDashboard.summary.activeListings")}</span>
             <strong className="farmerSummaryValue">{dashboard?.activeLandCount ?? 0}</strong>
           </div>
-        </div>
-
-        {/* ── Received Investments with Blockchain Links ──────────────────── */}
-        {/* This section shows every investor who has invested in the farmer's lands.
-            Each row includes a PolygonScan link so the farmer can independently
-            verify the investment is permanently recorded on the blockchain. */}
-        <div className="card farmerLandsSection">
-          <div className="farmerSectionHead">
-            <div>
-              <h2 className="farmerSectionTitle">⛓️ Investments on my lands</h2>
-              <p className="farmerSectionSub">
-                Each investment below is permanently recorded on the Polygon blockchain.
-                Click "View on PolygonScan" to verify the on-chain record independently.
-              </p>
-            </div>
-          </div>
-
-          {receivedInvestments.length === 0 ? (
-            <div className="farmerEmptyState">
-              <h3>No investments yet</h3>
-              <p>When investors fund your land listings, their investments will appear here with blockchain proof.</p>
-            </div>
-          ) : (
-            <div style={{ display: "grid", gap: "1rem" }}>
-              {receivedInvestments.map((inv) => {
-                const hasRealLink =
-                  inv.polygonScanUrl &&
-                  inv.blockchainTxHash &&
-                  !inv.blockchainTxHash.startsWith("BLOCKCHAIN_ERROR") &&
-                  !inv.blockchainTxHash.startsWith("PENDING") &&
-                  inv.blockchainTxHash.length <= 66;
-
-                return (
-                  <div
-                    key={inv.investmentId}
-                    style={{
-                      border: "1px solid rgba(255,255,255,.08)",
-                      borderRadius: "16px",
-                      padding: "1rem 1.1rem",
-                      background: "rgba(255,255,255,.02)",
-                    }}
-                  >
-                    <div style={{ display: "flex", justifyContent: "space-between", gap: "1rem", flexWrap: "wrap" }}>
-                      <div>
-                        <strong style={{ color: "var(--text)", fontSize: "1rem" }}>
-                          {inv.projectName}
-                        </strong>
-                        <div style={{ color: "var(--muted)", marginTop: ".25rem", fontSize: ".88rem" }}>
-                          👤 {inv.investorName} · {inv.investmentDate?.split("T")[0] || "—"}
-                        </div>
-                      </div>
-                      <div style={{ textAlign: "right" }}>
-                        <strong style={{ color: "var(--brand)", fontSize: "1rem" }}>
-                          {formatCurrency(inv.amountInvested)}
-                        </strong>
-                        <div style={{ marginTop: ".25rem" }}>
-                          <StatusBadge status={inv.status} />
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Blockchain verification link */}
-                    <div style={{ marginTop: ".75rem" }}>
-                      {hasRealLink ? (
-                        <a
-                          href={inv.polygonScanUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          style={{
-                            display: "inline-flex",
-                            alignItems: "center",
-                            gap: ".4rem",
-                            color: "var(--brand)",
-                            fontSize: ".85rem",
-                            textDecoration: "none",
-                            fontWeight: 600,
-                          }}
-                        >
-                          ⛓️ View on PolygonScan ↗
-                        </a>
-                      ) : (
-                        <span style={{ color: "var(--muted)", fontSize: ".82rem" }}>
-                          ⛓️ On-chain record pending
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </div>
-
-        <div className="card farmerLandsSection">
-          <div className="farmerSectionHead">
-            <div>
-              <h2 className="farmerSectionTitle">My land listings</h2>
-              <p className="farmerSectionSub">
-                Listings created here are shown to investors on the opportunities page when they are active.
-              </p>
-            </div>
-            <Link className="btn btnGhost" to={ROUTES.farmerApplication}>Create another</Link>
-          </div>
-
-          {actionError ? <div className="farmerInlineError">{actionError}</div> : null}
-
-          {lands.length === 0 ? (
-            <div className="farmerEmptyState">
-              <h3>No land listings yet</h3>
-              <p>Create your first listing to make your land visible to investors.</p>
-            </div>
-          ) : (
-            <div className="farmerLandGrid">
-              {lands.map((land) => {
-                const firstImage = land.imageUrls?.split(",").find(Boolean);
-                return (
-                  <article className="farmerLandCard" key={land.landId}>
-                    {firstImage ? (
-                      <img className="farmerListingImage" src={firstImage} alt={land.projectName} />
-                    ) : (
-                      <div className="farmerListingPlaceholder">No image</div>
-                    )}
-
-                    <div className="farmerLandTop">
-                      <span className="farmerLandBadge">Land #{land.landId}</span>
-                      <StatusBadge status={land.isActive ? "ACTIVE" : "INACTIVE"} />
-                    </div>
-
-                    <h3 className="farmerLandTitle">{land.projectName}</h3>
-                    <p className="farmerListingDescription">{land.description}</p>
-
-                    <div className="farmerLandMeta farmerLandMetaGrid">
-                      <div>
-                        <span className="farmerMetaLabel">Location</span>
-                        <span className="farmerMetaValue">{land.location}</span>
-                      </div>
-                      <div>
-                        <span className="farmerMetaLabel">Crop type</span>
-                        <span className="farmerMetaValue">{land.cropType}</span>
-                      </div>
-                      <div>
-                        <span className="farmerMetaLabel">Land size</span>
-                        <span className="farmerMetaValue">{land.sizeAcres} acres</span>
-                      </div>
-                      <div>
-                        <span className="farmerMetaLabel">Min. investment</span>
-                        <span className="farmerMetaValue">{formatCurrency(land.minimumInvestment)}</span>
-                      </div>
-                    </div>
-
-                    <div className="farmerListingActions">
-                      <button
-                        className="btn btnSmall"
-                        disabled={busyLandId === land.landId}
-                        onClick={() => toggleLandStatus(land.landId, !land.isActive)}
-                      >
-                        {busyLandId === land.landId
-                          ? "Saving..."
-                          : land.isActive
-                            ? "Hide from investors"
-                            : "Show to investors"}
-                      </button>
-                    </div>
-                  </article>
-                );
-              })}
-            </div>
-          )}
         </div>
 
         {app?.status && app.status !== "NOT_SUBMITTED" && (
           <div className="card farmerLandsSection">
             <div className="farmerSectionHead">
               <div>
-                <h2 className="farmerSectionTitle">Farm application details</h2>
-                <p className="farmerSectionSub">Your verified farmer profile and registration details.</p>
+                <h2 className="farmerSectionTitle">{t("farmerDashboard.applicationDetails.title")}</h2>
+                <p className="farmerSectionSub">{t("farmerDashboard.applicationDetails.subtitle")}</p>
               </div>
             </div>
             <div className="farmerProfileGrid">
               <div className="card farmerProfileCard">
-                <span className="farmerCardLabel">Farmer Name</span>
+                <span className="farmerCardLabel">{t("farmerDashboard.applicationDetails.farmerName")}</span>
                 <strong className="farmerCardValue">{app.farmerName} {app.surname}</strong>
               </div>
               <div className="card farmerProfileCard">
-                <span className="farmerCardLabel">NIC Number</span>
+                <span className="farmerCardLabel">{t("farmerDashboard.applicationDetails.nicNumber")}</span>
                 <strong className="farmerCardValue">{app.nicNumber || "—"}</strong>
               </div>
               <div className="card farmerProfileCard">
-                <span className="farmerCardLabel">Farm Address</span>
+                <span className="farmerCardLabel">{t("farmerDashboard.applicationDetails.farmAddress")}</span>
                 <strong className="farmerCardValue">{app.farmAddress || "—"}</strong>
               </div>
               <div className="card farmerProfileCard">
-                <span className="farmerCardLabel">Land Size</span>
+                <span className="farmerCardLabel">{t("farmerDashboard.applicationDetails.landSize")}</span>
                 <strong className="farmerCardValue">{app.landSizeAcres ? `${app.landSizeAcres} acres` : "—"}</strong>
               </div>
             </div>
@@ -425,15 +243,15 @@ export default function FarmerDashboard() {
         <div className="card farmerLandsSection">
           <div className="farmerSectionHead">
             <div>
-              <h2 className="farmerSectionTitle">Milestone updates</h2>
-              <p className="farmerSectionSub">Approved and rejected milestone decisions are shown here.</p>
+              <h2 className="farmerSectionTitle">{t("farmerDashboard.milestones.title")}</h2>
+              <p className="farmerSectionSub">{t("farmerDashboard.milestones.subtitle")}</p>
             </div>
           </div>
 
           {!Array.isArray(dashboard?.milestones) || dashboard.milestones.length === 0 ? (
             <div className="farmerEmptyState">
-              <h3>No milestone updates yet</h3>
-              <p>Submit milestone progress to see auditor decisions here.</p>
+              <h3>{t("farmerDashboard.milestones.emptyState.title")}</h3>
+              <p>{t("farmerDashboard.milestones.emptyState.desc")}</p>
             </div>
           ) : (
             <div style={{ display: "grid", gap: "1rem" }}>
@@ -465,7 +283,7 @@ export default function FarmerDashboard() {
 
                   {milestone.rejectionReason && (
                     <div style={{ color: "#ffb4c0", fontSize: ".92rem" }}>
-                      Rejection reason: {milestone.rejectionReason}
+                      {t("farmerDashboard.milestones.rejectionReason")} {milestone.rejectionReason}
                     </div>
                   )}
 
@@ -481,7 +299,7 @@ export default function FarmerDashboard() {
                           setEvidenceSuccess("");
                         }}
                       >
-                        {evidenceOpen === milestone.id ? "Cancel upload" : "Upload evidence"}
+                        {evidenceOpen === milestone.id ? t("farmerDashboard.milestones.cancelUpload") : t("farmerDashboard.milestones.uploadEvidence")}
                       </button>
 
                       {evidenceOpen === milestone.id && (
@@ -536,7 +354,7 @@ export default function FarmerDashboard() {
                             disabled={uploadingEvidence || evidenceFiles.length === 0}
                             onClick={() => handleEvidenceUpload(milestone.id)}
                           >
-                            {uploadingEvidence ? "Uploading…" : "Submit evidence"}
+                            {uploadingEvidence ? t("farmerDashboard.milestones.uploading") : t("farmerDashboard.milestones.submitEvidence")}
                           </button>
                         </div>
                       )}
@@ -551,15 +369,15 @@ export default function FarmerDashboard() {
         <div className="card farmerLandsSection">
           <div className="farmerSectionHead">
             <div>
-              <h2 className="farmerSectionTitle">Funded projects</h2>
-              <p className="farmerSectionSub">Projects currently connected to your farmer account.</p>
+              <h2 className="farmerSectionTitle">{t("farmerDashboard.fundedProjects.title")}</h2>
+              <p className="farmerSectionSub">{t("farmerDashboard.fundedProjects.subtitle")}</p>
             </div>
           </div>
 
           {projects.length === 0 ? (
             <div className="farmerEmptyState">
-              <h3>No projects yet</h3>
-              <p>Your dashboard is connected. Projects will appear here once investors fund your farm.</p>
+              <h3>{t("farmerDashboard.fundedProjects.emptyState.title")}</h3>
+              <p>{t("farmerDashboard.fundedProjects.emptyState.desc")}</p>
             </div>
           ) : (
             <div className="farmerLandGrid">
@@ -576,18 +394,18 @@ export default function FarmerDashboard() {
 
                     <div className="farmerLandMeta">
                       <div>
-                        <span className="farmerMetaLabel">Target amount</span>
+                        <span className="farmerMetaLabel">{t("farmerDashboard.fundedProjects.labels.targetAmount")}</span>
                         <span className="farmerMetaValue">{formatCurrency(p.targetAmount)}</span>
                       </div>
                       <div>
-                        <span className="farmerMetaLabel">Progress</span>
+                        <span className="farmerMetaLabel">{t("farmerDashboard.fundedProjects.labels.progress")}</span>
                         <span className="farmerMetaValue">{progress}%</span>
                       </div>
                     </div>
 
                     <div className="farmerProgressBlock">
                       <div className="farmerProgressHead">
-                        <span className="farmerMetaLabel">Funding progress</span>
+                        <span className="farmerMetaLabel">{t("farmerDashboard.fundedProjects.labels.progress")}</span>
                         <span className="farmerProgressValue">{progress}%</span>
                       </div>
                       <div className="farmerProgressBar">
