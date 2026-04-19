@@ -1,7 +1,9 @@
-body{
+body {
   background: radial-gradient(1200px 600px at 15% 10%, rgba(89,193,115,.22), transparent 60%),
               radial-gradient(900px 500px at 90% 20%, rgba(48,162,255,.18), transparent 55%),
               var(--bg);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   color: var(--text);
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji", "Segoe UI Emoji";
   line-height: 1.45;
