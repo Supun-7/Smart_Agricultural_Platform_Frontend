@@ -505,3 +505,97 @@
   min-width: 170px;
   font-size: 0.875rem;
 }
+
+/* ════════════════════════════════════════════════════════════════
+   RESPONSIVE ADDITIONS — AC-1 to AC-6
+   ════════════════════════════════════════════════════════════════ */
+
+/* AC-5: Prevent overflow */
+.adminPage {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* AC-4: Table always scrolls horizontally */
+.adminTableScroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+}
+
+/* AC-2: Tablet (768px) */
+@media (max-width: 1023px) and (min-width: 681px) {
+  .adminPage {
+    padding: 1.5rem 1.25rem;
+    gap: 1.75rem;
+  }
+
+  .adminStatGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .adminPageHeader {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+}
+
+/* AC-1: Mobile (≤480px) deeper fixes */
+@media (max-width: 480px) {
+  .adminPageHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .adminStatGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .adminTableTop {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .adminTableControls {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .adminTableSearch,
+  .adminTableFilter {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* AC-6: Touch-friendly action buttons */
+  .adminActionBtn {
+    min-height: 44px;
+    padding: 0 1rem;
+  }
+
+  .adminBulkBar {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+
+  .adminPagination {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: space-between;
+  }
+}
+
+/* AC-1: 320px */
+@media (max-width: 360px) {
+  .adminPageTitle {
+    font-size: 1.2rem;
+  }
+
+  .adminTable th,
+  .adminTable td {
+    padding: 0.65rem 0.6rem;
+    font-size: 0.78rem;
+  }
+}

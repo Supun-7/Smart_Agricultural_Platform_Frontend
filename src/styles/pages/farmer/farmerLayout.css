@@ -1,8 +1,31 @@
 /* ── Shell ───────────────────────────────────────────────── */
 .frmShell {
   display: flex;
+  flex-direction: column;
   min-height: 100vh;
   background: var(--bg);
+}
+
+/* ── Mobile bar (visible only on mobile) ─────────────────── */
+.frmMobileBar {
+  display: none;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 1rem;
+  background: #0c1510;
+  border-bottom: 1px solid #1a2e1e;
+  position: sticky;
+  top: 70px;
+  z-index: 100;
+}
+
+.frmMobileBarLabel {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* ── Sidebar ─────────────────────────────────────────────── */
@@ -16,8 +39,8 @@
   justify-content: space-between;
   padding: 1.5rem 1rem;
   position: sticky;
-  top: 0;
-  height: 100vh;
+  top: 70px;
+  height: calc(100vh - 70px);
   overflow-y: auto;
 }
 
@@ -91,6 +114,7 @@
   font-weight: 500;
   transition: background .12s ease, color .12s ease;
   border: 1px solid transparent;
+  min-height: 44px;
 }
 
 .frmNavItem:hover {
@@ -180,6 +204,7 @@
   cursor: pointer;
   transition: border-color .12s, color .12s;
   text-align: left;
+  min-height: 44px;
 }
 
 .frmSignOut:hover {
@@ -195,27 +220,103 @@
   padding: 2rem;
 }
 
-/* ── Mobile ───────────────────────────────────────────────── */
-@media (max-width: 680px) {
-  .frmShell   { flex-direction: column; }
+/* ── Tablet (681px–1023px) ───────────────────────────────── */
+@media (min-width: 681px) and (max-width: 1023px) {
   .frmSidebar {
-    width: 100%;
-    height: auto;
-    position: static;
-    flex-direction: row;
-    flex-wrap: wrap;
-    padding: .75rem 1rem;
-    border-right: none;
-    border-bottom: 1px solid #1a2e1e;
-    gap: .5rem;
+    width: 190px;
+    padding: 1.25rem 0.75rem;
   }
-  .frmSidebarTop    { flex-direction: row; align-items: center; gap: .5rem; flex: 1; }
-  .frmSidebarBottom { flex-direction: row; align-items: center; padding-top: 0; border-top: none; }
-  .frmNav           { flex-direction: row; }
-  .frmNavLabel      { display: none; }
-  .frmNavItem       { padding: .5rem; }
-  .frmBrandText     { display: none; }
-  .frmBrandSub      { display: none; }
-  .frmUserInfo      { display: none; }
-  .frmRoleBadge     { display: none; }
+
+  .frmMain {
+    padding: 1.5rem 1.25rem;
+  }
+}
+
+/* ── Mobile (≤680px) — Drawer sidebar ───────────────────── */
+@media (max-width: 680px) {
+  .frmMobileBar {
+    display: flex;
+  }
+
+  .frmSidebar {
+    /* Convert to off-canvas drawer */
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 260px;
+    max-width: 80vw;
+    height: 100vh;
+    z-index: 150;
+    padding-top: 1.5rem;
+    transform: translateX(-100%);
+    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    border-right: 1px solid #1a2e1e;
+    border-bottom: none;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    overflow-y: auto;
+    box-shadow: 4px 0 24px rgba(0,0,0,.4);
+  }
+
+  .frmSidebar.open {
+    transform: translateX(0);
+  }
+
+  .frmSidebarTop {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+    flex: 1;
+    width: 100%;
+  }
+
+  .frmSidebarBottom {
+    flex-direction: column;
+    align-items: stretch;
+    padding-top: 1rem;
+    border-top: 1px solid #1a2e1e;
+    width: 100%;
+  }
+
+  .frmNav {
+    flex-direction: column;
+    width: 100%;
+    overflow-x: unset;
+  }
+
+  .frmNavLabel {
+    display: block !important;
+  }
+
+  .frmNavItem {
+    width: 100%;
+    padding: 0.65rem 0.8rem;
+  }
+
+  .frmUserInfo {
+    display: flex !important;
+  }
+
+  .frmRoleBadge {
+    display: inline-flex !important;
+    margin: 0 0.6rem;
+  }
+
+  .frmMain {
+    padding: 1.25rem 1rem;
+    /* full width — sidebar is overlaid, not in flow */
+    width: 100%;
+  }
+}
+
+/* ── Extra small (≤360px) ────────────────────────────────── */
+@media (max-width: 360px) {
+  .frmMain {
+    padding: 0.875rem 0.75rem;
+  }
+
+  .frmMobileBar {
+    padding: 0.5rem 0.75rem;
+  }
 }

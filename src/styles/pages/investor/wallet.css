@@ -287,3 +287,13 @@
 }
 
 @keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Responsive additions ─────────────────────────────────── */
+@media (max-width: 900px) and (min-width: 481px) {
+  .walletPanel { padding: 1.25rem; }
+}
+
+@media (max-width: 480px) {
+  .walletActions { grid-template-columns: 1fr; }
+  .walletPanel   { padding: 1rem; }
+}

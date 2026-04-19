@@ -174,3 +174,64 @@
   .invPage     { padding: 1.25rem 1rem; gap: 1.5rem; }
   .invStatGrid { grid-template-columns: 1fr 1fr; }
 }
+
+/* ════════════════════════════════════════════════════════════════
+   RESPONSIVE ADDITIONS — AC-1 to AC-6
+   ════════════════════════════════════════════════════════════════ */
+
+/* AC-5: Prevent overflow */
+.invPage {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* AC-2: Tablet (768px) */
+@media (max-width: 1023px) and (min-width: 681px) {
+  .invPage {
+    padding: 1.5rem 1.25rem;
+    gap: 1.75rem;
+  }
+
+  .invStatGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .invLandGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* AC-1: Mobile (≤480px) deeper fixes */
+@media (max-width: 480px) {
+  .invPageHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .invStatGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .invLandGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .invFilterRow {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 0.25rem;
+  }
+
+  .invFilterBtn {
+    flex-shrink: 0;
+  }
+}
+
+/* AC-1: 320px */
+@media (max-width: 360px) {
+  .invPageTitle {
+    font-size: 1.2rem;
+  }
+}

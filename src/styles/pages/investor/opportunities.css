@@ -611,3 +611,8 @@
   border-color: rgba(89,193,115,.4);
 }
 .oppSearch::placeholder { color: var(--muted); }
+
+/* ── Responsive additions ─────────────────────────────────── */
+@media (max-width: 480px) {
+  .oppMetaGrid { grid-template-columns: 1fr; }
+}

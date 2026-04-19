@@ -1,0 +1,788 @@
+/* ════════════════════════════════════════════════════════════════
+   RESPONSIVE.CSS  —  Global responsive overrides
+   Covers AC-1 through AC-6 for all four dashboards
+   ════════════════════════════════════════════════════════════════ */
+
+/* ── AC-5: Prevent horizontal overflow globally ─────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  overflow-x: hidden;
+}
+
+body {
+  overflow-x: hidden;
+  min-width: 320px;
+}
+
+img, video, svg, canvas {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ── AC-4: Table horizontal scroll on all screen sizes ─────── */
+.adminTableScroll,
+.tableScrollWrap,
+[class*="TableScroll"],
+[class*="tableScroll"] {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+}
+
+/* Ensure tables don't bust their containers */
+table {
+  min-width: 100%;
+}
+
+/* ── AC-6: Touch-friendly min tap target (44×44px WCAG 2.5.5) ─ */
+button,
+.btn,
+[role="button"],
+input[type="submit"],
+input[type="button"],
+input[type="reset"],
+select,
+.navLink,
+.mobileLink,
+.frmNavItem,
+.audNavItem,
+.admNavItem,
+.invNavItem {
+  min-height: 44px;
+}
+
+/* inputs also need generous touch target */
+input,
+textarea,
+select {
+  min-height: 44px;
+  font-size: 16px; /* prevents iOS auto-zoom on focus */
+}
+
+/* Checkboxes / radios get an outer wrapper tap area */
+input[type="checkbox"],
+input[type="radio"] {
+  min-height: unset;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+/* ── AC-6: Form usability on touch ──────────────────────────── */
+.input {
+  font-size: 16px !important; /* prevents iOS zoom */
+  min-height: 48px;
+  touch-action: manipulation;
+}
+
+.btn {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+}
+
+/* ── Shared mobile hamburger button (all layouts) ───────────── */
+.layoutHamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  cursor: pointer;
+  padding: 10px;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s;
+  position: relative;
+  z-index: 201;
+}
+
+.layoutHamburger:hover {
+  background: rgba(255, 255, 255, 0.09);
+}
+
+.layoutHamburger span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: var(--text, #eef5ef);
+  border-radius: 2px;
+  transition: transform 0.22s ease, opacity 0.22s ease;
+  transform-origin: center;
+}
+
+.layoutHamburger.open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.layoutHamburger.open span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+.layoutHamburger.open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ── Shared drawer overlay backdrop ─────────────────────────── */
+.drawerOverlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 149;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  animation: overlayFadeIn 0.2s ease;
+}
+
+.drawerOverlay.visible {
+  display: block;
+}
+
+@keyframes overlayFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── Mobile top bar (shown only on small screens) ───────────── */
+.layoutMobileTopbar {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.7rem 1rem;
+  background: rgba(11, 15, 12, 0.92);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  gap: 0.75rem;
+}
+
+.layoutMobileTopbarBrand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: var(--text, #eef5ef);
+  overflow: hidden;
+  min-width: 0;
+}
+
+.layoutMobileTopbarLogo {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.layoutMobileTopbarText {
+  font-size: 0.88rem;
+  font-weight: 800;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.layoutMobileRoleBadge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   TABLET BREAKPOINTS (768px)
+   ════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 900px) {
+  /* Admin page */
+  .adminPage {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .adminStatGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Investor dashboard page */
+  .invPage {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .invStatGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Farmer dashboard */
+  .farmerProfileGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .farmerLandGrid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Farmer layout main */
+  .frmMain {
+    padding: 1.5rem;
+  }
+
+  /* Auditor / Admin mains */
+  .audMain {
+    padding: 1.5rem;
+  }
+
+  .admMain {
+    padding: 1.5rem;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════
+   MOBILE BREAKPOINTS (680px) — Drawer sidebars
+   ════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 680px) {
+  /* Show mobile topbar */
+  .layoutMobileTopbar {
+    display: flex;
+  }
+
+  /* Show hamburger */
+  .layoutHamburger {
+    display: flex;
+  }
+
+  /* ── Farmer layout mobile ──────────────────────────────────── */
+  .frmShell {
+    flex-direction: column;
+  }
+
+  .frmSidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 260px;
+    max-width: 80vw;
+    height: 100vh;
+    z-index: 150;
+    transform: translateX(-100%);
+    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    padding-top: 1rem;
+    border-right: 1px solid #1a2e1e;
+    border-bottom: none;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    overflow-y: auto;
+  }
+
+  .frmSidebar.open {
+    transform: translateX(0);
+  }
+
+  .frmSidebarTop {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+    flex: 1;
+  }
+
+  .frmSidebarBottom {
+    flex-direction: column;
+    align-items: stretch;
+    padding-top: 1rem;
+    border-top: 1px solid #1a2e1e;
+  }
+
+  .frmNav {
+    flex-direction: column;
+    width: 100%;
+    overflow-x: unset;
+  }
+
+  .frmNavLabel {
+    display: block !important;
+  }
+
+  .frmNavItem {
+    padding: 0.65rem 0.8rem;
+    width: 100%;
+  }
+
+  .frmBrandText {
+    display: block !important;
+  }
+
+  .frmBrandSub {
+    display: block !important;
+  }
+
+  .frmUserInfo {
+    display: flex !important;
+  }
+
+  .frmRoleBadge {
+    display: inline-flex !important;
+  }
+
+  .frmMain {
+    flex: 1;
+    min-width: 0;
+    padding: 1.25rem 1rem;
+  }
+
+  /* ── Auditor layout mobile ─────────────────────────────────── */
+  .audShell {
+    flex-direction: column;
+  }
+
+  .audSidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 260px;
+    max-width: 80vw;
+    height: 100vh;
+    z-index: 150;
+    transform: translateX(-100%);
+    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    padding-top: 1rem;
+    border-right: 1px solid #1a2e1e;
+    border-bottom: none;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    overflow-y: auto;
+  }
+
+  .audSidebar.open {
+    transform: translateX(0);
+  }
+
+  .audSidebarTop {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+    flex: 1;
+  }
+
+  .audSidebarBottom {
+    flex-direction: column;
+    align-items: stretch;
+    padding-top: 1rem;
+    border-top: 1px solid #1a2e1e;
+  }
+
+  .audNav {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .audNavLabel {
+    display: block !important;
+  }
+
+  .audNavItem {
+    padding: 0.65rem 0.8rem;
+    width: 100%;
+  }
+
+  .audBrandText {
+    display: block !important;
+  }
+
+  .audBrandSub {
+    display: block !important;
+  }
+
+  .audUserInfo {
+    display: flex !important;
+  }
+
+  .audRoleBadge {
+    display: inline-flex !important;
+  }
+
+  .audMain {
+    flex: 1;
+    min-width: 0;
+    padding: 1.25rem 1rem;
+  }
+
+  /* ── Admin layout mobile ───────────────────────────────────── */
+  .admShell {
+    flex-direction: column;
+  }
+
+  .admSidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 260px;
+    max-width: 80vw;
+    height: 100vh;
+    z-index: 150;
+    transform: translateX(-100%);
+    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    padding-top: 1rem;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: none;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    overflow-y: auto;
+  }
+
+  .admSidebar.open {
+    transform: translateX(0);
+  }
+
+  .admSidebarTop {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+    flex: 1;
+  }
+
+  .admSidebarBottom {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .admNav {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .admNavLabel {
+    display: block !important;
+  }
+
+  .admNavItem {
+    padding: 0.65rem 0.8rem;
+    width: 100%;
+    min-height: 44px;
+  }
+
+  .admBrandText {
+    display: block !important;
+  }
+
+  .admUserInfo {
+    display: flex !important;
+  }
+
+  .admMain {
+    flex: 1;
+    min-width: 0;
+    padding: 1.25rem 1rem;
+  }
+
+  /* ── Investor layout mobile ────────────────────────────────── */
+  .invShell {
+    flex-direction: column;
+  }
+
+  .invSidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 260px;
+    max-width: 80vw;
+    height: 100vh;
+    z-index: 150;
+    transform: translateX(-100%);
+    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    padding-top: 1rem;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: none;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    overflow-y: auto;
+  }
+
+  .invSidebar.open {
+    transform: translateX(0);
+  }
+
+  .invSidebarTop {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+    flex: 1;
+  }
+
+  .invSidebarBottom {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .invNav {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .invNavLabel {
+    display: block !important;
+  }
+
+  .invNavItem {
+    padding: 0.65rem 0.8rem;
+    width: 100%;
+    min-height: 44px;
+  }
+
+  .invBrandText {
+    display: block !important;
+  }
+
+  .invUserInfo {
+    display: flex !important;
+  }
+
+  .invMain {
+    flex: 1;
+    min-width: 0;
+    padding: 1.25rem 1rem;
+    overflow-y: auto;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════
+   SMALL MOBILE BREAKPOINTS (480px)
+   ════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 480px) {
+  /* Page padding tighten */
+  .adminPage,
+  .invPage,
+  .frmMain,
+  .audMain,
+  .admMain {
+    padding: 1rem 0.875rem;
+  }
+
+  /* Farmer dashboard */
+  .farmerDashboardHeader {
+    flex-direction: column;
+  }
+
+  .farmerDashboardHeaderActions {
+    width: 100%;
+  }
+
+  .farmerDashboardHeaderActions .btn {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .farmerProfileGrid,
+  .farmerSummaryGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .farmerLandGrid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Admin dashboard */
+  .adminStatGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .adminPageHeader {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  /* Investor dashboard */
+  .invStatGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .invPageHeader {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  /* Cards reflow */
+  .invLandGrid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Investor contracts */
+  .iclPage {
+    padding: 1rem 0.875rem 2rem;
+  }
+
+  .iclHeader {
+    flex-direction: column;
+  }
+
+  /* Wallet */
+  .walletActions {
+    grid-template-columns: 1fr;
+  }
+
+  /* Farmer contracts */
+  .fcPage {
+    padding: 1rem 0.875rem 2rem;
+  }
+
+  /* Farmer registration */
+  .landRegistrationActions {
+    flex-direction: column;
+  }
+
+  /* Buttons full-width on tiny screens */
+  .farmerListingActions .btn,
+  .landRegistrationActions .btn {
+    width: 100%;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════
+   EXTRA SMALL (320px) — Critical AC-1 fixes
+   ════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 360px) {
+  .layoutMobileTopbarText {
+    display: none;
+  }
+
+  .layoutMobileRoleBadge {
+    display: none;
+  }
+
+  .adminPage,
+  .invPage,
+  .frmMain,
+  .audMain,
+  .admMain,
+  .invMain {
+    padding: 0.875rem 0.75rem;
+  }
+
+  /* Stat grids always single column */
+  .adminStatGrid,
+  .invStatGrid,
+  [class*="StatGrid"] {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════
+   AC-4: Auditor inline-styled tables & cards — scroll wrapper
+   ════════════════════════════════════════════════════════════════
+   Auditor pages use inline styles. We add a utility class they
+   wrap tables with. Applied via auditorTableWrap class.        */
+
+.auditorTableWrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: var(--radius, 14px);
+  max-width: 100%;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   AC-4: Card reflow utilities
+   ════════════════════════════════════════════════════════════════ */
+
+.cardGrid2col {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+@media (max-width: 600px) {
+  .cardGrid2col {
+    grid-template-columns: 1fr;
+  }
+}
+
+.cardGrid3col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+@media (max-width: 900px) {
+  .cardGrid3col {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .cardGrid3col {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════
+   AC-5: Contain overflow on known problem elements
+   ════════════════════════════════════════════════════════════════ */
+
+/* Auditor project cards use flex with no wrapping */
+.auditorProjectCard,
+[class*="audProjectRow"],
+[class*="ProjectRow"] {
+  min-width: 0;
+}
+
+/* Prevent pre/code from busting layouts */
+pre, code {
+  overflow-x: auto;
+  word-break: break-all;
+  white-space: pre-wrap;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   AC-3: Navbar — already handled in navbar.css; reinforce here
+   ════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 680px) {
+  /* When mobile drawer sidebars are open, lock body scroll */
+  body.sidebar-open {
+    overflow: hidden;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════
+   AC-2: Tablet (768px) — layout-level fixes
+   ════════════════════════════════════════════════════════════════ */
+
+@media (min-width: 681px) and (max-width: 1023px) {
+  .frmSidebar,
+  .audSidebar,
+  .admSidebar,
+  .invSidebar {
+    width: 190px;
+    padding: 1.25rem 0.75rem;
+  }
+
+  .frmMain,
+  .audMain,
+  .admMain,
+  .invMain {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .frmNavLabel,
+  .audNavLabel,
+  .admNavLabel,
+  .invNavLabel {
+    font-size: 0.82rem;
+  }
+}

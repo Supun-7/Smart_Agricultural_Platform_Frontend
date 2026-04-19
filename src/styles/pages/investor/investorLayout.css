@@ -1,11 +1,44 @@
+/* ── Shell ───────────────────────────────────────────────── */
 .invShell {
   display: flex;
+  flex-direction: column;
   min-height: 100vh;
+  background: var(--bg, #0b0f0c);
+}
+
+/* ── Body wrapper (sidebar + main) ─────────────────────────── */
+.invBody {
+  display: flex;
+  flex: 1;
+  padding-top: 70px; /* navbar height */
+  min-height: 0;
+}
+
+/* ── Mobile bar below navbar ─────────────────────────────── */
+.invMobileBar {
+  display: none;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 1rem;
+  background: rgba(255,255,255,.03);
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  position: sticky;
+  top: 70px;
+  z-index: 100;
+}
+
+.invMobileBarLabel {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text, #eef5ef);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* ── Sidebar ─────────────────────────────────────────────── */
 .invSidebar {
-  width: 230px;
+  width: 220px;
   flex-shrink: 0;
   background: rgba(255,255,255,.03);
   border-right: 1px solid rgba(255,255,255,.08);
@@ -14,18 +47,18 @@
   justify-content: space-between;
   padding: 1.5rem 1rem;
   position: sticky;
-  top: 0;
-  height: 100vh;
+  top: 70px;
+  height: calc(100vh - 70px);
   overflow-y: auto;
 }
 
 .invSidebarTop {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1.5rem;
 }
 
-/* Brand */
+/* Brand (shown inside drawer on mobile) */
 .invBrand {
   display: flex;
   align-items: center;
@@ -34,15 +67,15 @@
 }
 
 .invBrandLogo {
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   object-fit: contain;
 }
 
 .invBrandText {
   font-weight: 800;
-  font-size: .9rem;
-  color: var(--text);
+  font-size: .88rem;
+  color: var(--text, #eef5ef);
 }
 
 /* Nav */
@@ -59,20 +92,21 @@
   padding: .65rem .8rem;
   border-radius: 10px;
   text-decoration: none;
-  color: var(--muted);
+  color: var(--muted, #9ab0a0);
   font-size: .92rem;
   font-weight: 500;
   transition: background .12s ease, color .12s ease;
+  min-height: 44px;
 }
 
 .invNavItem:hover {
   background: rgba(255,255,255,.05);
-  color: var(--text);
+  color: var(--text, #eef5ef);
 }
 
 .invNavItem.active {
   background: rgba(89,193,115,.12);
-  color: var(--brand);
+  color: var(--brand, #59c173);
   font-weight: 700;
 }
 
@@ -80,6 +114,11 @@
   font-size: 1rem;
   width: 20px;
   text-align: center;
+  flex-shrink: 0;
+}
+
+.invNavLabel {
+  flex: 1;
 }
 
 /* Bottom user strip */
@@ -101,7 +140,7 @@
   border-radius: 50%;
   background: rgba(89,193,115,.18);
   border: 1px solid rgba(89,193,115,.35);
-  color: var(--brand);
+  color: var(--brand, #59c173);
   font-weight: 700;
   font-size: .85rem;
   display: grid;
@@ -119,7 +158,7 @@
 .invUserName {
   font-size: .85rem;
   font-weight: 600;
-  color: var(--text);
+  color: var(--text, #eef5ef);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -127,13 +166,14 @@
 
 .invUserRole {
   font-size: .72rem;
-  color: var(--muted);
+  color: var(--muted, #9ab0a0);
 }
 
 .invSignOut {
   font-size: .82rem;
   padding: .45rem .75rem;
   border: 1px solid rgba(255,255,255,.1);
+  min-height: 44px;
 }
 
 /* ── Main content ─────────────────────────────────────────── */
@@ -143,27 +183,101 @@
   overflow-y: auto;
 }
 
-/* ── Mobile — collapse sidebar to top bar ─────────────────── */
-@media (max-width: 680px) {
-  .invShell   { flex-direction: column; }
-
+/* ── Tablet (681px–1023px) ───────────────────────────────── */
+@media (min-width: 681px) and (max-width: 1023px) {
   .invSidebar {
-    width: 100%;
-    height: auto;
-    position: static;
-    flex-direction: row;
-    flex-wrap: wrap;
-    padding: .75rem 1rem;
-    border-right: none;
-    border-bottom: 1px solid rgba(255,255,255,.08);
-    gap: .5rem;
+    width: 190px;
+    padding: 1.25rem 0.75rem;
   }
 
-  .invSidebarTop    { flex-direction: row; align-items: center; gap: .5rem; flex: 1; }
-  .invSidebarBottom { flex-direction: row; align-items: center; }
-  .invNav           { flex-direction: row; }
-  .invNavLabel      { display: none; }
-  .invNavItem       { padding: .5rem; }
-  .invBrandText     { display: none; }
-  .invUserInfo      { display: none; }
+  .invNavLabel {
+    font-size: 0.82rem;
+  }
+}
+
+/* ── Mobile (≤680px) — Drawer sidebar ───────────────────── */
+@media (max-width: 680px) {
+  .invMobileBar {
+    display: flex;
+  }
+
+  .invBody {
+    padding-top: 0;
+    flex-direction: column;
+  }
+
+  .invSidebar {
+    /* Off-canvas drawer */
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 260px;
+    max-width: 80vw;
+    height: 100vh;
+    z-index: 150;
+    transform: translateX(-100%);
+    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    padding-top: 1.5rem;
+    border-right: 1px solid rgba(255,255,255,.08);
+    border-bottom: none;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    overflow-y: auto;
+    box-shadow: 4px 0 24px rgba(0,0,0,.4);
+  }
+
+  .invSidebar.open {
+    transform: translateX(0);
+  }
+
+  .invSidebarTop {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+    flex: 1;
+    width: 100%;
+  }
+
+  .invSidebarBottom {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .invNav {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .invNavLabel {
+    display: block !important;
+  }
+
+  .invNavItem {
+    width: 100%;
+    padding: 0.65rem 0.8rem;
+  }
+
+  .invBrandText {
+    display: block !important;
+  }
+
+  .invUserInfo {
+    display: flex !important;
+  }
+
+  .invMain {
+    padding: 0;
+    width: 100%;
+    min-width: 0;
+    overflow-y: auto;
+  }
+}
+
+/* ── Extra small (≤360px) ────────────────────────────────── */
+@media (max-width: 360px) {
+  .invMobileBar {
+    padding: 0.5rem 0.75rem;
+  }
 }
