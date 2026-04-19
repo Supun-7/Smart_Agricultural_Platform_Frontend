@@ -279,8 +279,16 @@
   }
 }
 
+.closeSidebarBtn {
+  display: none !important;
+}
+
 /* ── Mobile (≤680px) — Drawer sidebar ───────────────────── */
 @media (max-width: 680px) {
+  .closeSidebarBtn {
+    display: block !important;
+  }
+
   .frmMobileBar {
     display: flex;
   }

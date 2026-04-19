@@ -1,8 +1,9 @@
 import { useTranslation } from "react-i18next";
-import { Outlet, NavLink, useNavigate } from "react-router-dom";
+import { Outlet, NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth.js";
 import { ROUTES } from "../routes/routePaths.js";
 import { Navbar } from "../components/Navbar.jsx";
+import { useState, useEffect } from "react";
 import "../styles/pages/farmer/farmerLayout.css";
 
 const NAV_ITEMS = [
@@ -18,6 +19,13 @@ export function FarmerLayout() {
   const { t, i18n } = useTranslation();
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    setSidebarOpen(false);
+  }, [location.pathname]);
 
   const toggleLanguage = () => {
     const nextLang = (i18n.language || '').startsWith('si') ? 'en' : 'si';
@@ -35,12 +43,32 @@ export function FarmerLayout() {
 
       <div style={{ display: "flex", paddingTop: "70px", flex: 1, width: "100%" }}>
 
-        {/* ── Sidebar ─────────────────────────────────────── */}
-        <aside className="frmSidebar">
-          <div className="frmSidebarTop">
+        {sidebarOpen && (
+          <div 
+            onClick={() => setSidebarOpen(false)}
+            style={{
+              position: "fixed", top: 0, left: 0, right: 0, bottom: 0,
+              background: "rgba(0,0,0,0.5)", zIndex: 140, backdropFilter: "blur(2px)"
+            }}
+          />
+        )}
 
-            {/* Role badge */}
-            <span className="frmRoleBadge">🌾 {t("sidebar.portal")}</span>
+        {/* ── Sidebar ─────────────────────────────────────── */}
+        <aside className={`frmSidebar ${sidebarOpen ? "open" : ""}`}>
+          <div className="frmSidebarTop">
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: ".5rem" }}>
+              {/* Role badge */}
+              <span className="frmRoleBadge">🌾 {t("sidebar.portal")}</span>
+              
+              {/* Close button inside sidebar on mobile */}
+              <button 
+                className="closeSidebarBtn"
+                onClick={() => setSidebarOpen(false)}
+                style={{ background: "none", border: "none", color: "var(--muted)", fontSize: "1.4rem", cursor: "pointer", padding: "0 0.5rem" }}
+              >
+                ×
+              </button>
+            </div>
 
             {/* Nav links */}
             <nav className="frmNav">
@@ -119,10 +147,10 @@ export function FarmerLayout() {
             >
               <span className="frmLangIcon">🌐</span>
               <span className="frmLangLabel">
-                {(i18n.language || '').startsWith('si') ? 'English' : 'සිංහල'}
+                {(i18n.language || '').startsWith('si') ? 'සිංහල' : 'English'}
               </span>
               <span className="frmLangCurrent">
-                {(i18n.language || '').startsWith('si') ? 'EN' : 'සිං'}
+                {(i18n.language || '').startsWith('si') ? 'සිං' : 'EN'}
               </span>
             </button>
 
@@ -132,10 +160,25 @@ export function FarmerLayout() {
           </div>
         </aside>
 
-        {/* ── Main content ─────────────────────────────────── */}
-        <main className="frmMain">
-          <Outlet />
-        </main>
+        {/* ── Main content wrapper ────────────────────────── */}
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0 }}>
+          
+          {/* Mobile Bar to toggle sidebar */}
+          <div className="frmMobileBar">
+            <button 
+              onClick={() => setSidebarOpen(true)}
+              style={{ background: "none", border: "none", color: "var(--text)", fontSize: "1.4rem", cursor: "pointer", padding: "0.2rem 0.6rem" }}
+              aria-label="Toggle Sidebar"
+            >
+              ☰
+            </button>
+            <span className="frmMobileBarLabel">{t("sidebar.portal")}</span>
+          </div>
+
+          <main className="frmMain">
+            <Outlet />
+          </main>
+        </div>
 
       </div>
     </div>
