@@ -101,3 +101,17 @@
     width: 100%;
   }
 }
+
+/* ── Responsive additions ─────────────────────────────────── */
+@media (max-width: 480px) {
+  .landRegistrationHeader,
+  .landRegistrationActions {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .landRegistrationActions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
