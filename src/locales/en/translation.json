@@ -1,0 +1,242 @@
+{
+  "sidebar": {
+    "portal": "Farmer Portal",
+    "dashboard": "Dashboard",
+    "registerLand": "Register Land",
+    "myCrops": "My Crops",
+    "uploadEvidence": "Upload Evidence",
+    "contracts": "Contracts",
+    "financialReport": "Financial Report",
+    "support247": "24/7 Support",
+    "poweredByAI": "Powered by AI",
+    "signOut": "Sign out",
+    "role": "Farmer"
+  },
+  "landRegistration": {
+    "eyebrow": "Farmer Land Registration",
+    "title": "Create a new investment listing",
+    "subtitle": "Add your agricultural land details, upload images, and publish it to the investor opportunities page.",
+    "backBtn": "Back to dashboard",
+    "details": {
+      "title": "Land details",
+      "p": "These details will be shown to investors in the listing page."
+    },
+    "labels": {
+      "projectName": "Land name *",
+      "location": "Location *",
+      "sizeAcres": "Size (acres) *",
+      "cropType": "Crop type *",
+      "totalValue": "Project value (LKR) *",
+      "minimumInvestment": "Minimum investment (LKR) *",
+      "description": "Description *"
+    },
+    "placeholders": {
+      "projectName": "e.g. Green Valley Paddy Land",
+      "location": "e.g. Kurunegala, North Western Province",
+      "sizeAcres": "e.g. 3.5",
+      "cropType": "e.g. Paddy, Corn, Vegetables",
+      "totalValue": "e.g. 1500000",
+      "minimumInvestment": "e.g. 50000",
+      "description": "Describe the land, cultivation plan, accessibility, soil quality, irrigation, and why investors should fund it."
+    },
+    "images": {
+      "title": "Images",
+      "p": "Upload clear land images. These will be stored in Supabase Storage and saved in the database as listing assets.",
+      "label": "Land photos",
+      "hint": "Uploaded images:"
+    },
+    "actions": {
+      "cancel": "Cancel",
+      "submitting": "Submitting...",
+      "submit": "Create land listing"
+    }
+  },
+  "uploadEvidence": {
+    "eyebrow": "Milestones",
+    "title": "Upload Evidence",
+    "subtitle": "Please upload all relevant supporting documents or images as evidence for your submission. Ensure that the files are clear, accurate, and directly related to the information provided. Accepted file formats may include images (JPG, PNG) or documents (PDF). Make sure each file is properly labeled and easy to understand before uploading.",
+    "selectMilestone": "Select Milestone",
+    "evidenceFiles": "Evidence Files",
+    "clickBrowse": "Click to browse",
+    "dragDrop": "or drag and drop",
+    "formats": "JPG, PNG, PDF formats, Max 5MB per file",
+    "selectedFiles": "Selected files",
+    "uploadBtn": "Upload Evidence",
+    "uploadingBtn": "Uploading..."
+  },
+  "financialReport": {
+    "eyebrow": "Financial Reports & Yield",
+    "title": "Farm Performance Overview",
+    "subtitle": "Monitor your total funding received and track agricultural yield over time.",
+    "moneyTitle": "💰 Financial Report",
+    "moneySubtitle": "Total funding received across all your land listings, sourced from investment and ledger records.",
+    "stats": {
+      "fundingReceived": "Total Funding Received",
+      "projectsFunded": "Projects Funded",
+      "yieldRecorded": "Total Yield Recorded",
+      "yieldSubmissions": "Yield Submissions"
+    },
+    "projectBreakdown": {
+      "title": "Per-Project Funding Breakdown",
+      "empty": "No project funding data available yet.",
+      "investor": "investor",
+      "investors": "investors",
+      "funded": "funded"
+    },
+    "ledger": {
+      "title": "Ledger Transaction History",
+      "type": "Type",
+      "amount": "Amount",
+      "balanceAfter": "Balance After",
+      "gateway": "Gateway",
+      "date": "Date"
+    },
+    "yieldTracking": {
+      "title": "🌾 Yield Tracking",
+      "subtitle": "Record your harvest yields to track agricultural performance over time.",
+      "logHarvest": "Log New Harvest",
+      "landListing": "Land Listing (optional)",
+      "noLand": "— No specific land —",
+      "yieldAmountKg": "Yield Amount (kg) *",
+      "harvestDate": "Harvest Date *",
+      "notes": "Notes (optional)",
+      "recordHarvest": "Record Harvest",
+      "saving": "Saving…",
+      "historyTitle": "Yield History",
+      "loadingHistory": "Loading yield records…",
+      "noHistory": "No yield records yet. Submit your first harvest above.",
+      "harvested": "Harvested"
+    },
+    "status": {
+      "loading": "Loading your financial report…",
+      "couldNotLoad": "Could not load report",
+      "tryAgain": "Try again"
+    }
+  },
+  "contracts": {
+    "title": "My Contracts",
+    "subtitle": "You can view the investment contracts received for your land here.",
+    "count_one": "1 contract",
+    "count_other": "{{count}} contracts",
+    "trustTitle": "These contracts are immutable",
+    "trustDesc1": "Every contract between you and the investor is permanently recorded using ",
+    "trustDescBold": "international Blockchain technology",
+    "trustDesc2": ". No one can alter, cancel, or remove these contracts. Your rights are fully protected.",
+    "emptyTitle": "No contracts yet",
+    "emptyDesc": "When investors fund your land, the contracts will appear here.",
+    "cardNotice1": "This is an ",
+    "cardNoticeBold": "international Blockchain contract",
+    "cardNotice2": " — no one can modify it.",
+    "labels": {
+      "projectName": "Project Name",
+      "location": "Location",
+      "crop": "Crop",
+      "landSize": "Land Size",
+      "investor": "Investor",
+      "amount": "Invested Amount",
+      "date": "Contract Date",
+      "status": "Status"
+    },
+    "explanation": {
+      "title": "🌿 About the Contract",
+      "p1Start": "This contract between you and the investor ",
+      "p1Mid1": " is permanently recorded on the international Blockchain system. The CHC (Ceylon Harvest Capital) platform releases your payments via a ",
+      "p1Mid2": "Milestone-based approach",
+      "p1End": ". As you complete each milestone, the funds are automatically granted to you.",
+      "p2Start": "To protect your rights, ",
+      "p2Mid": "Independent Auditors",
+      "p2End": " monitor this agreement. No one can alter or remove your contract."
+    },
+    "footer": "If you have any issues regarding your contracts, please contact the CHC team via \"24/7 Support\".",
+    "status": {
+      "ACTIVE": "Active",
+      "COMPLETED": "Completed",
+      "PENDING": "Pending",
+      "CANCELLED": "Cancelled"
+    },
+    "acres": "acres",
+    "loading": "Loading contracts...",
+    "errorText": "Could not load contracts.",
+    "tryAgain": "Try again"
+  },
+  "farmerDashboard": {
+    "title": "Welcome back, {{- name}}",
+    "subtitle": "Manage your land listings, monitor project funding, and track your farm application progress.",
+    "registerLandBtn": "+ Register land",
+    "profile": {
+      "fullName": "Full Name",
+      "email": "Email",
+      "accountStatus": "Account Status",
+      "applicationStatus": "Application Status"
+    },
+    "summary": {
+      "totalProjects": "Total Projects",
+      "totalFunded": "Total Funded",
+      "landListings": "Land Listings",
+      "activeListings": "Active Listings"
+    },
+    "investments": {
+      "title": "⛓️ Investments on my lands",
+      "subtitle": "Each investment below is permanently recorded on the Polygon blockchain. Click \"View on PolygonScan\" to verify the on-chain record independently.",
+      "emptyState": {
+        "title": "No investments yet",
+        "desc": "When investors fund your land listings, their investments will appear here with blockchain proof."
+      },
+      "blockchainLink": "⛓️ View on PolygonScan ↗",
+      "blockchainPending": "⛓️ On-chain record pending"
+    },
+    "lands": {
+      "title": "My land listings",
+      "subtitle": "Listings created here are shown to investors on the opportunities page when they are active.",
+      "createAnother": "Create another",
+      "emptyState": {
+        "title": "No land listings yet",
+        "desc": "Create your first listing to make your land visible to investors."
+      },
+      "labels": {
+        "location": "Location",
+        "cropType": "Crop type",
+        "landSize": "Land size",
+        "minInvestment": "Min. investment"
+      },
+      "actions": {
+        "saving": "Saving...",
+        "hide": "Hide from investors",
+        "show": "Show to investors"
+      }
+    },
+    "applicationDetails": {
+      "title": "Farm application details",
+      "subtitle": "Your verified farmer profile and registration details.",
+      "farmerName": "Farmer Name",
+      "nicNumber": "NIC Number",
+      "farmAddress": "Farm Address",
+      "landSize": "Land Size"
+    },
+    "milestones": {
+      "title": "Milestone updates",
+      "subtitle": "Approved and rejected milestone decisions are shown here.",
+      "emptyState": {
+        "title": "No milestone updates yet",
+        "desc": "Submit milestone progress to see auditor decisions here."
+      },
+      "rejectionReason": "Rejection reason:",
+      "cancelUpload": "Cancel upload",
+      "uploadEvidence": "Upload evidence",
+      "submitEvidence": "Submit evidence",
+      "uploading": "Uploading…"
+    },
+    "fundedProjects": {
+      "title": "Funded projects",
+      "subtitle": "Projects currently connected to your farmer account.",
+      "emptyState": {
+        "title": "No projects yet",
+        "desc": "Your dashboard is connected. Projects will appear here once investors fund your farm."
+      },
+      "labels": {
+        "targetAmount": "Target amount",
+        "progress": "Progress"
+      }
+    }
+  }
+}
