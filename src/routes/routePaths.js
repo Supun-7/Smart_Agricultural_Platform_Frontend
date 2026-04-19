@@ -36,6 +36,7 @@ export const ROUTES = {
   auditorProjects: "/auditor/projects",
   auditorProjectDetail: "/auditor/projects/:landId",
   auditorFullHistory: "/auditor/full-history",
+  auditorCompliance: "/auditor/compliance",
 
   // ── farmer sub-pages ─────────────────────────────────────
   farmerDashboard: "/farmer/dashboard",

@@ -402,6 +402,31 @@ export const auditorApi = {
       headers: headers(token),
     }).then(handle),
 
+  // ── AC-3 / AC-4 / AC-5: Compliance scoring ──────────────────────────────
+
+  /** AC-4: Retrieve all farmers with their compliance scores. */
+  listComplianceScores: (token) =>
+    fetch(`${BASE_URL}/auditor/farmers/compliance-scores`, {
+      headers: headers(token),
+    }).then(handle),
+
+  /** AC-4: Get compliance score for a single farmer. */
+  getComplianceScore: (token, farmerId) =>
+    fetch(`${BASE_URL}/auditor/farmers/${farmerId}/compliance-score`, {
+      headers: headers(token),
+    }).then(handle),
+
+  /**
+   * AC-3 / AC-5: Assign or update a compliance score.
+   * Returns immediately with the saved score so the UI updates without reload.
+   */
+  assignComplianceScore: (token, farmerId, score, notes) =>
+    fetch(`${BASE_URL}/auditor/farmers/${farmerId}/compliance-score`, {
+      method: "PUT",
+      headers: headers(token),
+      body: JSON.stringify({ score, notes }),
+    }).then(handle),
+
 };
 
 // ── Admin endpoints ──────────────────────────────────────────
@@ -497,6 +522,12 @@ export const adminApi = {
   // AC-2 → AC-6: platform-wide analytics
   getAnalytics: (token) =>
     fetch(`${BASE_URL}/admin/analytics`, {
+      headers: headers(token),
+    }).then(handle),
+
+  // AC-4: Admin read access to all farmer compliance scores
+  listComplianceScores: (token) =>
+    fetch(`${BASE_URL}/admin/farmers/compliance-scores`, {
       headers: headers(token),
     }).then(handle),
 };

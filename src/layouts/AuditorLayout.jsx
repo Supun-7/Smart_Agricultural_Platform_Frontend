@@ -6,10 +6,11 @@ import "../styles/pages/auditor/auditorLayout.css";
 import logo from "../assets/logo.png";
 
 const NAV_ITEMS = [
-  { to: ROUTES.auditorDashboard,   icon: "📊", label: "Dashboard"    },
-  { to: ROUTES.auditorProjects,    icon: "🏗️", label: "Projects"      },
-  { to: ROUTES.auditorReports,     icon: "📈", label: "Reports"       },
-  { to: ROUTES.auditorFullHistory, icon: "📋", label: "Full History"  },
+  { to: ROUTES.auditorDashboard,   icon: "📊", label: "Dashboard"           },
+  { to: ROUTES.auditorProjects,    icon: "🏗️", label: "Projects"             },
+  { to: ROUTES.auditorCompliance,  icon: "🎯", label: "Compliance Scores"    },
+  { to: ROUTES.auditorReports,     icon: "📈", label: "Reports"              },
+  { to: ROUTES.auditorFullHistory, icon: "📋", label: "Full History"         },
 ];
 
 export function AuditorLayout() {
