@@ -1,6 +1,7 @@
 /* ── Shell ───────────────────────────────────────────────── */
 .audShell {
   display: flex;
+  flex-direction: column;
   min-height: 100vh;
   background: var(--bg);
 }
@@ -19,6 +20,13 @@
   top: 0;
   height: 100vh;
   overflow-y: auto;
+}
+
+/* When not in mobile, shell is row layout */
+@media (min-width: 681px) {
+  .audShell {
+    flex-direction: row;
+  }
 }
 
 .audSidebarTop {
@@ -91,6 +99,7 @@
   font-weight: 500;
   transition: background .12s ease, color .12s ease;
   border: 1px solid transparent;
+  min-height: 44px;
 }
 
 .audNavItem:hover {
@@ -180,6 +189,7 @@
   cursor: pointer;
   transition: border-color .12s, color .12s;
   text-align: left;
+  min-height: 44px;
 }
 
 .audSignOut:hover {
@@ -195,27 +205,93 @@
   padding: 2rem;
 }
 
-/* ── Mobile ───────────────────────────────────────────────── */
-@media (max-width: 680px) {
-  .audShell   { flex-direction: column; }
+/* ── Tablet (681px–1023px) ───────────────────────────────── */
+@media (min-width: 681px) and (max-width: 1023px) {
   .audSidebar {
-    width: 100%;
-    height: auto;
-    position: static;
-    flex-direction: row;
-    flex-wrap: wrap;
-    padding: .75rem 1rem;
-    border-right: none;
-    border-bottom: 1px solid #1a2e1e;
-    gap: .5rem;
+    width: 190px;
+    padding: 1.25rem 0.75rem;
   }
-  .audSidebarTop    { flex-direction: row; align-items: center; gap: .5rem; flex: 1; }
-  .audSidebarBottom { flex-direction: row; align-items: center; padding-top: 0; border-top: none; }
-  .audNav           { flex-direction: row; }
-  .audNavLabel      { display: none; }
-  .audNavItem       { padding: .5rem; }
-  .audBrandText     { display: none; }
-  .audBrandSub      { display: none; }
-  .audUserInfo      { display: none; }
-  .audRoleBadge     { display: none; }
+
+  .audMain {
+    padding: 1.5rem 1.25rem;
+  }
+}
+
+/* ── Mobile (≤680px) — Drawer sidebar ───────────────────── */
+@media (max-width: 680px) {
+  .audSidebar {
+    /* Off-canvas drawer */
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 260px;
+    max-width: 80vw;
+    height: 100vh;
+    z-index: 150;
+    transform: translateX(-100%);
+    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    padding-top: 1.5rem;
+    border-right: 1px solid #1a2e1e;
+    border-bottom: none;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    overflow-y: auto;
+    box-shadow: 4px 0 24px rgba(0,0,0,.4);
+  }
+
+  .audSidebar.open {
+    transform: translateX(0);
+  }
+
+  .audSidebarTop {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+    flex: 1;
+    width: 100%;
+  }
+
+  .audSidebarBottom {
+    flex-direction: column;
+    align-items: stretch;
+    padding-top: 1rem;
+    border-top: 1px solid #1a2e1e;
+    width: 100%;
+  }
+
+  .audNav {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .audNavLabel {
+    display: block !important;
+  }
+
+  .audNavItem {
+    width: 100%;
+    padding: 0.65rem 0.8rem;
+  }
+
+  .audRoleBadge {
+    display: inline-flex !important;
+    margin: 0 0.6rem;
+  }
+
+  .audUserInfo {
+    display: flex !important;
+  }
+
+  .audMain {
+    padding: 1.25rem 1rem;
+    width: 100%;
+  }
+}
+
+/* ── Extra small (≤360px) ────────────────────────────────── */
+@media (max-width: 360px) {
+  .audMain {
+    padding: 0.875rem 0.75rem;
+  }
 }

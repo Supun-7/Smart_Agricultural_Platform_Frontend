@@ -318,3 +318,100 @@
     width: 100%;
   }
 }
+
+/* ════════════════════════════════════════════════════════════════
+   RESPONSIVE ADDITIONS — AC-1 to AC-6
+   ════════════════════════════════════════════════════════════════ */
+
+/* AC-5: Prevent content overflow */
+.farmerDashboard,
+.farmerDashboardInner {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* AC-4: Land card meta grid scroll */
+.farmerLandMetaGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+/* AC-2: Tablet (768px–1023px) */
+@media (max-width: 1023px) and (min-width: 681px) {
+  .farmerProfileGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .farmerLandGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .farmerDashboard {
+    padding: 1.5rem 0 2rem;
+  }
+}
+
+/* AC-1 & AC-4: Mobile (≤480px) */
+@media (max-width: 480px) {
+  .farmerDashboard {
+    padding: 1rem 0 1.5rem;
+  }
+
+  .farmerDashboardHeader {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .farmerDashboardHeaderActions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .farmerDashboardHeaderActions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .farmerProfileGrid,
+  .farmerSummaryGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .farmerLandGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .farmerLandMetaGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .farmerSectionHead {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  /* AC-6: Touch-friendly action buttons */
+  .farmerListingActions {
+    justify-content: stretch;
+  }
+
+  .farmerListingActions .btn {
+    width: 100%;
+  }
+
+  .farmerLandCard {
+    padding: 0.875rem;
+  }
+}
+
+/* AC-1: 320px minimum */
+@media (max-width: 360px) {
+  .farmerDashboardTitle {
+    font-size: 1.4rem;
+  }
+
+  .farmerSummaryValue {
+    font-size: 1.3rem;
+  }
+}
