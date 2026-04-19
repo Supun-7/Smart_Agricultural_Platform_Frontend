@@ -1,19 +1,37 @@
-import { Outlet, NavLink, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Outlet, NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth.js";
 import { ROUTES } from "../routes/routePaths.js";
 import "../styles/pages/auditor/auditorLayout.css";
 import logo from "../assets/logo.png";
 
 const NAV_ITEMS = [
-  { to: ROUTES.auditorDashboard,   icon: "📊", label: "Dashboard"           },
-  { to: ROUTES.auditorProjects,    icon: "🏗️", label: "Projects"             },
-  { to: ROUTES.auditorReports,     icon: "📈", label: "Reports"              },
-  { to: ROUTES.auditorFullHistory, icon: "📋", label: "Full History"         },
+  { to: ROUTES.auditorDashboard,   icon: "📊", label: "Dashboard"    },
+  { to: ROUTES.auditorProjects,    icon: "🏗️", label: "Projects"      },
+  { to: ROUTES.auditorReports,     icon: "📈", label: "Reports"       },
+  { to: ROUTES.auditorFullHistory, icon: "📋", label: "Full History"  },
 ];
 
 export function AuditorLayout() {
   const { user, signOut } = useAuth();
-  const navigate = useNavigate();
+  const navigate  = useNavigate();
+  const location  = useLocation();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  // Close sidebar on route change (mobile nav completed)
+  useEffect(() => {
+    setSidebarOpen(false);
+  }, [location.pathname]);
+
+  // Lock body scroll when drawer is open on mobile
+  useEffect(() => {
+    if (sidebarOpen) {
+      document.body.classList.add("sidebar-open");
+    } else {
+      document.body.classList.remove("sidebar-open");
+    }
+    return () => document.body.classList.remove("sidebar-open");
+  }, [sidebarOpen]);
 
   function handleSignOut() {
     signOut();
@@ -23,8 +41,40 @@ export function AuditorLayout() {
   return (
     <div className="audShell">
 
-      {/* ── Sidebar ───────────────────────────────────────── */}
-      <aside className="audSidebar">
+      {/* ── Mobile top bar ─────────────────────────────────────── */}
+      <div className="layoutMobileTopbar">
+        <div className="layoutMobileTopbarBrand">
+          <img src={logo} alt="CHC" className="layoutMobileTopbarLogo" />
+          <span className="layoutMobileTopbarText">Ceylon Harvest</span>
+          <span
+            className="layoutMobileRoleBadge"
+            style={{ background: "rgba(89,193,115,.1)", border: "1px solid rgba(89,193,115,.25)", color: "var(--brand)" }}
+          >
+            Auditor
+          </span>
+        </div>
+        <button
+          className={"layoutHamburger" + (sidebarOpen ? " open" : "")}
+          onClick={() => setSidebarOpen(o => !o)}
+          aria-label={sidebarOpen ? "Close navigation" : "Open navigation"}
+          aria-expanded={sidebarOpen}
+        >
+          <span /><span /><span />
+        </button>
+      </div>
+
+      {/* ── Overlay backdrop ───────────────────────────────────── */}
+      <div
+        className={"drawerOverlay" + (sidebarOpen ? " visible" : "")}
+        onClick={() => setSidebarOpen(false)}
+        aria-hidden="true"
+      />
+
+      {/* ── Sidebar ───────────────────────────────────────────── */}
+      <aside
+        className={"audSidebar" + (sidebarOpen ? " open" : "")}
+        aria-label="Auditor navigation"
+      >
         <div className="audSidebarTop">
 
           {/* Brand */}
@@ -76,7 +126,7 @@ export function AuditorLayout() {
         </div>
       </aside>
 
-      {/* ── Page content ──────────────────────────────────── */}
+      {/* ── Page content ──────────────────────────────────────── */}
       <main className="audMain">
         <Outlet />
       </main>
