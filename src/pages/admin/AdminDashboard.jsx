@@ -4,6 +4,7 @@ import { useAuth } from "../../hooks/useAuth.js";
 import { adminApi } from "../../services/api.js";
 import { StatCard } from "../../components/investor/StatCard.jsx";
 import AnalyticsSection from "../../components/admin/AnalyticsSection.jsx";
+import ComplianceScorePanel from "../../components/admin/ComplianceScorePanel.jsx";
 import "../../styles/pages/admin/dashboard.css";
 
 function fmt(val) {
@@ -649,6 +650,11 @@ export default function AdminDashboard() {
           {/* AC-1: Analytics section — live data from /api/admin/analytics */}
           <div className="adminSection">
             <AnalyticsSection />
+          </div>
+
+          {/* AC-4: Farmer compliance scores — read-only view for admins */}
+          <div className="adminSection">
+            <ComplianceScorePanel />
           </div>
 
           <div className="adminSection">
