@@ -34,6 +34,7 @@ import FarmerDetailPage from "../pages/auditor/FarmerDetailPage.jsx";
 import AuditorProjectsPage from "../pages/auditor/AuditorProjectsPage.jsx";
 import ProjectDetailPage from "../pages/auditor/ProjectDetailPage.jsx";
 import FullHistoryPage from "../pages/auditor/FullHistoryPage.jsx";
+import FarmerCompliancePage from "../pages/auditor/FarmerCompliancePage.jsx";
 
 import FarmerDashboard from "../pages/FarmerDashboard.jsx";
 import FarmerLandRegistration from "../pages/farmer/FarmerLandRegistration.jsx";
@@ -141,6 +142,7 @@ export default function AppRoutes() {
         } />
         <Route path={ROUTES.auditorHistory} element={<AuditHistory />} />
         <Route path={ROUTES.auditorFullHistory} element={<FullHistoryPage />} />
+        <Route path={ROUTES.auditorCompliance} element={<FarmerCompliancePage />} />
       </Route>
 
       {/* ── Farmer ──────────────────────────────────────── */}
