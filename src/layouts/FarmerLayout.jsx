@@ -1,4 +1,5 @@
-import { Outlet, NavLink, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Outlet, NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth.js";
 import { ROUTES } from "../routes/routePaths.js";
 import { Navbar } from "../components/Navbar.jsx";
@@ -15,7 +16,24 @@ const NAV_ITEMS = [
 
 export function FarmerLayout() {
   const { user, signOut } = useAuth();
-  const navigate = useNavigate();
+  const navigate  = useNavigate();
+  const location  = useLocation();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  // Close sidebar on route change
+  useEffect(() => {
+    setSidebarOpen(false);
+  }, [location.pathname]);
+
+  // Lock body scroll when drawer is open
+  useEffect(() => {
+    if (sidebarOpen) {
+      document.body.classList.add("sidebar-open");
+    } else {
+      document.body.classList.remove("sidebar-open");
+    }
+    return () => document.body.classList.remove("sidebar-open");
+  }, [sidebarOpen]);
 
   function handleSignOut() {
     signOut();
@@ -26,10 +44,32 @@ export function FarmerLayout() {
     <div className="frmShell">
       <Navbar />
 
+      {/* ── Mobile sidebar toggle bar (below navbar) ─────────── */}
+      <div className="frmMobileBar">
+        <button
+          className={"layoutHamburger" + (sidebarOpen ? " open" : "")}
+          onClick={() => setSidebarOpen(o => !o)}
+          aria-label={sidebarOpen ? "Close navigation" : "Open navigation"}
+          aria-expanded={sidebarOpen}
+        >
+          <span /><span /><span />
+        </button>
+        <span className="frmMobileBarLabel">
+          {NAV_ITEMS.find(n => location.pathname.startsWith(n.to))?.label ?? "Farmer Portal"}
+        </span>
+      </div>
+
+      {/* ── Overlay backdrop ──────────────────────────────────── */}
+      <div
+        className={"drawerOverlay" + (sidebarOpen ? " visible" : "")}
+        onClick={() => setSidebarOpen(false)}
+        aria-hidden="true"
+      />
+
       <div style={{ display: "flex", paddingTop: "70px" }}>
 
-        {/* ── Sidebar ─────────────────────────────────────── */}
-        <aside className="frmSidebar">
+        {/* ── Sidebar ─────────────────────────────────────────── */}
+        <aside className={"frmSidebar" + (sidebarOpen ? " open" : "")}>
           <div className="frmSidebarTop">
 
             {/* Role badge */}
@@ -93,7 +133,7 @@ export function FarmerLayout() {
             </nav>
           </div>
 
-          {/* ── User info + sign out ─────────────────────── */}
+          {/* ── User info + sign out ─────────────────────────── */}
           <div className="frmSidebarBottom">
             <div className="frmUser">
               <div className="frmAvatar">
@@ -110,7 +150,7 @@ export function FarmerLayout() {
           </div>
         </aside>
 
-        {/* ── Main content ─────────────────────────────────── */}
+        {/* ── Main content ─────────────────────────────────────── */}
         <main className="frmMain">
           <Outlet />
         </main>
