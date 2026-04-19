@@ -49,6 +49,20 @@
       "cancel": "Cancel",
       "submitting": "Submitting...",
       "submit": "Create land listing"
+    },
+    "success": "Land registration submitted successfully. Your listing is now visible to investors.",
+    "errorGeneric": "Failed to submit land registration.",
+    "validation": {
+      "projectName": "Land name is required",
+      "location": "Location is required",
+      "sizeAcres": "Land size must be greater than 0",
+      "cropType": "Crop type is required",
+      "description": "Description is required",
+      "descriptionMin": "Description must be at least 20 characters",
+      "imageUrls": "Please upload at least one image",
+      "totalValue": "Total value must be greater than 0",
+      "minInvestment": "Minimum investment must be greater than 0",
+      "minExceedsTotal": "Minimum investment cannot exceed total value"
     }
   },
   "uploadEvidence": {
@@ -105,12 +119,17 @@
       "historyTitle": "Yield History",
       "loadingHistory": "Loading yield records…",
       "noHistory": "No yield records yet. Submit your first harvest above.",
-      "harvested": "Harvested"
+      "harvested": "Harvested",
+      "success": "Yield record saved successfully.",
+      "errorRequired": "Yield amount and harvest date are required.",
+      "errorZero": "Yield amount must be greater than zero.",
+      "errorGeneric": "Failed to save yield record."
     },
     "status": {
       "loading": "Loading your financial report…",
       "couldNotLoad": "Could not load report",
-      "tryAgain": "Try again"
+      "tryAgain": "Try again",
+      "errorGeneric": "Failed to load financial report."
     }
   },
   "contracts": {
