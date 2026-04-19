@@ -13,6 +13,7 @@ function formatCurrency(value) {
     maximumFractionDigits: 2,
   }).format(Number(value ?? 0));
 }
+  // ================= Contracts =================
 
 function formatStatus(value) {
   if (!value) return "Not available";
