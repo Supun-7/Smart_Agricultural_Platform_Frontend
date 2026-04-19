@@ -13,9 +13,16 @@ i18n
       en: { translation: enTranslations },
       si: { translation: siTranslations },
     },
+    // Use what is stored in localStorage (key: 'i18nextLng'),
+    // but default to English if nothing is stored yet.
     fallbackLng: 'en',
+    detection: {
+      order: ['localStorage', 'navigator'],
+      caches: ['localStorage'],
+      lookupLocalStorage: 'i18nextLng',
+    },
     interpolation: {
-      escapeValue: false, // React already inherently escapes variables
+      escapeValue: false,
     },
   });
 

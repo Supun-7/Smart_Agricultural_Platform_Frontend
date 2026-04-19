@@ -212,6 +212,53 @@
   color: var(--danger);
 }
 
+/* ── Language toggle ─────────────────────────────────────── */
+.frmLangToggle {
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+  width: 100%;
+  padding: .45rem .75rem;
+  background: rgba(89, 193, 115, 0.06);
+  border: 1px solid rgba(89, 193, 115, 0.18);
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--muted);
+  font-size: .82rem;
+  font-weight: 500;
+  font-family: inherit;
+  text-align: left;
+  transition: background .12s, border-color .12s, color .12s;
+  min-height: 44px;
+}
+
+.frmLangToggle:hover {
+  background: rgba(89, 193, 115, 0.12);
+  border-color: rgba(89, 193, 115, 0.35);
+  color: var(--brand, #59c173);
+}
+
+.frmLangIcon {
+  font-size: .95rem;
+  flex-shrink: 0;
+}
+
+.frmLangLabel {
+  flex: 1;
+}
+
+.frmLangCurrent {
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  background: rgba(89, 193, 115, 0.12);
+  border: 1px solid rgba(89, 193, 115, 0.25);
+  color: var(--brand, #59c173);
+  border-radius: 20px;
+  padding: .1rem .45rem;
+  flex-shrink: 0;
+}
+
 /* ── Main content ─────────────────────────────────────────── */
 .frmMain {
   flex: 1;

@@ -15,9 +15,14 @@ const NAV_ITEMS = [
 ];
 
 export function FarmerLayout() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
+
+  const toggleLanguage = () => {
+    const nextLang = (i18n.language || '').startsWith('si') ? 'en' : 'si';
+    i18n.changeLanguage(nextLang);
+  };
 
   function handleSignOut() {
     signOut();
@@ -106,6 +111,21 @@ export function FarmerLayout() {
                 <span className="frmUserRole">{t("sidebar.role")}</span>
               </div>
             </div>
+          {/* ── Language toggle ──────────────── */}
+            <button
+              className="frmLangToggle"
+              onClick={toggleLanguage}
+              title={(i18n.language || '').startsWith('si') ? 'Switch to English' : 'සිංහලට මාරු වන්න'}
+            >
+              <span className="frmLangIcon">🌐</span>
+              <span className="frmLangLabel">
+                {(i18n.language || '').startsWith('si') ? 'English' : 'සිංහල'}
+              </span>
+              <span className="frmLangCurrent">
+                {(i18n.language || '').startsWith('si') ? 'EN' : 'සිං'}
+              </span>
+            </button>
+
             <button className="frmSignOut" onClick={handleSignOut}>
               {t("sidebar.signOut")}
             </button>

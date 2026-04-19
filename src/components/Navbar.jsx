@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useTranslation } from "react-i18next";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth.js";
 import { ROUTES } from "../routes/routePaths.js";
@@ -31,13 +30,6 @@ export function Navbar() {
   const [profileOpen,  setProfileOpen]  = useState(false);
   const [walletBal,    setWalletBal]    = useState(null);
   const [walletCur,    setWalletCur]    = useState("LKR");
-  
-  const { i18n } = useTranslation();
-
-  const toggleLanguage = () => {
-    const nextLang = (i18n.language || '').startsWith('si') ? 'en' : 'si';
-    i18n.changeLanguage(nextLang);
-  };
 
   // Fetch wallet balance for investors so it's always visible in the nav
   useEffect(() => {
@@ -91,14 +83,6 @@ export function Navbar() {
 
         {/* ── Desktop right actions ──────────────────── */}
         <div className="navActions">
-        
-          <button
-            className="navLangToggle"
-            onClick={toggleLanguage}
-            title={(i18n.language || '').startsWith('si') ? 'Switch to English' : 'සිංහලට මාරු වන්න'}
-          >
-            {(i18n.language || '').startsWith('si') ? 'EN' : 'සිං'}
-          </button>
 
           {/* Wallet pill — investors only */}
           {user?.role === "INVESTOR" && (
@@ -196,15 +180,6 @@ export function Navbar() {
               💰 Wallet {walletBal !== null && `· ${fmtBalance(walletBal, walletCur)}`}
             </NavLink>
           )}
-
-          {/* Language toggle in mobile menu */}
-          <div className="mobileDivider" />
-          <button
-            className="mobileLink mobileLangToggle"
-            onClick={toggleLanguage}
-          >
-            🌐 {(i18n.language || '').startsWith('si') ? 'Switch to English' : 'සිංහලට මාරු වන්න'}
-          </button>
 
           {!user && (
             <>
