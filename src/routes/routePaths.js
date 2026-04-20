@@ -20,6 +20,7 @@ export const ROUTES = {
   investorPortfolio: "/investor/portfolio",
   investorOpportunities: "/investor/opportunities",
   investorReports: "/investor/reports",
+  investorReturnRisk: "/investor/return-risk",
   investorWallet: "/investor/wallet",
   investorLandDetail: "/investor/lands/:landId",
   investorContract: "/investor/contract",

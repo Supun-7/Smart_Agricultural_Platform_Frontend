@@ -1,15 +1,26 @@
 .invPage {
-  padding: 2rem 1.75rem;
+  width: 100%;
+  max-width: 1260px;
+  padding: 2rem clamp(1rem, 2vw, 2rem) 2.5rem;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  max-width: 1000px;
+  gap: 1.75rem;
+  overflow-x: hidden;
 }
 
-.adminFormField { display: flex; flex-direction: column; gap: .4rem; }
-.adminFormLabel { font-size: .78rem; font-weight: 600; color: var(--muted); letter-spacing: .04em; }
+.adminFormField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
 
-/* ── Page header ──────────────────────────────────────────── */
+.adminFormLabel {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+}
+
 .invPageHeader {
   display: flex;
   align-items: flex-start;
@@ -19,219 +30,250 @@
 }
 
 .invPageTitle {
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-size: clamp(1.5rem, 2vw, 2.2rem);
+  font-weight: 800;
   color: var(--text);
   margin: 0;
 }
 
 .invPageSub {
   color: var(--muted);
-  font-size: .9rem;
-  margin: .3rem 0 0;
+  font-size: 0.95rem;
+  margin: 0.4rem 0 0;
 }
 
-/* ── KYC badge ────────────────────────────────────────────── */
+.invHeroMetricLabel,
+.invInsightLabel,
+.invMilestoneStat span,
+.invSectionTitle {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(154, 176, 160, 0.85);
+}
+
 .kycBadge {
   display: inline-flex;
   align-items: center;
-  padding: .35rem .9rem;
+  padding: 0.45rem 0.9rem;
   border-radius: 999px;
-  font-size: .75rem;
-  font-weight: 700;
-  letter-spacing: .5px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   white-space: nowrap;
 }
 
 .kycVerified {
-  background: rgba(89,193,115,.12);
-  border: 1px solid rgba(89,193,115,.35);
+  background: rgba(89, 193, 115, 0.12);
+  border: 1px solid rgba(89, 193, 115, 0.35);
   color: var(--brand);
 }
 
 .kycPending {
-  background: rgba(255,193,7,.1);
-  border: 1px solid rgba(255,193,7,.3);
-  color: #ffc107;
+  background: rgba(201, 160, 84, 0.12);
+  border: 1px solid rgba(201, 160, 84, 0.28);
+  color: #e5d2a7;
 }
 
-/* ── Stat grid ────────────────────────────────────────────── */
 .invStatGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-  gap: .85rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.95rem;
 }
 
-/* ── Section ──────────────────────────────────────────────── */
 .invSection {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
-.invSectionTitle {
-  font-size: .78rem;
-  font-weight: 700;
-  letter-spacing: .6px;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin: 0;
-  padding-bottom: .5rem;
-  border-bottom: 1px solid rgba(255,255,255,.08);
+.invSectionHeaderBand {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
-/* ── Land card grid ───────────────────────────────────────── */
-.invLandGrid {
+.invSectionTitle {
+  margin: 0;
+}
+
+.invSectionSub {
+  margin: 0.35rem 0 0;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.invInlineAction {
+  padding: 0.75rem 1rem;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.16s ease, border-color 0.16s ease, transform 0.16s ease;
+  font-family: inherit;
+}
+
+.invInlineAction:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(201, 160, 84, 0.18);
+  transform: translateY(-1px);
+}
+
+.invInsightGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1rem;
 }
 
-/* ── Filter row ───────────────────────────────────────────── */
+.invInsightCard {
+  padding: 1.1rem;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.14);
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.invInsightValue {
+  font-size: clamp(1.2rem, 2vw, 1.8rem);
+  color: var(--text);
+  line-height: 1.15;
+}
+
+.invInsightText {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
 .invFilterRow {
   display: flex;
-  gap: .5rem;
+  gap: 0.5rem;
   flex-wrap: wrap;
 }
 
 .invFilterBtn {
-  padding: .4rem .9rem;
+  padding: 0.55rem 0.9rem;
   border-radius: 999px;
-  border: 1px solid rgba(255,255,255,.12);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   background: transparent;
   color: var(--muted);
-  font-size: .82rem;
-  font-weight: 600;
+  font-size: 0.82rem;
+  font-weight: 700;
   cursor: pointer;
-  transition: background .12s ease, color .12s ease;
+  transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+  font-family: inherit;
 }
 
 .invFilterBtn:hover {
-  background: rgba(255,255,255,.06);
+  background: rgba(255, 255, 255, 0.06);
   color: var(--text);
 }
 
 .invFilterBtn.active {
-  background: rgba(89,193,115,.14);
-  border-color: rgba(89,193,115,.4);
+  background: rgba(89, 193, 115, 0.14);
+  border-color: rgba(89, 193, 115, 0.4);
   color: var(--brand);
 }
 
-/* ── AC-5: loading state ──────────────────────────────────── */
-.invLoading {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  padding: 4rem 2rem;
-  color: var(--muted);
-}
-
-.invSpin {
-  width: 36px;
-  height: 36px;
-  border: 3px solid rgba(255,255,255,.1);
-  border-top-color: var(--brand);
-  border-radius: 50%;
-  animation: invSpinAnim .8s linear infinite;
-}
-
-@keyframes invSpinAnim {
-  to { transform: rotate(360deg); }
-}
-
-/* ── AC-5: error state ────────────────────────────────────── */
+.invLoading,
 .invError {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
-  padding: 4rem 2rem;
+  padding: 5rem 2rem;
   color: var(--muted);
   text-align: center;
 }
 
-.invError span { font-size: 2rem; }
+.invSpin {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-top-color: var(--brand);
+  border-radius: 50%;
+  animation: invSpinAnim 0.8s linear infinite;
+}
 
-/* ── Empty state ──────────────────────────────────────────── */
+@keyframes invSpinAnim {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .invEmpty {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: .75rem;
+  gap: 0.75rem;
   padding: 3rem 2rem;
-  border: 1px dashed rgba(255,255,255,.1);
-  border-radius: var(--radius);
+  border: 1px dashed rgba(255, 255, 255, 0.12);
+  border-radius: 22px;
   color: var(--muted);
   text-align: center;
+  background: rgba(255, 255, 255, 0.03);
 }
 
-.invEmpty span { font-size: 2.2rem; }
-
-/* ── Mobile ───────────────────────────────────────────────── */
-@media (max-width: 600px) {
-  .invPage     { padding: 1.25rem 1rem; gap: 1.5rem; }
-  .invStatGrid { grid-template-columns: 1fr 1fr; }
+.invEmpty span {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.06);
 }
 
-/* ════════════════════════════════════════════════════════════════
-   RESPONSIVE ADDITIONS — AC-1 to AC-6
-   ════════════════════════════════════════════════════════════════ */
-
-/* AC-5: Prevent overflow */
-.invPage {
-  max-width: 100%;
-  overflow-x: hidden;
+.invInlineActionSmall {
+  align-self: flex-start;
+  margin-top: .25rem;
+  padding: .55rem .85rem;
+  min-height: 40px;
 }
 
-/* AC-2: Tablet (768px) */
-@media (max-width: 1023px) and (min-width: 681px) {
+@media (max-width: 1100px) {
+  .invInsightGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
   .invPage {
-    padding: 1.5rem 1.25rem;
-    gap: 1.75rem;
+    padding: 1.25rem 1rem 2rem;
+    gap: 1.35rem;
   }
 
   .invStatGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .invLandGrid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
   }
 }
 
-/* AC-1: Mobile (≤480px) deeper fixes */
 @media (max-width: 480px) {
-  .invPageHeader {
+  .invPageHeader,
+  .invSectionHeaderBand {
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.75rem;
-  }
-
-  .invStatGrid {
-    grid-template-columns: 1fr;
-  }
-
-  .invLandGrid {
-    grid-template-columns: 1fr;
   }
 
   .invFilterRow {
     overflow-x: auto;
     flex-wrap: nowrap;
-    -webkit-overflow-scrolling: touch;
     padding-bottom: 0.25rem;
+    -webkit-overflow-scrolling: touch;
   }
 
   .invFilterBtn {
     flex-shrink: 0;
-  }
-}
-
-/* AC-1: 320px */
-@media (max-width: 360px) {
-  .invPageTitle {
-    font-size: 1.2rem;
   }
 }

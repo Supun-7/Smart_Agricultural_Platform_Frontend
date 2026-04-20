@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "../../hooks/useAuth.js";
 import { farmerApi } from "../../services/api.js";
 import "../../styles/pages/farmer/farmerFinancialReport.css";
@@ -22,13 +23,15 @@ function formatDate(dateStr) {
 
 // ── Financial Report Section ─────────────────────────────────────────────────
 function FinancialReportSection({ report }) {
+  const { t } = useTranslation();
+
   return (
     <div className="ffr-section card">
       <div className="ffr-section-head">
         <div>
-          <h2 className="ffr-section-title">💰 Financial Report</h2>
+          <h2 className="ffr-section-title">{t("financialReport.moneyTitle")}</h2>
           <p className="ffr-section-sub">
-            Total funding received across all your land listings, sourced from investment and ledger records.
+            {t("financialReport.moneySubtitle")}
           </p>
         </div>
       </div>
@@ -36,25 +39,25 @@ function FinancialReportSection({ report }) {
       {/* Summary cards */}
       <div className="ffr-stat-grid">
         <div className="ffr-stat-card">
-          <span className="ffr-stat-label">Total Funding Received</span>
+          <span className="ffr-stat-label">{t("financialReport.stats.fundingReceived")}</span>
           <strong className="ffr-stat-value ffr-stat-green">
             {formatCurrency(report.totalFundingReceived)}
           </strong>
         </div>
         <div className="ffr-stat-card">
-          <span className="ffr-stat-label">Projects Funded</span>
+          <span className="ffr-stat-label">{t("financialReport.stats.projectsFunded")}</span>
           <strong className="ffr-stat-value">
             {report.projectFundingSummaries?.length ?? 0}
           </strong>
         </div>
         <div className="ffr-stat-card">
-          <span className="ffr-stat-label">Total Yield Recorded</span>
+          <span className="ffr-stat-label">{t("financialReport.stats.yieldRecorded")}</span>
           <strong className="ffr-stat-value">
             {Number(report.totalYieldKg ?? 0).toFixed(2)} kg
           </strong>
         </div>
         <div className="ffr-stat-card">
-          <span className="ffr-stat-label">Yield Submissions</span>
+          <span className="ffr-stat-label">{t("financialReport.stats.yieldSubmissions")}</span>
           <strong className="ffr-stat-value">
             {report.yieldSubmissionCount ?? 0}
           </strong>
@@ -63,10 +66,10 @@ function FinancialReportSection({ report }) {
 
       {/* Per-project breakdown */}
       <div>
-        <h3 className="ffr-sub-heading">Per-Project Funding Breakdown</h3>
+        <h3 className="ffr-sub-heading">{t("financialReport.projectBreakdown.title")}</h3>
         {!report.projectFundingSummaries?.length ? (
           <div className="ffr-empty">
-            <p>No project funding data available yet.</p>
+            <p>{t("financialReport.projectBreakdown.empty")}</p>
           </div>
         ) : (
           <div className="ffr-project-list">
@@ -75,7 +78,10 @@ function FinancialReportSection({ report }) {
                 <div className="ffr-project-info">
                   <strong className="ffr-project-name">{p.projectName}</strong>
                   <span className="ffr-project-meta">
-                    📍 {p.location} · 🌾 {p.cropType} · {p.investorCount} investor{p.investorCount !== 1 ? "s" : ""}
+                    📍 {p.location} · 🌾 {p.cropType} · {p.investorCount}{" "}
+                    {p.investorCount === 1
+                      ? t("financialReport.projectBreakdown.investor")
+                      : t("financialReport.projectBreakdown.investors")}
                   </span>
                 </div>
                 <div className="ffr-project-right">
@@ -88,7 +94,9 @@ function FinancialReportSection({ report }) {
                       style={{ width: `${Math.min(p.progressPercentage, 100)}%` }}
                     />
                   </div>
-                  <span className="ffr-progress-pct">{p.progressPercentage}% funded</span>
+                  <span className="ffr-progress-pct">
+                    {p.progressPercentage}% {t("financialReport.projectBreakdown.funded")}
+                  </span>
                 </div>
               </div>
             ))}
@@ -99,16 +107,16 @@ function FinancialReportSection({ report }) {
       {/* Ledger entries */}
       {report.ledgerEntries?.length > 0 && (
         <div>
-          <h3 className="ffr-sub-heading">Ledger Transaction History</h3>
+          <h3 className="ffr-sub-heading">{t("financialReport.ledger.title")}</h3>
           <div className="ffr-table-wrap">
             <table className="ffr-table">
               <thead>
                 <tr>
-                  <th>Type</th>
-                  <th>Amount</th>
-                  <th>Balance After</th>
-                  <th>Gateway</th>
-                  <th>Date</th>
+                  <th>{t("financialReport.ledger.type")}</th>
+                  <th>{t("financialReport.ledger.amount")}</th>
+                  <th>{t("financialReport.ledger.balanceAfter")}</th>
+                  <th>{t("financialReport.ledger.gateway")}</th>
+                  <th>{t("financialReport.ledger.date")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -134,6 +142,7 @@ function FinancialReportSection({ report }) {
 
 // ── Yield Tracking Section ───────────────────────────────────────────────────
 function YieldSection({ lands, onYieldSubmitted }) {
+  const { t } = useTranslation();
   const { token } = useAuth();
 
   const [form, setForm] = useState({
@@ -157,7 +166,7 @@ function YieldSection({ lands, onYieldSubmitted }) {
       const data = await farmerApi.getYieldHistory(token);
       setHistory(data ?? []);
     } catch (err) {
-      setHistoryError(err.message || "Failed to load yield history.");
+      setHistoryError(err.message || t("financialReport.yieldTracking.loadingHistory"));
     } finally {
       setHistoryLoading(false);
     }
@@ -176,11 +185,11 @@ function YieldSection({ lands, onYieldSubmitted }) {
   async function handleSubmit(e) {
     e.preventDefault();
     if (!form.yieldAmountKg || !form.harvestDate) {
-      setSubmitError("Yield amount and harvest date are required.");
+      setSubmitError(t("financialReport.yieldTracking.errorRequired"));
       return;
     }
     if (Number(form.yieldAmountKg) <= 0) {
-      setSubmitError("Yield amount must be greater than zero.");
+      setSubmitError(t("financialReport.yieldTracking.errorZero"));
       return;
     }
 
@@ -195,12 +204,12 @@ function YieldSection({ lands, onYieldSubmitted }) {
         harvestDate: form.harvestDate,
         notes: form.notes || null,
       });
-      setSubmitSuccess("✅ Yield record saved successfully.");
+      setSubmitSuccess(t("financialReport.yieldTracking.success"));
       setForm({ landId: "", yieldAmountKg: "", harvestDate: "", notes: "" });
       await loadHistory();
       if (onYieldSubmitted) onYieldSubmitted();
     } catch (err) {
-      setSubmitError(err.message || "Failed to save yield record.");
+      setSubmitError(err.message || t("financialReport.yieldTracking.errorGeneric"));
     } finally {
       setSubmitting(false);
     }
@@ -210,20 +219,20 @@ function YieldSection({ lands, onYieldSubmitted }) {
     <div className="ffr-section card">
       <div className="ffr-section-head">
         <div>
-          <h2 className="ffr-section-title">🌾 Yield Tracking</h2>
+          <h2 className="ffr-section-title">{t("financialReport.yieldTracking.title")}</h2>
           <p className="ffr-section-sub">
-            Record your harvest yields to track agricultural performance over time.
+            {t("financialReport.yieldTracking.subtitle")}
           </p>
         </div>
       </div>
 
       {/* Yield entry form */}
       <div className="ffr-yield-form-wrap">
-        <h3 className="ffr-sub-heading">Log New Harvest</h3>
+        <h3 className="ffr-sub-heading">{t("financialReport.yieldTracking.logHarvest")}</h3>
         <form className="ffr-yield-form" onSubmit={handleSubmit}>
           <div className="ffr-form-row">
             <div className="field">
-              <span>Land Listing (optional)</span>
+              <span>{t("financialReport.yieldTracking.landListing")}</span>
               <select
                 name="landId"
                 className="input ffr-select"
@@ -231,7 +240,7 @@ function YieldSection({ lands, onYieldSubmitted }) {
                 onChange={handleChange}
                 disabled={submitting}
               >
-                <option value="">— No specific land —</option>
+                <option value="">{t("financialReport.yieldTracking.noLand")}</option>
                 {lands.map((land) => (
                   <option key={land.landId} value={land.landId}>
                     {land.projectName} (#{land.landId})
@@ -241,7 +250,7 @@ function YieldSection({ lands, onYieldSubmitted }) {
             </div>
 
             <div className="field">
-              <span>Yield Amount (kg) *</span>
+              <span>{t("financialReport.yieldTracking.yieldAmountKg")}</span>
               <input
                 type="number"
                 name="yieldAmountKg"
@@ -256,7 +265,7 @@ function YieldSection({ lands, onYieldSubmitted }) {
             </div>
 
             <div className="field">
-              <span>Harvest Date *</span>
+              <span>{t("financialReport.yieldTracking.harvestDate")}</span>
               <input
                 type="date"
                 name="harvestDate"
@@ -270,7 +279,7 @@ function YieldSection({ lands, onYieldSubmitted }) {
           </div>
 
           <div className="field">
-            <span>Notes (optional)</span>
+            <span>{t("financialReport.yieldTracking.notes")}</span>
             <textarea
               name="notes"
               className="input textarea"
@@ -288,7 +297,9 @@ function YieldSection({ lands, onYieldSubmitted }) {
 
           <div className="ffr-form-actions">
             <button className="btn" type="submit" disabled={submitting}>
-              {submitting ? "Saving…" : "Record Harvest"}
+              {submitting
+                ? t("financialReport.yieldTracking.saving")
+                : t("financialReport.yieldTracking.recordHarvest")}
             </button>
           </div>
         </form>
@@ -296,17 +307,17 @@ function YieldSection({ lands, onYieldSubmitted }) {
 
       {/* Yield history */}
       <div>
-        <h3 className="ffr-sub-heading">Yield History</h3>
+        <h3 className="ffr-sub-heading">{t("financialReport.yieldTracking.historyTitle")}</h3>
         {historyLoading ? (
           <div className="ffr-loading-row">
             <div className="ffr-spinner" />
-            <span>Loading yield records…</span>
+            <span>{t("financialReport.yieldTracking.loadingHistory")}</span>
           </div>
         ) : historyError ? (
           <div className="ffr-form-error">{historyError}</div>
         ) : history.length === 0 ? (
           <div className="ffr-empty">
-            <p>No yield records yet. Submit your first harvest above.</p>
+            <p>{t("financialReport.yieldTracking.noHistory")}</p>
           </div>
         ) : (
           <div className="ffr-yield-history">
@@ -317,7 +328,7 @@ function YieldSection({ lands, onYieldSubmitted }) {
                     {Number(record.yieldAmountKg).toFixed(2)} kg
                   </strong>
                   <span className="ffr-yield-date">
-                    Harvested {formatDate(record.harvestDate)}
+                    {t("financialReport.yieldTracking.harvested")} {formatDate(record.harvestDate)}
                   </span>
                   {record.projectName && (
                     <span className="ffr-yield-project">
@@ -339,6 +350,7 @@ function YieldSection({ lands, onYieldSubmitted }) {
 
 // ── Page ─────────────────────────────────────────────────────────────────────
 export default function FarmerFinancialReport() {
+  const { t } = useTranslation();
   const { token } = useAuth();
 
   const [report, setReport] = useState(null);
@@ -352,7 +364,7 @@ export default function FarmerFinancialReport() {
       const data = await farmerApi.getFinancialReport(token);
       setReport(data);
     } catch (err) {
-      setError(err.message || "Failed to load financial report.");
+      setError(err.message || t("financialReport.status.errorGeneric"));
     } finally {
       setLoading(false);
     }
@@ -367,7 +379,7 @@ export default function FarmerFinancialReport() {
       <div className="ffr-page">
         <div className="ffr-state">
           <div className="ffr-spinner" />
-          <p>Loading your financial report…</p>
+          <p>{t("financialReport.status.loading")}</p>
         </div>
       </div>
     );
@@ -377,9 +389,11 @@ export default function FarmerFinancialReport() {
     return (
       <div className="ffr-page">
         <div className="ffr-state">
-          <h2>Could not load report</h2>
+          <h2>{t("financialReport.status.couldNotLoad")}</h2>
           <p className="ffr-muted">{error}</p>
-          <button className="btn" onClick={loadReport}>Try again</button>
+          <button className="btn" onClick={loadReport}>
+            {t("financialReport.status.tryAgain")}
+          </button>
         </div>
       </div>
     );
@@ -397,10 +411,10 @@ export default function FarmerFinancialReport() {
         {/* Header */}
         <div className="card ffr-header">
           <div>
-            <span className="ffr-eyebrow">Financial Reports &amp; Yield</span>
-            <h1 className="ffr-title">Farm Performance Overview</h1>
+            <span className="ffr-eyebrow">{t("financialReport.eyebrow")}</span>
+            <h1 className="ffr-title">{t("financialReport.title")}</h1>
             <p className="ffr-title-sub">
-              Monitor your total funding received and track agricultural yield over time.
+              {t("financialReport.subtitle")}
             </p>
           </div>
         </div>

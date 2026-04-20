@@ -1,15 +1,17 @@
 import "../../styles/components/investor/landCard.css";
 
 const STATUS_MAP = {
-  ACTIVE:    { label: "Active",    cls: "landBadgeActive"  },
-  PENDING:   { label: "Pending",   cls: "landBadgePending" },
-  COMPLETED: { label: "Completed", cls: "landBadgeDone"    },
-  CANCELLED: { label: "Cancelled", cls: "landBadgeMuted"   },
+  ACTIVE: { label: "Active", cls: "landBadgeActive" },
+  PENDING: { label: "Pending", cls: "landBadgePending" },
+  COMPLETED: { label: "Completed", cls: "landBadgeDone" },
+  CANCELLED: { label: "Cancelled", cls: "landBadgeMuted" },
 };
 
 function fmt(val) {
   return Number(val ?? 0).toLocaleString("en-LK", {
-    style: "currency", currency: "LKR", maximumFractionDigits: 0,
+    style: "currency",
+    currency: "LKR",
+    maximumFractionDigits: 0,
   });
 }
 
@@ -23,14 +25,17 @@ export function LandCard({ investment }) {
     investmentDate,
     status,
     blockchainTxHash,
-    contractAddress,
     polygonScanUrl,
+    farmerName,
+    cropType,
   } = investment;
 
-  const badge   = STATUS_MAP[status] ?? { label: status, cls: "landBadgeMuted" };
-  const dateStr = investmentDate ? investmentDate.split("T")[0] : "—";
+  const badge = STATUS_MAP[status] ?? { label: status || "Unknown", cls: "landBadgeMuted" };
+  const progress = Math.max(0, Math.min(100, Number(progressPercentage ?? 0)));
+  const dateStr = investmentDate
+    ? new Date(investmentDate).toLocaleDateString("en-LK", { dateStyle: "medium" })
+    : "Not available";
 
-  // Only show the PolygonScan link for real on-chain hashes (66 chars, starts with 0x)
   const hasRealLink =
     polygonScanUrl &&
     blockchainTxHash &&
@@ -39,26 +44,30 @@ export function LandCard({ investment }) {
     blockchainTxHash.length <= 66;
 
   return (
-    <div className="landCard">
-
+    <article className="landCard">
       <div className="landCardHeader">
-        <div>
+        <div className="landCardIdentity">
+          <span className="landCardEyebrow">Live project</span>
           <p className="landCardName">{projectName}</p>
-          <p className="landCardLocation">📍 {location}</p>
+          <p className="landCardLocation">{location || "Location unavailable"}</p>
         </div>
         <span className={"landBadge " + badge.cls}>{badge.label}</span>
       </div>
 
+      <div className="landCardMeta">
+        {cropType ? <span className="landMetaChip">{cropType}</span> : null}
+        {farmerName ? <span className="landMetaChip">Farmer: {farmerName}</span> : null}
+        <span className="landMetaChip">Started {dateStr}</span>
+      </div>
+
       <div className="landCardProgress">
-        <div className="landCardBar">
-          <div
-            className="landCardFill"
-            style={{ width: `${progressPercentage ?? 0}%` }}
-          />
+        <div className="landCardProgressTop">
+          <span className="landCardProgressLabel">Verified completion</span>
+          <span className="landCardProgressValue">{progress}%</span>
         </div>
-        <span className="landCardProgressLabel">
-          {progressPercentage ?? 0}% complete
-        </span>
+        <div className="landCardBar">
+          <div className="landCardFill" style={{ width: `${progress}%` }} />
+        </div>
       </div>
 
       <div className="landCardFooter">
@@ -70,28 +79,22 @@ export function LandCard({ investment }) {
           <span className="landCardStatLabel">Project value</span>
           <span className="landCardStatValue">{fmt(landTotalValue)}</span>
         </div>
-        <div className="landCardStat">
-          <span className="landCardStatLabel">Since</span>
-          <span className="landCardStatValue">{dateStr}</span>
-        </div>
       </div>
 
-      {/* ── Blockchain verification link ───────────────────────────────── */}
-      {/* Shows only when the backend has returned a real Polygon Amoy tx hash */}
-      {hasRealLink && (
-        <div className="landCardBlockchain">
+      <div className="landCardActions">
+        {hasRealLink ? (
           <a
             href={polygonScanUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="landCardChainLink"
           >
-            <span>⛓️</span>
-            View contract on PolygonScan ↗
+            View contract on PolygonScan
           </a>
-        </div>
-      )}
-
-    </div>
+        ) : (
+          <span className="landCardPendingLink">Blockchain record pending</span>
+        )}
+      </div>
+    </article>
   );
 }

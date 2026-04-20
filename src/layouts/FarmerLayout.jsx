@@ -1,39 +1,36 @@
-import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { Outlet, NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth.js";
 import { ROUTES } from "../routes/routePaths.js";
 import { Navbar } from "../components/Navbar.jsx";
+import { useState, useEffect } from "react";
 import "../styles/pages/farmer/farmerLayout.css";
 
 const NAV_ITEMS = [
-  { to: ROUTES.farmerDashboard,       icon: "🏠", label: "Dashboard"        },
-  { to: ROUTES.farmerApplication,     icon: "📝", label: "Register Land"    },
-  { to: ROUTES.farmerCrops,           icon: "🌾", label: "My Crops"         },
-  { to: ROUTES.farmerMilestones,      icon: "📎", label: "Upload Evidence"  },
-  { to: ROUTES.farmerContracts,       icon: "📋", label: "ගිවිසුම්"         },
-  { to: ROUTES.farmerFinancialReport, icon: "📊", label: "Financial Report" },
+  { to: ROUTES.farmerDashboard,       icon: "🏠", labelKey: "sidebar.dashboard"        },
+  { to: ROUTES.farmerApplication,     icon: "📝", labelKey: "sidebar.registerLand"    },
+  { to: ROUTES.farmerCrops,           icon: "🌾", labelKey: "sidebar.myCrops"         },
+  { to: ROUTES.farmerMilestones,      icon: "📎", labelKey: "sidebar.uploadEvidence"  },
+  { to: ROUTES.farmerContracts,       icon: "📋", labelKey: "sidebar.contracts"         },
+  { to: ROUTES.farmerFinancialReport, icon: "📊", labelKey: "sidebar.financialReport" },
 ];
 
 export function FarmerLayout() {
+  const { t, i18n } = useTranslation();
   const { user, signOut } = useAuth();
-  const navigate  = useNavigate();
-  const location  = useLocation();
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // Close sidebar on route change
   useEffect(() => {
     setSidebarOpen(false);
   }, [location.pathname]);
 
-  // Lock body scroll when drawer is open
-  useEffect(() => {
-    if (sidebarOpen) {
-      document.body.classList.add("sidebar-open");
-    } else {
-      document.body.classList.remove("sidebar-open");
-    }
-    return () => document.body.classList.remove("sidebar-open");
-  }, [sidebarOpen]);
+  const toggleLanguage = () => {
+    const nextLang = (i18n.language || '').startsWith('si') ? 'en' : 'si';
+    i18n.changeLanguage(nextLang);
+  };
 
   function handleSignOut() {
     signOut();
@@ -44,40 +41,38 @@ export function FarmerLayout() {
     <div className="frmShell">
       <Navbar />
 
-      {/* ── Mobile sidebar toggle bar (below navbar) ─────────── */}
-      <div className="frmMobileBar">
-        <button
-          className={"layoutHamburger" + (sidebarOpen ? " open" : "")}
-          onClick={() => setSidebarOpen(o => !o)}
-          aria-label={sidebarOpen ? "Close navigation" : "Open navigation"}
-          aria-expanded={sidebarOpen}
-        >
-          <span /><span /><span />
-        </button>
-        <span className="frmMobileBarLabel">
-          {NAV_ITEMS.find(n => location.pathname.startsWith(n.to))?.label ?? "Farmer Portal"}
-        </span>
-      </div>
+      <div style={{ display: "flex", paddingTop: "70px", flex: 1, width: "100%" }}>
 
-      {/* ── Overlay backdrop ──────────────────────────────────── */}
-      <div
-        className={"drawerOverlay" + (sidebarOpen ? " visible" : "")}
-        onClick={() => setSidebarOpen(false)}
-        aria-hidden="true"
-      />
+        {sidebarOpen && (
+          <div 
+            onClick={() => setSidebarOpen(false)}
+            style={{
+              position: "fixed", top: 0, left: 0, right: 0, bottom: 0,
+              background: "rgba(0,0,0,0.5)", zIndex: 140, backdropFilter: "blur(2px)"
+            }}
+          />
+        )}
 
-      <div style={{ display: "flex", paddingTop: "70px" }}>
-
-        {/* ── Sidebar ─────────────────────────────────────────── */}
-        <aside className={"frmSidebar" + (sidebarOpen ? " open" : "")}>
+        {/* ── Sidebar ─────────────────────────────────────── */}
+        <aside className={`frmSidebar ${sidebarOpen ? "open" : ""}`}>
           <div className="frmSidebarTop">
-
-            {/* Role badge */}
-            <span className="frmRoleBadge">🌾 Farmer Portal</span>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: ".5rem" }}>
+              {/* Role badge */}
+              <span className="frmRoleBadge">🌾 {t("sidebar.portal")}</span>
+              
+              {/* Close button inside sidebar on mobile */}
+              <button 
+                className="closeSidebarBtn"
+                onClick={() => setSidebarOpen(false)}
+                style={{ background: "none", border: "none", color: "var(--muted)", fontSize: "1.4rem", cursor: "pointer", padding: "0 0.5rem" }}
+              >
+                ×
+              </button>
+            </div>
 
             {/* Nav links */}
             <nav className="frmNav">
-              {NAV_ITEMS.map(({ to, icon, label }) => (
+              {NAV_ITEMS.map(({ to, icon, labelKey }) => (
                 <NavLink
                   key={to}
                   to={to}
@@ -86,7 +81,7 @@ export function FarmerLayout() {
                   }
                 >
                   <span className="frmNavIcon">{icon}</span>
-                  <span className="frmNavLabel">{label}</span>
+                  <span className="frmNavLabel">{t(labelKey)}</span>
                 </NavLink>
               ))}
 
@@ -102,7 +97,7 @@ export function FarmerLayout() {
               >
                 <span className="frmNavIcon">💬</span>
                 <span className="frmNavLabel">
-                  <span style={{ display: "block", lineHeight: 1.3 }}>24/7 Support</span>
+                  <span style={{ display: "block", lineHeight: 1.3 }}>{t("sidebar.support247")}</span>
                   <span style={{
                     display: "block",
                     fontSize: ".65rem",
@@ -111,7 +106,7 @@ export function FarmerLayout() {
                     letterSpacing: ".02em",
                     lineHeight: 1.2,
                   }}>
-                    Powered by AI
+                    {t("sidebar.poweredByAI")}
                   </span>
                 </span>
                 <span style={{
@@ -133,7 +128,7 @@ export function FarmerLayout() {
             </nav>
           </div>
 
-          {/* ── User info + sign out ─────────────────────────── */}
+          {/* ── User info + sign out ─────────────────────── */}
           <div className="frmSidebarBottom">
             <div className="frmUser">
               <div className="frmAvatar">
@@ -141,19 +136,49 @@ export function FarmerLayout() {
               </div>
               <div className="frmUserInfo">
                 <span className="frmUserName">{user?.fullName}</span>
-                <span className="frmUserRole">Farmer</span>
+                <span className="frmUserRole">{t("sidebar.role")}</span>
               </div>
             </div>
+          {/* ── Language toggle ──────────────── */}
+            <button
+              className="frmLangToggle"
+              onClick={toggleLanguage}
+              title={(i18n.language || '').startsWith('si') ? 'Switch to English' : 'සිංහලට මාරු වන්න'}
+            >
+              <span className="frmLangIcon">🌐</span>
+              <span className="frmLangLabel">
+                {(i18n.language || '').startsWith('si') ? 'සිංහල' : 'English'}
+              </span>
+              <span className="frmLangCurrent">
+                {(i18n.language || '').startsWith('si') ? 'සිං' : 'EN'}
+              </span>
+            </button>
+
             <button className="frmSignOut" onClick={handleSignOut}>
-              Sign out
+              {t("sidebar.signOut")}
             </button>
           </div>
         </aside>
 
-        {/* ── Main content ─────────────────────────────────────── */}
-        <main className="frmMain">
-          <Outlet />
-        </main>
+        {/* ── Main content wrapper ────────────────────────── */}
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0 }}>
+          
+          {/* Mobile Bar to toggle sidebar */}
+          <div className="frmMobileBar">
+            <button 
+              onClick={() => setSidebarOpen(true)}
+              style={{ background: "none", border: "none", color: "var(--text)", fontSize: "1.4rem", cursor: "pointer", padding: "0.2rem 0.6rem" }}
+              aria-label="Toggle Sidebar"
+            >
+              ☰
+            </button>
+            <span className="frmMobileBarLabel">{t("sidebar.portal")}</span>
+          </div>
+
+          <main className="frmMain">
+            <Outlet />
+          </main>
+        </div>
 
       </div>
     </div>
