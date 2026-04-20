@@ -598,14 +598,14 @@ export default function AdminDashboard() {
           </p>
         </div>
 
-        <button
+        {/* <button
           type="button"
           className="adminRefreshBtn"
           onClick={handleManualRefresh}
           disabled={manualRefreshing}
         >
           {manualRefreshing ? "Refreshing..." : "Refresh Data"}
-        </button>
+        </button> */}
       </div>
 
       {loading && !localDashboard && (
