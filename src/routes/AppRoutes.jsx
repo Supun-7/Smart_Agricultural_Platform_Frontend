@@ -18,6 +18,7 @@ import InvestorDashboard from "../pages/investor/InvestorDashboard.jsx";
 import InvestorPortfolio from "../pages/investor/InvestorPortfolio.jsx";
 import InvestorOpportunities from "../pages/investor/InvestorOpportunities.jsx";
 import InvestorReports from "../pages/investor/InvestorReports.jsx";
+import InvestorReturnRisk from "../pages/investor/InvestorReturnRisk.jsx";
 import InvestorWallet from "../pages/investor/InvestorWallet.jsx";
 import LandDetailPage from "../pages/investor/LandDetailPage.jsx";
 import ContractPage from "../pages/investor/ContractPage.jsx";
@@ -109,6 +110,7 @@ export default function AppRoutes() {
         <Route path={ROUTES.investorPortfolio} element={<InvestorPortfolio />} />
         <Route path={ROUTES.investorOpportunities} element={<InvestorOpportunities />} />
         <Route path={ROUTES.investorReports} element={<InvestorReports />} />
+        <Route path={ROUTES.investorReturnRisk} element={<InvestorReturnRisk />} />
         <Route path={ROUTES.investorWallet} element={<InvestorWallet />} />
         <Route path={ROUTES.investorLandDetail} element={<LandDetailPage />} />
         <Route path={ROUTES.investorContract} element={<ContractPage />} />

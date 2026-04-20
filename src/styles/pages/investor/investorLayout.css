@@ -1,20 +1,17 @@
-/* ── Shell ───────────────────────────────────────────────── */
 .invShell {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   background: var(--bg, #0b0f0c);
-  padding-top: 70px; /* navbar height */
+  padding-top: 70px;
 }
 
-/* ── Body wrapper (sidebar + main) ─────────────────────────── */
 .invBody {
   display: flex;
   flex: 1;
   min-height: 0;
 }
 
-/* ── Mobile bar below navbar ─────────────────────────────── */
 .invMobileBar {
   display: none;
   align-items: center;
@@ -38,7 +35,6 @@
   text-overflow: ellipsis;
 }
 
-/* ── Sidebar ─────────────────────────────────────────────── */
 .invSidebar {
   width: 220px;
   flex-shrink: 0;
@@ -60,7 +56,6 @@
   gap: 1.5rem;
 }
 
-/* Brand (shown inside drawer on mobile) */
 .invBrand {
   display: flex;
   align-items: center;
@@ -80,7 +75,6 @@
   color: var(--text, #eef5ef);
 }
 
-/* Nav */
 .invNav {
   display: flex;
   flex-direction: column;
@@ -123,14 +117,13 @@
   flex: 1;
 }
 
-/* Bottom user strip */
 .invSidebarBottom {
   display: flex;
   flex-direction: column;
   gap: .75rem;
 }
 
-.invUser {
+.invUserCard {
   display: flex;
   align-items: center;
   gap: .65rem;
@@ -178,14 +171,12 @@
   min-height: 44px;
 }
 
-/* ── Main content ─────────────────────────────────────────── */
 .invMain {
   flex: 1;
   min-width: 0;
   overflow-y: auto;
 }
 
-/* ── Tablet (681px–1023px) ───────────────────────────────── */
 @media (min-width: 681px) and (max-width: 1023px) {
   .invSidebar {
     width: 190px;
@@ -197,19 +188,16 @@
   }
 }
 
-/* ── Mobile (≤680px) — Drawer sidebar ───────────────────── */
 @media (max-width: 680px) {
   .invMobileBar {
     display: flex;
   }
 
   .invBody {
-    padding-top: 0;
     flex-direction: column;
   }
 
   .invSidebar {
-    /* Off-canvas drawer */
     position: fixed;
     top: 0;
     left: 0;
@@ -277,7 +265,6 @@
   }
 }
 
-/* ── Extra small (≤360px) ────────────────────────────────── */
 @media (max-width: 360px) {
   .invMobileBar {
     padding: 0.5rem 0.75rem;
