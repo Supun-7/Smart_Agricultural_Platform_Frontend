@@ -4,7 +4,6 @@ import { useAuth } from "../hooks/useAuth.js";
 import { ROUTES } from "../routes/routePaths.js";
 import { Navbar } from "../components/Navbar.jsx";
 import "../styles/pages/investor/investorLayout.css";
-import logo from "../assets/logo.png";
 
 const NAV_ITEMS = [
   { to: "/investor/dashboard", icon: "📊", label: "Dashboard" },
@@ -75,11 +74,6 @@ export function InvestorLayout() {
           aria-label="Investor navigation"
         >
           <div className="invSidebarTop">
-            <div className="invBrand">
-              <img src={logo} alt="CHC" className="invBrandLogo" />
-              <span className="invBrandText">Ceylon Harvest</span>
-            </div>
-
             <nav className="invNav">
               {NAV_ITEMS.map(({ to, icon, label }) => (
                 <NavLink
