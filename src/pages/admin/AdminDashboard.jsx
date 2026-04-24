@@ -3,6 +3,8 @@ import { useAdminDashboard } from "../../hooks/useAdminDashboard.js";
 import { useAuth } from "../../hooks/useAuth.js";
 import { adminApi } from "../../services/api.js";
 import { StatCard } from "../../components/investor/StatCard.jsx";
+import AnalyticsSection from "../../components/admin/AnalyticsSection.jsx";
+import ComplianceScorePanel from "../../components/admin/ComplianceScorePanel.jsx";
 import "../../styles/pages/admin/dashboard.css";
 
 function fmt(val) {
@@ -503,13 +505,13 @@ export default function AdminDashboard() {
 
         const tempLog = actionLabel
           ? {
-              id: `temp-${Date.now()}-${userId}`,
-              actionType: actionLabel,
-              adminUserId: currentUserId,
-              targetUserId: userId,
-              details: `Account status changed to ${newStatus}`,
-              createdAt: new Date().toISOString(),
-            }
+            id: `temp-${Date.now()}-${userId}`,
+            actionType: actionLabel,
+            adminUserId: currentUserId,
+            targetUserId: userId,
+            details: `Account status changed to ${newStatus}`,
+            createdAt: new Date().toISOString(),
+          }
           : null;
 
         return {
@@ -544,13 +546,13 @@ export default function AdminDashboard() {
 
         const tempLogs = actionLabel
           ? userIds.map((userId, index) => ({
-              id: `temp-${Date.now()}-${userId}-${index}`,
-              actionType: actionLabel,
-              adminUserId: currentUserId,
-              targetUserId: userId,
-              details: `Account status changed to ${newStatus}`,
-              createdAt: new Date().toISOString(),
-            }))
+            id: `temp-${Date.now()}-${userId}-${index}`,
+            actionType: actionLabel,
+            adminUserId: currentUserId,
+            targetUserId: userId,
+            details: `Account status changed to ${newStatus}`,
+            createdAt: new Date().toISOString(),
+          }))
           : [];
 
         return {
@@ -596,14 +598,14 @@ export default function AdminDashboard() {
           </p>
         </div>
 
-        <button
+        {/* <button
           type="button"
           className="adminRefreshBtn"
           onClick={handleManualRefresh}
           disabled={manualRefreshing}
         >
           {manualRefreshing ? "Refreshing..." : "Refresh Data"}
-        </button>
+        </button> */}
       </div>
 
       {loading && !localDashboard && (
@@ -643,6 +645,16 @@ export default function AdminDashboard() {
               value={fmt(localDashboard.totalInvestment)}
               accent
             />
+          </div>
+
+          {/* AC-1: Analytics section — live data from /api/admin/analytics */}
+          <div className="adminSection">
+            <AnalyticsSection />
+          </div>
+
+          {/* AC-4: Farmer compliance scores — read-only view for admins */}
+          <div className="adminSection">
+            <ComplianceScorePanel />
           </div>
 
           <div className="adminSection">

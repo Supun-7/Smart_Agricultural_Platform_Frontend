@@ -313,3 +313,13 @@
   .fcCount { margin-left: 0; }
   .fcHeader { flex-wrap: wrap; }
 }
+
+/* ── Responsive additions ─────────────────────────────────── */
+@media (max-width: 480px) {
+  .fcPage   { padding: 1rem 0.875rem 2rem; }
+  .fcHeader { flex-direction: column; gap: 0.5rem; }
+}
+
+@media (max-width: 360px) {
+  .fcPage { padding: 0.875rem 0.75rem 1.5rem; }
+}

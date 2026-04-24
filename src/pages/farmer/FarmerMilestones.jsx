@@ -1,9 +1,11 @@
 import { useState, useCallback, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "../../hooks/useAuth.js";
 import { farmerApi } from "../../services/api.js";
 import "../../styles/pages/farmerDashboard.css";
 
 export default function FarmerMilestones() {
+  const { t } = useTranslation();
   const { token } = useAuth();
   
   const [milestones, setMilestones] = useState([]);
@@ -123,10 +125,18 @@ export default function FarmerMilestones() {
       <div className="container farmerDashboardInner">
         <div className="farmerDashboardHeader card">
           <div className="farmerDashboardTitleBlock">
-            <span className="farmerDashboardEyebrow">Milestones</span>
-            <h1 className="farmerDashboardTitle">Upload Evidence</h1>
-            <p className="farmerDashboardSub">
-              Submit progress photos and documents for your pending milestones.
+            <span className="farmerDashboardEyebrow">{t("uploadEvidence.eyebrow")}</span>
+            <h1 className="farmerDashboardTitle">{t("uploadEvidence.title")}</h1>
+            <p 
+              className="farmerDashboardSub" 
+              style={{ 
+                marginTop: "1rem", 
+                maxWidth: "85ch", 
+                lineHeight: "1.6", 
+                fontSize: "0.95rem" 
+              }}
+            >
+              {t("uploadEvidence.subtitle")}
             </p>
           </div>
         </div>
@@ -137,10 +147,10 @@ export default function FarmerMilestones() {
           </div>
         )}
 
-        <div className="card" style={{ maxWidth: 640 }}>
+        <div className="card">
           <form className="form" onSubmit={handleSubmit}>
             <label className="field">
-              <span>Select Milestone</span>
+              <span>{t("uploadEvidence.selectMilestone")}</span>
               <select 
                 className="input" 
                 value={selectedMilestone} 
@@ -162,7 +172,7 @@ export default function FarmerMilestones() {
             </label>
 
             <div className="field">
-              <span>Evidence Files</span>
+              <span>{t("uploadEvidence.evidenceFiles")}</span>
               <div 
                 style={{ 
                   border: "2px dashed rgba(255,255,255,.15)", 
@@ -175,9 +185,9 @@ export default function FarmerMilestones() {
               >
                 <label style={{ display: "block", cursor: uploading ? "not-allowed" : "pointer" }}>
                   <span style={{ fontSize: "2rem", marginBottom: "0.5rem", display: "block" }}>📤</span>
-                  <span style={{ color: "var(--brand)", fontWeight: 600 }}>Click to browse</span> or drag and drop
+                  <span style={{ color: "var(--brand)", fontWeight: 600 }}>{t("uploadEvidence.clickBrowse")}</span> {t("uploadEvidence.dragDrop")}
                   <span style={{ display: "block", fontSize: ".8rem", color: "var(--muted)", marginTop: "0.5rem" }}>
-                    JPG, PNG, PDF formats, Max 5MB per file
+                    {t("uploadEvidence.formats")}
                   </span>
                   <input 
                     type="file" 
@@ -193,7 +203,7 @@ export default function FarmerMilestones() {
 
             {files.length > 0 && (
               <div style={{ display: "grid", gap: "0.5rem", marginTop: "1rem" }}>
-                <span style={{ fontSize: "0.9rem", color: "var(--muted)" }}>Selected files ({files.length})</span>
+                <span style={{ fontSize: "0.9rem", color: "var(--muted)" }}>{t("uploadEvidence.selectedFiles")} ({files.length})</span>
                 {files.map(f => (
                   <div key={f.id} style={{ 
                     display: "flex", 
@@ -258,7 +268,7 @@ export default function FarmerMilestones() {
               disabled={uploading || files.length === 0}
               style={{ marginTop: "1rem" }}
             >
-              {uploading ? "Uploading..." : "Upload Evidence"}
+              {uploading ? t("uploadEvidence.uploadingBtn") : t("uploadEvidence.uploadBtn")}
             </button>
           </form>
         </div>

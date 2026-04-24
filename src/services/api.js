@@ -166,6 +166,28 @@ export const farmerApi = {
     fetch(`${BASE_URL}/farmer/contracts`, {
       headers: headers(token),
     }).then(handle),
+
+  // ── Financial Report & Yield Tracking (AC-1 … AC-5) ───────────────────
+
+  /** AC-1 / AC-2 / AC-5 — full financial report with per-project funding */
+  getFinancialReport: (token) =>
+    fetch(`${BASE_URL}/farmer/financial-report`, {
+      headers: headers(token),
+    }).then(handle),
+
+  /** AC-3 — submit a new yield record */
+  submitYield: (token, data) =>
+    fetch(`${BASE_URL}/farmer/yield`, {
+      method: "POST",
+      headers: headers(token),
+      body: JSON.stringify(data),
+    }).then(handle),
+
+  /** AC-4 — full yield history, newest first */
+  getYieldHistory: (token) =>
+    fetch(`${BASE_URL}/farmer/yield`, {
+      headers: headers(token),
+    }).then(handle),
 };
 
 // ── Investor endpoints ───────────────────────────────────────
@@ -200,6 +222,16 @@ export const investorApi = {
 
   getReports: (token) =>
     fetch(`${BASE_URL}/investor/reports`, {
+      headers: headers(token),
+    }).then(handle),
+
+  getRoiHistory: (token) =>
+    fetch(`${BASE_URL}/investor/roi/history`, {
+      headers: headers(token),
+    }).then(handle),
+
+  getLandMarket: (token) =>
+    fetch(`${BASE_URL}/investor/land-market`, {
       headers: headers(token),
     }).then(handle),
 
@@ -322,6 +354,79 @@ export const auditorApi = {
       headers: headers(token),
     }).then(handle),
 
+
+  // KYC detail view — NEW
+  getKycDetail: (token, id) =>
+    fetch(`${BASE_URL}/auditor/kyc/${id}`, {
+      headers: headers(token),
+    }).then(handle),
+
+  // Farmer application detail view — NEW
+  getFarmerDetail: (token, id) =>
+    fetch(`${BASE_URL}/auditor/farmer/${id}`, {
+      headers: headers(token),
+    }).then(handle),
+
+  // Project/Land endpoints — ALL NEW
+  getPendingProjects: (token) =>
+    fetch(`${BASE_URL}/auditor/projects/pending`, {
+      headers: headers(token),
+    }).then(handle),
+
+  getAllProjects: (token) =>
+    fetch(`${BASE_URL}/auditor/projects`, {
+      headers: headers(token),
+    }).then(handle),
+
+  getProjectDetail: (token, landId) =>
+    fetch(`${BASE_URL}/auditor/projects/${landId}`, {
+      headers: headers(token),
+    }).then(handle),
+
+  approveProject: (token, landId) =>
+    fetch(`${BASE_URL}/auditor/projects/${landId}/approve`, {
+      method: "PUT",
+      headers: headers(token),
+    }).then(handle),
+
+  rejectProject: (token, landId, reason) =>
+    fetch(`${BASE_URL}/auditor/projects/${landId}/reject`, {
+      method: "PUT",
+      headers: headers(token),
+      body: JSON.stringify({ reason }),
+    }).then(handle),
+
+  // Full history — ALL types — NEW
+  getFullHistory: (token) =>
+    fetch(`${BASE_URL}/auditor/full-history`, {
+      headers: headers(token),
+    }).then(handle),
+
+  // ── AC-3 / AC-4 / AC-5: Compliance scoring ──────────────────────────────
+
+  /** AC-4: Retrieve all farmers with their compliance scores. */
+  listComplianceScores: (token) =>
+    fetch(`${BASE_URL}/auditor/farmers/compliance-scores`, {
+      headers: headers(token),
+    }).then(handle),
+
+  /** AC-4: Get compliance score for a single farmer. */
+  getComplianceScore: (token, farmerId) =>
+    fetch(`${BASE_URL}/auditor/farmers/${farmerId}/compliance-score`, {
+      headers: headers(token),
+    }).then(handle),
+
+  /**
+   * AC-3 / AC-5: Assign or update a compliance score.
+   * Returns immediately with the saved score so the UI updates without reload.
+   */
+  assignComplianceScore: (token, farmerId, score, notes) =>
+    fetch(`${BASE_URL}/auditor/farmers/${farmerId}/compliance-score`, {
+      method: "PUT",
+      headers: headers(token),
+      body: JSON.stringify({ score, notes }),
+    }).then(handle),
+
 };
 
 // ── Admin endpoints ──────────────────────────────────────────
@@ -411,6 +516,18 @@ export const adminApi = {
 
   getDashboard: (token) =>
     fetch(`${BASE_URL}/admin/dashboard`, {
+      headers: headers(token),
+    }).then(handle),
+
+  // AC-2 → AC-6: platform-wide analytics
+  getAnalytics: (token) =>
+    fetch(`${BASE_URL}/admin/analytics`, {
+      headers: headers(token),
+    }).then(handle),
+
+  // AC-4: Admin read access to all farmer compliance scores
+  listComplianceScores: (token) =>
+    fetch(`${BASE_URL}/admin/farmers/compliance-scores`, {
       headers: headers(token),
     }).then(handle),
 };

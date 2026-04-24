@@ -385,3 +385,25 @@
   .iclCardRight { align-items: flex-start; }
   .iclHashRow { flex-direction: column; align-items: flex-start; }
 }
+
+/* ── Responsive additions ─────────────────────────────────── */
+@media (max-width: 480px) {
+  .iclPage {
+    padding: 1rem 0.875rem 2rem;
+    gap: 1rem;
+  }
+
+  .iclHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .iclHeaderMeta {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 360px) {
+  .iclPage { padding: 0.875rem 0.75rem 1.5rem; }
+  .iclTitle { font-size: 1.2rem; }
+}
