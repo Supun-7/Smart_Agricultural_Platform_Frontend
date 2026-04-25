@@ -144,6 +144,25 @@ export const farmerApi = {
       body: JSON.stringify({ isActive }),
     }).then(handle),
 
+  createLand: (token, data) =>
+    fetch(`${BASE_URL}/farmer/lands`, {
+      method:  "POST",
+      headers: headers(token),
+      body:    JSON.stringify(data),
+    }).then(handle),
+
+  getLands: (token) =>
+    fetch(`${BASE_URL}/farmer/lands`, {
+      headers: headers(token),
+    }).then(handle),
+
+  updateLandStatus: (token, landId, isActive) =>
+    fetch(`${BASE_URL}/farmer/lands/${landId}/active`, {
+      method:  "PATCH",
+      headers: headers(token),
+      body:    JSON.stringify({ isActive }),
+    }).then(handle),
+
   requestUpdate: (token, details) =>
     fetch(`${BASE_URL}/farmer/update-request`, {
       method: "POST",
@@ -186,6 +205,22 @@ export const farmerApi = {
   /** AC-4 — full yield history, newest first */
   getYieldHistory: (token) =>
     fetch(`${BASE_URL}/farmer/yield`, {
+      headers: headers(token),
+    }).then(handle),
+
+  uploadMilestoneEvidence: (token, milestoneId, files) => {
+    const formData = new FormData();
+    files.forEach((file) => formData.append("files", file));
+    return fetch(`${BASE_URL}/farmer/milestones/${milestoneId}/evidence`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}` },
+      body: formData,
+    }).then(handle);
+  },
+
+  /** Returns all investment contracts received on the farmer's lands */
+  getContracts: (token) =>
+    fetch(`${BASE_URL}/farmer/contracts`, {
       headers: headers(token),
     }).then(handle),
 };

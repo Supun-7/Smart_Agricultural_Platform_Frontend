@@ -133,8 +133,7 @@ export default function InvestorOpportunities() {
   const [cropFilter, setCropFilter] = useState("ALL");
 
   async function load() {
-    setLoading(true);
-    setError("");
+    setLoading(true); setError("");
     try {
       const [opportunities, wallet] = await Promise.all([
         investorApi.getOpportunities(token),
@@ -205,8 +204,7 @@ export default function InvestorOpportunities() {
           <button className="btn" onClick={load}>Retry</button>
         </div>
       </div>
-    );
-  }
+  );
 
   return (
     <div className="invPage invOpportunitiesPage">
@@ -308,4 +306,5 @@ export default function InvestorOpportunities() {
       )}
     </div>
   );
+  }
 }

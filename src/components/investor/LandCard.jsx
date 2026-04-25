@@ -25,9 +25,14 @@ export function LandCard({ investment }) {
     investmentDate,
     status,
     blockchainTxHash,
+<<<<<<< HEAD
     polygonScanUrl,
     farmerName,
     cropType,
+=======
+    contractAddress,
+    polygonScanUrl,
+>>>>>>> origin/main
   } = investment;
 
   const badge = STATUS_MAP[status] ?? { label: status || "Unknown", cls: "landBadgeMuted" };
@@ -36,6 +41,14 @@ export function LandCard({ investment }) {
     ? new Date(investmentDate).toLocaleDateString("en-LK", { dateStyle: "medium" })
     : "Not available";
 
+  const hasRealLink =
+    polygonScanUrl &&
+    blockchainTxHash &&
+    !blockchainTxHash.startsWith("BLOCKCHAIN_ERROR") &&
+    !blockchainTxHash.startsWith("PENDING") &&
+    blockchainTxHash.length <= 66;
+
+  // Only show the PolygonScan link for real on-chain hashes (66 chars, starts with 0x)
   const hasRealLink =
     polygonScanUrl &&
     blockchainTxHash &&
@@ -81,14 +94,22 @@ export function LandCard({ investment }) {
         </div>
       </div>
 
+<<<<<<< HEAD
       <div className="landCardActions">
         {hasRealLink ? (
+=======
+      {/* ── Blockchain verification link ───────────────────────────────── */}
+      {/* Shows only when the backend has returned a real Polygon Amoy tx hash */}
+      {hasRealLink && (
+        <div className="landCardBlockchain">
+>>>>>>> origin/main
           <a
             href={polygonScanUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="landCardChainLink"
           >
+<<<<<<< HEAD
             View contract on PolygonScan
           </a>
         ) : (
@@ -96,5 +117,14 @@ export function LandCard({ investment }) {
         )}
       </div>
     </article>
+=======
+            <span>⛓️</span>
+            View contract on PolygonScan ↗
+          </a>
+        </div>
+      )}
+
+    </div>
+>>>>>>> origin/main
   );
 }

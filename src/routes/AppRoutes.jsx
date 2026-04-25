@@ -24,9 +24,9 @@ import LandDetailPage from "../pages/investor/LandDetailPage.jsx";
 import ContractPage from "../pages/investor/ContractPage.jsx";
 import InvestorContractsPage from "../pages/investor/InvestorContractsPage.jsx";
 
-import AdminDashboard from "../pages/admin/AdminDashboard.jsx";
+import AdminDashboard    from "../pages/admin/AdminDashboard.jsx";
 import GoogleAuthCallback from "../pages/GoogleAuthCallback.jsx";
-import CreateUserPage from "../pages/admin/CreateUserPage.jsx";
+import CreateUserPage    from "../pages/admin/CreateUserPage.jsx";
 
 import AuditorDashboard from "../pages/auditor/AuditorDashboard.jsx";
 import AuditHistory from "../pages/auditor/AuditHistory.jsx";
@@ -85,7 +85,7 @@ export default function AppRoutes() {
 
       {/* Public routes */}
       <Route element={<PublicLayout />}>
-        <Route path={ROUTES.home} element={<Home />} />
+        <Route path={ROUTES.home}  element={<Home />} />
         <Route
           path={ROUTES.login}
           element={<RedirectIfLoggedIn><Login /></RedirectIfLoggedIn>}
