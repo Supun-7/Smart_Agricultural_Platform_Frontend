@@ -36,6 +36,8 @@ export function LandCard({ investment }) {
     ? new Date(investmentDate).toLocaleDateString("en-LK", { dateStyle: "medium" })
     : "Not available";
 
+
+  // Only show the PolygonScan link for real on-chain hashes (66 chars, starts with 0x)
   const hasRealLink =
     polygonScanUrl &&
     blockchainTxHash &&
