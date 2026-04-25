@@ -1,6 +1,16 @@
+/* ── Shell ───────────────────────────────────────────────── */
 .admShell {
   display: flex;
+  flex-direction: column;
   min-height: 100vh;
+  background: var(--bg);
+}
+
+/* Desktop: row layout */
+@media (min-width: 681px) {
+  .admShell {
+    flex-direction: row;
+  }
 }
 
 /* ── Sidebar ─────────────────────────────────────────────── */
@@ -63,6 +73,7 @@
   font-size: .92rem;
   font-weight: 500;
   transition: background .12s ease, color .12s ease;
+  min-height: 44px;
 }
 
 .admNavItem:hover {
@@ -80,6 +91,11 @@
   font-size: 1rem;
   width: 20px;
   text-align: center;
+  flex-shrink: 0;
+}
+
+.admNavLabel {
+  flex: 1;
 }
 
 /* Bottom user strip */
@@ -134,6 +150,7 @@
   font-size: .82rem;
   padding: .45rem .75rem;
   border: 1px solid rgba(255,255,255,.1);
+  min-height: 44px;
 }
 
 /* ── Main content ─────────────────────────────────────────── */
@@ -143,27 +160,91 @@
   overflow-y: auto;
 }
 
-/* ── Mobile — collapse sidebar to top bar ─────────────────── */
-@media (max-width: 680px) {
-  .admShell   { flex-direction: column; }
-
+/* ── Tablet (681px–1023px) ───────────────────────────────── */
+@media (min-width: 681px) and (max-width: 1023px) {
   .admSidebar {
-    width: 100%;
-    height: auto;
-    position: static;
-    flex-direction: row;
-    flex-wrap: wrap;
-    padding: .75rem 1rem;
-    border-right: none;
-    border-bottom: 1px solid rgba(255,255,255,.08);
-    gap: .5rem;
+    width: 190px;
+    padding: 1.25rem 0.75rem;
   }
 
-  .admSidebarTop    { flex-direction: row; align-items: center; gap: .5rem; flex: 1; }
-  .admSidebarBottom { flex-direction: row; align-items: center; }
-  .admNav           { flex-direction: row; }
-  .admNavLabel      { display: none; }
-  .admNavItem       { padding: .5rem; }
-  .admBrandText     { display: none; }
-  .admUserInfo      { display: none; }
+  .admMain {
+    padding-right: 0;
+  }
+}
+
+/* ── Mobile (≤680px) — Drawer sidebar ───────────────────── */
+@media (max-width: 680px) {
+  .admSidebar {
+    /* Off-canvas drawer */
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 260px;
+    max-width: 80vw;
+    height: 100vh;
+    z-index: 150;
+    transform: translateX(-100%);
+    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    padding-top: 1.5rem;
+    border-right: 1px solid rgba(255,255,255,.08);
+    border-bottom: none;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    overflow-y: auto;
+    box-shadow: 4px 0 24px rgba(0,0,0,.4);
+  }
+
+  .admSidebar.open {
+    transform: translateX(0);
+  }
+
+  .admSidebarTop {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+    flex: 1;
+    width: 100%;
+  }
+
+  .admSidebarBottom {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .admNav {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .admNavLabel {
+    display: block !important;
+  }
+
+  .admNavItem {
+    width: 100%;
+    padding: 0.65rem 0.8rem;
+  }
+
+  .admBrandText {
+    display: block !important;
+  }
+
+  .admUserInfo {
+    display: flex !important;
+  }
+
+  .admMain {
+    padding: 1.25rem 1rem;
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+/* ── Extra small (≤360px) ────────────────────────────────── */
+@media (max-width: 360px) {
+  .admMain {
+    padding: 0.875rem 0.75rem;
+  }
 }

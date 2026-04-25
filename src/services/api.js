@@ -1,5 +1,14 @@
 // ── Base config ─────────────────────────────────────────────
-const BASE_URL = "http://localhost:8080/api";
+const RAW_API_BASE_URL = import.meta.env.VITE_API_BASE_URL?.trim();
+
+function normalizeApiBaseUrl(url) {
+  if (!url) {
+    throw new Error("Missing VITE_API_BASE_URL in environment configuration.");
+  }
+  return url.endsWith("/api") ? url : `${url.replace(/\/+$/, "")}/api`;
+}
+
+export const BASE_URL = normalizeApiBaseUrl(RAW_API_BASE_URL);
 
 // Helper — builds headers with or without token
 function headers(token = null) {
@@ -28,33 +37,51 @@ export const authApi = {
   // Public registration — FARMER and INVESTOR only
   register: (data) =>
     fetch(`${BASE_URL}/users/register`, {
-      method:  "POST",
+      method: "POST",
       headers: headers(),
-      body:    JSON.stringify(data),
+      body: JSON.stringify(data),
     }).then(handle),
 
   // Admin-only registration — creates ADMIN or AUDITOR accounts
   // Sends admin JWT token in Authorization header so backend allows it
   registerAsAdmin: (token, data) =>
     fetch(`${BASE_URL}/users/register`, {
-      method:  "POST",
+      method: "POST",
       headers: headers(token),
-      body:    JSON.stringify(data),
+      body: JSON.stringify(data),
     }).then(handle),
 
   // Redirect flow — backend exchanges authorization code for user info
   googleCallback: (code, role) =>
     fetch(`${BASE_URL}/auth/google/callback`, {
-      method:  "POST",
+      method: "POST",
       headers: headers(),
-      body:    JSON.stringify({ code, role }),
+      body: JSON.stringify({ code, role }),
     }).then(handle),
 
   login: (email, password) =>
     fetch(`${BASE_URL}/users/login`, {
-      method:  "POST",
+      method: "POST",
       headers: headers(),
-      body:    JSON.stringify({ email, password }),
+      body: JSON.stringify({ email, password }),
+    }).then(handle),
+
+  // In authApi object, after the existing `login:` function — ADD:
+
+  // Step 2 of login: verify OTP and receive JWT
+  verifyOtp: (email, otp) =>
+    fetch(`${BASE_URL}/users/verify-otp`, {
+      method: "POST",
+      headers: headers(),
+      body: JSON.stringify({ email, otp }),
+    }).then(handle),
+
+  // Resend OTP (rate-limited by backend)
+  resendOtp: (email) =>
+    fetch(`${BASE_URL}/users/resend-otp`, {
+      method: "POST",
+      headers: headers(),
+      body: JSON.stringify({ email }),
     }).then(handle),
 };
 
@@ -63,7 +90,7 @@ export const gateApi = {
 
   check: (token) =>
     fetch(`${BASE_URL}/gate/check`, {
-      method:  "GET",
+      method: "GET",
       headers: headers(token),
     }).then(handle),
 };
@@ -93,9 +120,28 @@ export const farmerApi = {
 
   submitApplication: (token, data) =>
     fetch(`${BASE_URL}/farmer/application`, {
-      method:  "POST",
+      method: "POST",
       headers: headers(token),
-      body:    JSON.stringify(data),
+      body: JSON.stringify(data),
+    }).then(handle),
+
+  createLand: (token, data) =>
+    fetch(`${BASE_URL}/farmer/lands`, {
+      method: "POST",
+      headers: headers(token),
+      body: JSON.stringify(data),
+    }).then(handle),
+
+  getLands: (token) =>
+    fetch(`${BASE_URL}/farmer/lands`, {
+      headers: headers(token),
+    }).then(handle),
+
+  updateLandStatus: (token, landId, isActive) =>
+    fetch(`${BASE_URL}/farmer/lands/${landId}/active`, {
+      method: "PATCH",
+      headers: headers(token),
+      body: JSON.stringify({ isActive }),
     }).then(handle),
 
   createLand: (token, data) =>
@@ -119,9 +165,47 @@ export const farmerApi = {
 
   requestUpdate: (token, details) =>
     fetch(`${BASE_URL}/farmer/update-request`, {
-      method:  "POST",
+      method: "POST",
       headers: headers(token),
-      body:    JSON.stringify({ details }),
+      body: JSON.stringify({ details }),
+    }).then(handle),
+
+  uploadMilestoneEvidence: (token, milestoneId, files) => {
+    const formData = new FormData();
+    files.forEach((file) => formData.append("files", file));
+    return fetch(`${BASE_URL}/farmer/milestones/${milestoneId}/evidence`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}` },
+      body: formData,
+    }).then(handle);
+  },
+
+  /** Returns all investment contracts received on the farmer's lands */
+  getContracts: (token) =>
+    fetch(`${BASE_URL}/farmer/contracts`, {
+      headers: headers(token),
+    }).then(handle),
+
+  // ── Financial Report & Yield Tracking (AC-1 … AC-5) ───────────────────
+
+  /** AC-1 / AC-2 / AC-5 — full financial report with per-project funding */
+  getFinancialReport: (token) =>
+    fetch(`${BASE_URL}/farmer/financial-report`, {
+      headers: headers(token),
+    }).then(handle),
+
+  /** AC-3 — submit a new yield record */
+  submitYield: (token, data) =>
+    fetch(`${BASE_URL}/farmer/yield`, {
+      method: "POST",
+      headers: headers(token),
+      body: JSON.stringify(data),
+    }).then(handle),
+
+  /** AC-4 — full yield history, newest first */
+  getYieldHistory: (token) =>
+    fetch(`${BASE_URL}/farmer/yield`, {
+      headers: headers(token),
     }).then(handle),
 
   uploadMilestoneEvidence: (token, milestoneId, files) => {
@@ -156,9 +240,9 @@ export const investorApi = {
 
   submitKyc: (token, data) =>
     fetch(`${BASE_URL}/investor/kyc`, {
-      method:  "POST",
+      method: "POST",
       headers: headers(token),
-      body:    JSON.stringify(data),
+      body: JSON.stringify(data),
     }).then(handle),
 
   getOpportunities: (token) =>
@@ -176,6 +260,16 @@ export const investorApi = {
       headers: headers(token),
     }).then(handle),
 
+  getRoiHistory: (token) =>
+    fetch(`${BASE_URL}/investor/roi/history`, {
+      headers: headers(token),
+    }).then(handle),
+
+  getLandMarket: (token) =>
+    fetch(`${BASE_URL}/investor/land-market`, {
+      headers: headers(token),
+    }).then(handle),
+
   /** Fetch single land detail by ID */
   getLandById: (token, landId) =>
     fetch(`${BASE_URL}/investor/lands/${landId}`, {
@@ -185,9 +279,9 @@ export const investorApi = {
   /** Invest from wallet balance into a land project */
   invest: (token, landId, amount) =>
     fetch(`${BASE_URL}/investor/lands/${landId}/invest`, {
-      method:  "POST",
+      method: "POST",
       headers: headers(token),
-      body:    JSON.stringify({ amount }),
+      body: JSON.stringify({ amount }),
     }).then(handle),
 
   // ── Wallet endpoints (AC-1 … AC-8) ────────────────────────────────────
@@ -201,17 +295,17 @@ export const investorApi = {
   /** AC-1 / AC-2 / AC-3 / AC-7 */
   deposit: (token, amount) =>
     fetch(`${BASE_URL}/investor/wallet/deposit`, {
-      method:  "POST",
+      method: "POST",
       headers: headers(token),
-      body:    JSON.stringify({ amount }),
+      body: JSON.stringify({ amount }),
     }).then(handle),
 
   /** AC-4 / AC-5 / AC-6 / AC-7 */
   withdraw: (token, amount) =>
     fetch(`${BASE_URL}/investor/wallet/withdraw`, {
-      method:  "POST",
+      method: "POST",
       headers: headers(token),
-      body:    JSON.stringify({ amount }),
+      body: JSON.stringify({ amount }),
     }).then(handle),
 
   /** Returns all investment contracts for the investor — for contracts page */
@@ -233,37 +327,37 @@ export const auditorApi = {
   // Generate a 60-second signed URL for a document
   getSignedUrl: (token, bucket, path) =>
     fetch(`${BASE_URL}/auditor/signed-url`, {
-      method:  "POST",
+      method: "POST",
       headers: headers(token),
-      body:    JSON.stringify({ bucket, path }),
+      body: JSON.stringify({ bucket, path }),
     }).then(handle),
 
   // KYC review
   approveKyc: (token, id) =>
     fetch(`${BASE_URL}/auditor/kyc/${id}/approve`, {
-      method:  "PUT",
+      method: "PUT",
       headers: headers(token),
     }).then(handle),
 
   rejectKyc: (token, id, reason) =>
     fetch(`${BASE_URL}/auditor/kyc/${id}/reject`, {
-      method:  "PUT",
+      method: "PUT",
       headers: headers(token),
-      body:    JSON.stringify({ reason }),
+      body: JSON.stringify({ reason }),
     }).then(handle),
 
   // Farmer application review
   approveFarmer: (token, id) =>
     fetch(`${BASE_URL}/auditor/farmer/${id}/approve`, {
-      method:  "PUT",
+      method: "PUT",
       headers: headers(token),
     }).then(handle),
 
   rejectFarmer: (token, id, reason) =>
     fetch(`${BASE_URL}/auditor/farmer/${id}/reject`, {
-      method:  "PUT",
+      method: "PUT",
       headers: headers(token),
-      body:    JSON.stringify({ reason }),
+      body: JSON.stringify({ reason }),
     }).then(handle),
 
   getPendingMilestones: (token) =>
@@ -289,10 +383,83 @@ export const auditorApi = {
       body: JSON.stringify({ reason }),
     }).then(handle),
 
- // CHC-207 — fetches the calling auditor's full audit history, newest first
+  // CHC-207 — fetches the calling auditor's full audit history, newest first
   getAuditHistory: (token) =>
     fetch(`${BASE_URL}/auditor/history`, {
       headers: headers(token),
+    }).then(handle),
+
+
+  // KYC detail view — NEW
+  getKycDetail: (token, id) =>
+    fetch(`${BASE_URL}/auditor/kyc/${id}`, {
+      headers: headers(token),
+    }).then(handle),
+
+  // Farmer application detail view — NEW
+  getFarmerDetail: (token, id) =>
+    fetch(`${BASE_URL}/auditor/farmer/${id}`, {
+      headers: headers(token),
+    }).then(handle),
+
+  // Project/Land endpoints — ALL NEW
+  getPendingProjects: (token) =>
+    fetch(`${BASE_URL}/auditor/projects/pending`, {
+      headers: headers(token),
+    }).then(handle),
+
+  getAllProjects: (token) =>
+    fetch(`${BASE_URL}/auditor/projects`, {
+      headers: headers(token),
+    }).then(handle),
+
+  getProjectDetail: (token, landId) =>
+    fetch(`${BASE_URL}/auditor/projects/${landId}`, {
+      headers: headers(token),
+    }).then(handle),
+
+  approveProject: (token, landId) =>
+    fetch(`${BASE_URL}/auditor/projects/${landId}/approve`, {
+      method: "PUT",
+      headers: headers(token),
+    }).then(handle),
+
+  rejectProject: (token, landId, reason) =>
+    fetch(`${BASE_URL}/auditor/projects/${landId}/reject`, {
+      method: "PUT",
+      headers: headers(token),
+      body: JSON.stringify({ reason }),
+    }).then(handle),
+
+  // Full history — ALL types — NEW
+  getFullHistory: (token) =>
+    fetch(`${BASE_URL}/auditor/full-history`, {
+      headers: headers(token),
+    }).then(handle),
+
+  // ── AC-3 / AC-4 / AC-5: Compliance scoring ──────────────────────────────
+
+  /** AC-4: Retrieve all farmers with their compliance scores. */
+  listComplianceScores: (token) =>
+    fetch(`${BASE_URL}/auditor/farmers/compliance-scores`, {
+      headers: headers(token),
+    }).then(handle),
+
+  /** AC-4: Get compliance score for a single farmer. */
+  getComplianceScore: (token, farmerId) =>
+    fetch(`${BASE_URL}/auditor/farmers/${farmerId}/compliance-score`, {
+      headers: headers(token),
+    }).then(handle),
+
+  /**
+   * AC-3 / AC-5: Assign or update a compliance score.
+   * Returns immediately with the saved score so the UI updates without reload.
+   */
+  assignComplianceScore: (token, farmerId, score, notes) =>
+    fetch(`${BASE_URL}/auditor/farmers/${farmerId}/compliance-score`, {
+      method: "PUT",
+      headers: headers(token),
+      body: JSON.stringify({ score, notes }),
     }).then(handle),
 
 };
@@ -312,54 +479,54 @@ export const adminApi = {
 
   approveKyc: (token, id) =>
     fetch(`${BASE_URL}/admin/kyc/${id}/approve`, {
-      method:  "PUT",
+      method: "PUT",
       headers: headers(token),
     }).then(handle),
 
   rejectKyc: (token, id, reason) =>
     fetch(`${BASE_URL}/admin/kyc/${id}/reject`, {
-      method:  "PUT",
+      method: "PUT",
       headers: headers(token),
-      body:    JSON.stringify({ reason }),
+      body: JSON.stringify({ reason }),
     }).then(handle),
 
   approveFarmer: (token, id) =>
     fetch(`${BASE_URL}/admin/farmer/${id}/approve`, {
-      method:  "PUT",
+      method: "PUT",
       headers: headers(token),
     }).then(handle),
 
   rejectFarmer: (token, id, reason) =>
     fetch(`${BASE_URL}/admin/farmer/${id}/reject`, {
-      method:  "PUT",
+      method: "PUT",
       headers: headers(token),
-      body:    JSON.stringify({ reason }),
+      body: JSON.stringify({ reason }),
     }).then(handle),
 
   approveUpdateRequest: (token, userId) =>
     fetch(`${BASE_URL}/admin/update-request/${userId}/approve`, {
-      method:  "PUT",
+      method: "PUT",
       headers: headers(token),
     }).then(handle),
 
   rejectUpdateRequest: (token, userId, reason) =>
     fetch(`${BASE_URL}/admin/update-request/${userId}/reject`, {
-      method:  "PUT",
+      method: "PUT",
       headers: headers(token),
-      body:    JSON.stringify({ reason }),
+      body: JSON.stringify({ reason }),
     }).then(handle),
 
   // AC-2: suspend an active user account
   suspendUser: (token, userId) =>
     fetch(`${BASE_URL}/admin/users/${userId}/suspend`, {
-      method:  "PUT",
+      method: "PUT",
       headers: headers(token),
     }).then(handle),
 
   // AC-3: reactivate a suspended user account
   activateUser: (token, userId) =>
     fetch(`${BASE_URL}/admin/users/${userId}/activate`, {
-      method:  "PUT",
+      method: "PUT",
       headers: headers(token),
     }).then(handle),
 
@@ -384,6 +551,18 @@ export const adminApi = {
 
   getDashboard: (token) =>
     fetch(`${BASE_URL}/admin/dashboard`, {
+      headers: headers(token),
+    }).then(handle),
+
+  // AC-2 → AC-6: platform-wide analytics
+  getAnalytics: (token) =>
+    fetch(`${BASE_URL}/admin/analytics`, {
+      headers: headers(token),
+    }).then(handle),
+
+  // AC-4: Admin read access to all farmer compliance scores
+  listComplianceScores: (token) =>
+    fetch(`${BASE_URL}/admin/farmers/compliance-scores`, {
       headers: headers(token),
     }).then(handle),
 };

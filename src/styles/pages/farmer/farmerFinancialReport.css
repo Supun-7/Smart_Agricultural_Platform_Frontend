@@ -1,0 +1,401 @@
+/* ── Page shell ─────────────────────────────────────────────────────────── */
+.ffr-page {
+  min-height: calc(100vh - 72px);
+  padding: 2rem 0 3rem;
+}
+
+.ffr-inner {
+  display: grid;
+  gap: 1.25rem;
+}
+
+/* ── Header ─────────────────────────────────────────────────────────────── */
+.ffr-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.ffr-eyebrow {
+  display: inline-block;
+  font-size: .78rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--brand);
+  font-weight: 700;
+  margin-bottom: .35rem;
+}
+
+.ffr-title {
+  margin: 0;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  line-height: 1.15;
+}
+
+.ffr-title-sub {
+  margin: .5rem 0 0;
+  color: var(--muted);
+  max-width: 60ch;
+}
+
+/* ── Section card ───────────────────────────────────────────────────────── */
+.ffr-section {
+  display: grid;
+  gap: 1.4rem;
+}
+
+.ffr-section-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.ffr-section-title {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.ffr-section-sub {
+  margin: .35rem 0 0;
+  color: var(--muted);
+  font-size: .9rem;
+}
+
+.ffr-sub-heading {
+  margin: 0 0 .75rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  padding-bottom: .5rem;
+}
+
+/* ── Stat cards ─────────────────────────────────────────────────────────── */
+.ffr-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.ffr-stat-card {
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 12px;
+  padding: .9rem 1rem;
+  display: grid;
+  gap: .4rem;
+}
+
+.ffr-stat-label {
+  font-size: .78rem;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.ffr-stat-value {
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  font-weight: 800;
+  color: var(--text);
+}
+
+.ffr-stat-green {
+  color: var(--brand);
+}
+
+/* ── Project list ───────────────────────────────────────────────────────── */
+.ffr-project-list {
+  display: grid;
+  gap: .85rem;
+}
+
+.ffr-project-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: .9rem 1rem;
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 12px;
+  flex-wrap: wrap;
+}
+
+.ffr-project-info {
+  display: grid;
+  gap: .2rem;
+  flex: 1;
+  min-width: 180px;
+}
+
+.ffr-project-name {
+  font-size: 1rem;
+  color: var(--text);
+}
+
+.ffr-project-meta {
+  font-size: .82rem;
+  color: var(--muted);
+}
+
+.ffr-project-right {
+  display: grid;
+  gap: .3rem;
+  min-width: 140px;
+  text-align: right;
+}
+
+.ffr-project-amount {
+  font-size: 1rem;
+  color: var(--brand);
+}
+
+.ffr-progress-bar {
+  width: 100%;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.08);
+  overflow: hidden;
+}
+
+.ffr-progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(89,193,115,.75), rgba(48,162,255,.85));
+}
+
+.ffr-progress-pct {
+  font-size: .78rem;
+  color: var(--muted);
+}
+
+/* ── Ledger table ───────────────────────────────────────────────────────── */
+.ffr-table-wrap {
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.08);
+}
+
+.ffr-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .9rem;
+}
+
+.ffr-table th {
+  padding: .65rem 1rem;
+  text-align: left;
+  font-size: .75rem;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--muted);
+  font-weight: 700;
+  background: rgba(255,255,255,.04);
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.ffr-table td {
+  padding: .7rem 1rem;
+  color: var(--text);
+  border-bottom: 1px solid rgba(255,255,255,.05);
+}
+
+.ffr-table tr:last-child td {
+  border-bottom: none;
+}
+
+.ffr-table tr:hover td {
+  background: rgba(255,255,255,.02);
+}
+
+.ffr-txn-type {
+  display: inline-block;
+  padding: .2rem .6rem;
+  border-radius: 999px;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  background: rgba(89,193,115,.12);
+  color: var(--brand);
+  border: 1px solid rgba(89,193,115,.25);
+}
+
+.ffr-amount-cell {
+  font-weight: 700;
+  color: var(--brand);
+}
+
+.ffr-muted {
+  color: var(--muted);
+  font-size: .85rem;
+}
+
+/* ── Yield form ─────────────────────────────────────────────────────────── */
+.ffr-yield-form-wrap {
+  background: rgba(255,255,255,.02);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 14px;
+  padding: 1.2rem;
+}
+
+.ffr-yield-form {
+  display: grid;
+  gap: .9rem;
+}
+
+.ffr-form-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: .9rem;
+}
+
+.ffr-select {
+  appearance: none;
+  cursor: pointer;
+}
+
+.ffr-form-actions {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.ffr-form-error {
+  padding: .8rem 1rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255,92,122,.25);
+  background: rgba(255,92,122,.08);
+  color: #ffb4c0;
+  font-size: .9rem;
+}
+
+.ffr-form-success {
+  padding: .8rem 1rem;
+  border-radius: 10px;
+  border: 1px solid rgba(89,193,115,.25);
+  background: rgba(89,193,115,.08);
+  color: var(--brand);
+  font-size: .9rem;
+}
+
+/* ── Yield history ──────────────────────────────────────────────────────── */
+.ffr-yield-history {
+  display: grid;
+  gap: .75rem;
+}
+
+.ffr-yield-row {
+  display: grid;
+  gap: .4rem;
+  padding: .9rem 1rem;
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 12px;
+}
+
+.ffr-yield-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.ffr-yield-amount {
+  font-size: 1.05rem;
+  color: var(--brand);
+  font-weight: 800;
+}
+
+.ffr-yield-date {
+  font-size: .85rem;
+  color: var(--muted);
+}
+
+.ffr-yield-project {
+  font-size: .82rem;
+  color: var(--muted);
+  padding: .15rem .55rem;
+  background: rgba(255,255,255,.05);
+  border-radius: 999px;
+}
+
+.ffr-yield-notes {
+  margin: 0;
+  font-size: .88rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+/* ── Empty / loading states ─────────────────────────────────────────────── */
+.ffr-empty {
+  padding: 1.1rem;
+  border: 1px dashed rgba(255,255,255,.1);
+  border-radius: 12px;
+  background: rgba(255,255,255,.02);
+  color: var(--muted);
+  font-size: .9rem;
+}
+
+.ffr-empty p {
+  margin: 0;
+}
+
+.ffr-state {
+  min-height: 220px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  gap: .75rem;
+}
+
+.ffr-loading-row {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  color: var(--muted);
+  font-size: .9rem;
+}
+
+.ffr-spinner {
+  width: 28px;
+  height: 28px;
+  border: 3px solid rgba(255,255,255,.1);
+  border-top-color: var(--brand);
+  border-radius: 50%;
+  animation: ffrSpin .8s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes ffrSpin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Responsive ─────────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .ffr-stat-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ffr-form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .ffr-stat-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ffr-project-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .ffr-project-right {
+    text-align: left;
+    width: 100%;
+  }
+}

@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { MultiFileUploadField } from "../../components/FileUploadField.jsx";
 import { useAuth } from "../../hooks/useAuth.js";
@@ -18,30 +19,31 @@ const initialForm = {
   minimumInvestment: "",
 };
 
-function validate(values) {
+function validate(values, t) {
   const errors = {};
 
-  if (!values.projectName.trim()) errors.projectName = "Land name is required";
-  if (!values.location.trim()) errors.location = "Location is required";
-  if (!values.sizeAcres || Number(values.sizeAcres) <= 0) errors.sizeAcres = "Land size must be greater than 0";
-  if (!values.cropType.trim()) errors.cropType = "Crop type is required";
-  if (!values.description.trim()) errors.description = "Description is required";
-  else if (values.description.trim().length < 20) errors.description = "Description must be at least 20 characters";
-  if (!values.imageUrls.trim()) errors.imageUrls = "Please upload at least one image";
-  if (!values.totalValue || Number(values.totalValue) <= 0) errors.totalValue = "Total value must be greater than 0";
-  if (!values.minimumInvestment || Number(values.minimumInvestment) <= 0) errors.minimumInvestment = "Minimum investment must be greater than 0";
+  if (!values.projectName.trim()) errors.projectName = t("landRegistration.validation.projectName");
+  if (!values.location.trim()) errors.location = t("landRegistration.validation.location");
+  if (!values.sizeAcres || Number(values.sizeAcres) <= 0) errors.sizeAcres = t("landRegistration.validation.sizeAcres");
+  if (!values.cropType.trim()) errors.cropType = t("landRegistration.validation.cropType");
+  if (!values.description.trim()) errors.description = t("landRegistration.validation.description");
+  else if (values.description.trim().length < 20) errors.description = t("landRegistration.validation.descriptionMin");
+  if (!values.imageUrls.trim()) errors.imageUrls = t("landRegistration.validation.imageUrls");
+  if (!values.totalValue || Number(values.totalValue) <= 0) errors.totalValue = t("landRegistration.validation.totalValue");
+  if (!values.minimumInvestment || Number(values.minimumInvestment) <= 0) errors.minimumInvestment = t("landRegistration.validation.minInvestment");
   if (
     values.totalValue &&
     values.minimumInvestment &&
     Number(values.minimumInvestment) > Number(values.totalValue)
   ) {
-    errors.minimumInvestment = "Minimum investment cannot exceed total value";
+    errors.minimumInvestment = t("landRegistration.validation.minExceedsTotal");
   }
 
   return errors;
 }
 
 export default function FarmerLandRegistration() {
+  const { t } = useTranslation();
   const { token, user } = useAuth();
   const navigate = useNavigate();
 
@@ -66,7 +68,7 @@ export default function FarmerLandRegistration() {
     e.preventDefault();
     if (submitting) return;
 
-    const nextErrors = validate(form);
+    const nextErrors = validate(form, t);
     setErrors(nextErrors);
     setApiError("");
     setSuccess("");
@@ -81,11 +83,11 @@ export default function FarmerLandRegistration() {
         totalValue: Number(form.totalValue),
         minimumInvestment: Number(form.minimumInvestment),
       });
-      setSuccess("Land registration submitted successfully. Your listing is now visible to investors.");
+      setSuccess(t("landRegistration.success"));
       setForm(initialForm);
       setTimeout(() => navigate(ROUTES.farmerDashboard), 1000);
     } catch (err) {
-      setApiError(err.message || "Failed to submit land registration.");
+      setApiError(err.message || t("landRegistration.errorGeneric"));
     } finally {
       setSubmitting(false);
     }
@@ -96,10 +98,10 @@ export default function FarmerLandRegistration() {
       <div className="container landRegistrationInner">
         <div className="landRegistrationHeader card">
           <div>
-            <span className="farmerDashboardEyebrow">Farmer Land Registration</span>
-            <h1 className="landRegistrationTitle">Create a new investment listing</h1>
+            <span className="farmerDashboardEyebrow">{t("landRegistration.eyebrow")}</span>
+            <h1 className="landRegistrationTitle">{t("landRegistration.title")}</h1>
             <p className="landRegistrationSub">
-              Add your agricultural land details, upload images, and publish it to the investor opportunities page.
+              {t("landRegistration.subtitle")}
             </p>
           </div>
           <button
@@ -107,44 +109,44 @@ export default function FarmerLandRegistration() {
             className="btn btnGhost"
             onClick={() => navigate(ROUTES.farmerDashboard)}
           >
-            Back to dashboard
+            {t("landRegistration.backBtn")}
           </button>
         </div>
 
         <form className="card landRegistrationForm" onSubmit={handleSubmit}>
           <div className="landRegistrationSection">
             <div>
-              <h2>Land details</h2>
-              <p>These details will be shown to investors in the listing page.</p>
+              <h2>{t("landRegistration.details.title")}</h2>
+              <p>{t("landRegistration.details.p")}</p>
             </div>
 
             <div className="landRegistrationGrid">
               <div className="field">
-                <label htmlFor="projectName">Land name *</label>
+                <label htmlFor="projectName">{t("landRegistration.labels.projectName")}</label>
                 <input
                   id="projectName"
                   className="input"
                   value={form.projectName}
                   onChange={(e) => updateField("projectName", e.target.value)}
-                  placeholder="e.g. Green Valley Paddy Land"
+                  placeholder={t("landRegistration.placeholders.projectName")}
                 />
                 {errors.projectName && <span className="landFormError">{errors.projectName}</span>}
               </div>
 
               <div className="field">
-                <label htmlFor="location">Location *</label>
+                <label htmlFor="location">{t("landRegistration.labels.location")}</label>
                 <input
                   id="location"
                   className="input"
                   value={form.location}
                   onChange={(e) => updateField("location", e.target.value)}
-                  placeholder="e.g. Kurunegala, North Western Province"
+                  placeholder={t("landRegistration.placeholders.location")}
                 />
                 {errors.location && <span className="landFormError">{errors.location}</span>}
               </div>
 
               <div className="field">
-                <label htmlFor="sizeAcres">Size (acres) *</label>
+                <label htmlFor="sizeAcres">{t("landRegistration.labels.sizeAcres")}</label>
                 <input
                   id="sizeAcres"
                   type="number"
@@ -153,25 +155,25 @@ export default function FarmerLandRegistration() {
                   className="input"
                   value={form.sizeAcres}
                   onChange={(e) => updateField("sizeAcres", e.target.value)}
-                  placeholder="e.g. 3.5"
+                  placeholder={t("landRegistration.placeholders.sizeAcres")}
                 />
                 {errors.sizeAcres && <span className="landFormError">{errors.sizeAcres}</span>}
               </div>
 
               <div className="field">
-                <label htmlFor="cropType">Crop type *</label>
+                <label htmlFor="cropType">{t("landRegistration.labels.cropType")}</label>
                 <input
                   id="cropType"
                   className="input"
                   value={form.cropType}
                   onChange={(e) => updateField("cropType", e.target.value)}
-                  placeholder="e.g. Paddy, Corn, Vegetables"
+                  placeholder={t("landRegistration.placeholders.cropType")}
                 />
                 {errors.cropType && <span className="landFormError">{errors.cropType}</span>}
               </div>
 
               <div className="field">
-                <label htmlFor="totalValue">Project value (LKR) *</label>
+                <label htmlFor="totalValue">{t("landRegistration.labels.totalValue")}</label>
                 <input
                   id="totalValue"
                   type="number"
@@ -180,13 +182,13 @@ export default function FarmerLandRegistration() {
                   className="input"
                   value={form.totalValue}
                   onChange={(e) => updateField("totalValue", e.target.value)}
-                  placeholder="e.g. 1500000"
+                  placeholder={t("landRegistration.placeholders.totalValue")}
                 />
                 {errors.totalValue && <span className="landFormError">{errors.totalValue}</span>}
               </div>
 
               <div className="field">
-                <label htmlFor="minimumInvestment">Minimum investment (LKR) *</label>
+                <label htmlFor="minimumInvestment">{t("landRegistration.labels.minimumInvestment")}</label>
                 <input
                   id="minimumInvestment"
                   type="number"
@@ -195,21 +197,21 @@ export default function FarmerLandRegistration() {
                   className="input"
                   value={form.minimumInvestment}
                   onChange={(e) => updateField("minimumInvestment", e.target.value)}
-                  placeholder="e.g. 50000"
+                  placeholder={t("landRegistration.placeholders.minimumInvestment")}
                 />
                 {errors.minimumInvestment && <span className="landFormError">{errors.minimumInvestment}</span>}
               </div>
             </div>
 
             <div className="field">
-              <label htmlFor="description">Description *</label>
+              <label htmlFor="description">{t("landRegistration.labels.description")}</label>
               <textarea
                 id="description"
                 className="input textarea"
                 rows={5}
                 value={form.description}
                 onChange={(e) => updateField("description", e.target.value)}
-                placeholder="Describe the land, cultivation plan, accessibility, soil quality, irrigation, and why investors should fund it."
+                placeholder={t("landRegistration.placeholders.description")}
               />
               {errors.description && <span className="landFormError">{errors.description}</span>}
             </div>
@@ -217,12 +219,12 @@ export default function FarmerLandRegistration() {
 
           <div className="landRegistrationSection">
             <div>
-              <h2>Images</h2>
-              <p>Upload clear land images. These will be stored in Supabase Storage and saved in the database as listing assets.</p>
+              <h2>{t("landRegistration.images.title")}</h2>
+              <p>{t("landRegistration.images.p")}</p>
             </div>
 
             <MultiFileUploadField
-              label="Land photos"
+              label={t("landRegistration.images.label")}
               accept="image/*"
               maxFiles={5}
               onUploaded={(value) => updateField("imageUrls", value)}
@@ -230,7 +232,7 @@ export default function FarmerLandRegistration() {
             />
 
             <div className="landRegistrationHint">
-              Uploaded images: <strong>{uploadedImageCount}</strong>
+              {t("landRegistration.images.hint")} <strong>{uploadedImageCount}</strong>
             </div>
             {errors.imageUrls && <span className="landFormError">{errors.imageUrls}</span>}
           </div>
@@ -245,10 +247,10 @@ export default function FarmerLandRegistration() {
               onClick={() => navigate(ROUTES.farmerDashboard)}
               disabled={submitting}
             >
-              Cancel
+              {t("landRegistration.actions.cancel")}
             </button>
             <button type="submit" className="btn" disabled={submitting}>
-              {submitting ? "Submitting..." : "Create land listing"}
+              {submitting ? t("landRegistration.actions.submitting") : t("landRegistration.actions.submit")}
             </button>
           </div>
         </form>
