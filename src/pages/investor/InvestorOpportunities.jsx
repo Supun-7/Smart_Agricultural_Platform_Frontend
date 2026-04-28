@@ -205,7 +205,7 @@ export default function InvestorOpportunities() {
         </div>
       </div>
   );
-
+  }
   return (
     <div className="invPage invOpportunitiesPage">
       <section className="oppHero">
